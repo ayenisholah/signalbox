@@ -5,7 +5,7 @@ export default defineConfig({
     include: ["packages/*/test/**/*.test.ts", "subgraphs/*/test/**/*.test.ts"],
     environment: "node",
     restoreMocks: true,
-    passWithNoTests: true,
+    allowOnly: false,
     coverage: {
       provider: "v8",
       reporter: ["text", "json-summary", "lcov"],

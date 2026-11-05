@@ -19,12 +19,15 @@
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
+    "check:hygiene": "node scripts/repo-check.ts hygiene",
+    "check:traceability": "node scripts/repo-check.ts traceability",
     "prepare": "lefthook install"
   },
   "devDependencies": {
     "@commitlint/cli": "^21.2.4",
     "@commitlint/config-conventional": "^21.2.4",
     "@eslint/js": "^10.0.1",
+    "@signalbox/repo-checks": "*",
     "@types/node": "^24.19.2",
     "@vitest/coverage-v8": "^4.1.12",
     "eslint": "^10.14.0",
