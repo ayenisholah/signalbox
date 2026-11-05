@@ -25,8 +25,8 @@ Each branch is one pull request and lists the requirements it delivers. Plans fo
 | M0 | `chore/repo-tooling` | FR-DP-7 | Merged |
 | M0 | `docs/readme` | FR-DP-8 | Merged |
 | M0 | `docs/spec-and-requirements` | FR-DP-8, FR-DP-9 | Merged |
-| M0 | `docs/agent-instructions` | FR-DP-9 | In progress |
-| M0 | `ci/quality-gates` | FR-DP-7, FR-DP-8 | Planned |
+| M0 | `docs/agent-instructions` | FR-DP-9 | Merged |
+| M0 | `ci/quality-gates` | FR-DP-7, FR-DP-8 | In progress |
 | M0 | `chore/agent-skills` | FR-DP-9 | Planned |
 | M1 | `feat/subgraph-kit` | FR-SG-7, FR-OB-6, GR-3 | Planned |
 | M1 | `feat/catalog-subgraph` | FR-SG-1, FR-SG-2 | Planned |

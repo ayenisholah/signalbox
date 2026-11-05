@@ -24,10 +24,7 @@ Use [Conventional Commits](https://www.conventionalcommits.org/): `type(scope): 
 ## Checks
 
 ```sh
-npm run format:check
-npm run lint
-npm run typecheck
-npm run test:coverage
+npm run check
 ```
 
 ## Definition of done

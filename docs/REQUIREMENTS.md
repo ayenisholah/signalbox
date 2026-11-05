@@ -3,7 +3,7 @@
 **Status:** Draft v1 · **Updated:** 2026-11-05
 **Related:** [Specification](../SPEC.md) · [Roadmap](ROADMAP.md) · [Test strategy](TEST_STRATEGY.md)
 
-Every requirement has an ID, a testable acceptance check, how it's verified, the milestone that delivers it and a status. A requirement moves to `done` only when its check has passed and the evidence is recorded. `partial` means some of its check is met so far.
+Every requirement has an ID, a testable acceptance check, how it's verified, the milestone that delivers it and a status. A requirement moves to `done` only when its check has passed and the evidence is recorded, as a test named `[ID]` or an entry in [verification](VERIFICATION.md). `partial` means some of its check is met so far.
 
 **ID prefixes:** `FR-WEB` web app · `FR-GW` gateway · `FR-SG` subgraphs · `FR-DP` delivery · `FR-OB` observability · `NFR` non-functional · `GR` guardrail.
 
@@ -57,7 +57,7 @@ Every requirement has an ID, a testable acceptance check, how it's verified, the
 | FR-DP-5 | Images are pinned and scanned. | Task definitions reference digests in ECR, and a failed scan stops the release. | infrastructure | M4 | planned |
 | FR-DP-6 | Releases run in a safe order. | The pipeline migrates, deploys subgraphs, then publishes schemas, and stops at the first failure. | CI | M6 | planned |
 | FR-DP-7 | Every pull request passes all quality gates. | A planted violation fails each gate, and CI is required on `main`. | CI | M0 | partial |
-| FR-DP-8 | Every change traces to a requirement. | A check fails on an unknown ID, a `done` requirement with no evidence, or a roadmap branch with no requirement. | unit | M0 | planned |
+| FR-DP-8 | Every change traces to a requirement. | A check fails on an unknown ID, a `done` requirement with no evidence, or a roadmap branch with no requirement. | unit | M0 | done |
 | FR-DP-9 | Agents work from verified facts. | `AGENTS.md` and project skills define the sources of truth, and each Cosmo and AWS claim has a recorded source. | review | M0 | planned |
 
 ## Observability

@@ -5,26 +5,28 @@ A Next.js booking web app on a federated Cosmo graph, hosted on AWS. TypeScript,
 ## Commands
 
 ```sh
-npm run format:check     # Prettier
-npm run lint             # ESLint
-npm run typecheck        # tsc
-npm run test:coverage    # tests with the 100% per-file gate
+npm run check                # every gate; run before opening a PR
+npm run test:coverage        # tests with the 100% per-file gate
+npm run check:deps           # module boundaries
+npm run check:dupes          # duplicated code
+npm run check:unused         # unused files, exports, dependencies
+npm run check:hygiene        # focused tests, any, unexplained disables, attribution
+npm run check:traceability   # requirement IDs, evidence, roadmap coverage
 ```
-
-Planned: `npm run check` runs every gate. It arrives with `ci/quality-gates`.
 
 ## Repo map
 
-| Path                | What it is                                     |
-| ------------------- | ---------------------------------------------- |
-| `docs/`             | Requirements, standards, ADRs, plans, facts    |
-| `scripts/`          | Git hook helpers                               |
-| `SPEC.md`           | Goals, architecture, interfaces and data model |
-| `apps/web`          | Planned: Next.js booking web app               |
-| `packages/`         | Planned: shared domain logic and subgraph kit  |
-| `subgraphs/`        | Planned: catalog, availability and bookings    |
-| `router/`, `graph/` | Planned: router config and local composition   |
-| `infra/`            | Planned: CDK app and reusable constructs       |
+| Path                   | What it is                                     |
+| ---------------------- | ---------------------------------------------- |
+| `docs/`                | Requirements, standards, ADRs, plans, facts    |
+| `scripts/`             | Git hook helpers                               |
+| `SPEC.md`              | Goals, architecture, interfaces and data model |
+| `apps/web`             | Planned: Next.js booking web app               |
+| `packages/repo-checks` | Hygiene and traceability checks                |
+| `packages/`            | Planned: shared domain logic and subgraph kit  |
+| `subgraphs/`           | Planned: catalog, availability and bookings    |
+| `router/`, `graph/`    | Planned: router config and local composition   |
+| `infra/`               | Planned: CDK app and reusable constructs       |
 
 ## Order of truth
 
