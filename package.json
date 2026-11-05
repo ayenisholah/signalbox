@@ -1,0 +1,20 @@
+{
+  "name": "signalbox",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A production Cosmo Router and federated GraphQL subgraphs on AWS Fargate.",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "workspaces": [
+    "packages/*",
+    "subgraphs/*"
+  ],
+  "scripts": {},
+  "devDependencies": {
+    "@types/node": "^24.19.2",
+    "typescript": "^5.9.3"
+  }
+}
