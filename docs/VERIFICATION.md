@@ -23,6 +23,7 @@ This file records proof that isn't a named test. Each gate below was run on a cl
 | Traceability | `npm run check:traceability` | Unknown requirement ID | Exit 1, ID and line named |
 | Traceability | `npm run check:traceability` | `done` requirement with no evidence | Exit 1, requirement named |
 | Traceability | `npm run check:traceability` | Roadmap branch with no requirement | Exit 1, branch named |
+| Progress log | `npm run check:progress` | Branch with work and no progress update | Exit 1, log named |
 | Coverage | `npm run test:coverage` | Uncovered function | Exit 1, below the 100% per-file threshold |
 | Tests | `npm test` | Changed behaviour | Exit 1, tests failed |
 | Tests | `CI=1 npm test` | Test marked `.only` | Exit 1, `.only` refused |
