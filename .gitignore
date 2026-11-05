@@ -1,0 +1,12 @@
+node_modules/
+dist/
+coverage/
+cdk.out/
+reports/
+.stryker-tmp/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.DS_Store
