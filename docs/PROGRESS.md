@@ -27,23 +27,24 @@ The project is changing from a customer booking app to **Traverse**, a tool for 
 | 2026-11-06 | Progress log and `check:progress` | #12 |
 | 2026-11-06 | dependency-cruiser 18 | #7 |
 | 2026-11-06 | Closed #8 and #9 (Vitest 5 needs both together), #10 (stay on Node 24 types), #11 (typescript-eslint rejects TypeScript 7) | none |
+| 2026-11-06 | Renamed the project and GitHub repository to Traverse | #14 |
+| 2026-11-06 | Closed release #13, replaced by #15 after the package rename | none |
 | 2026-11-06 | Closed release #6: `verify` failed on generated `CHANGELOG.md` and `.release-please-manifest.json` formatting | none |
 
 ## In progress
 
 | Branch | State |
 |---|---|
-| `chore/rename-to-traverse` | Packages, config and docs renamed. After merge, rename the GitHub repository (confirm with the owner first) and update `origin`. URLs already point at `ayenisholah/traverse`, so they 404 until that's done. FR-DP-8. |
+| `ci/release-fixes` | Prettier ignores release-please's generated files, and Dependabot groups Vitest and holds `@types/node` to Node 24. After merge: close and reopen release #15 to run CI, merge it, add `verify` to the `protect-main` ruleset (owner approved), and confirm it's active. FR-DP-7. |
 
 ## Next
 
 In order:
 
 1. Move the local folder to `/home/titan/projects/traverse` in its own session, along with the Claude project memory folder.
-2. `ci/release-fixes`: add `CHANGELOG.md` and `.release-please-manifest.json` to `.prettierignore`, group Vitest updates, and ignore `@types/node` majors. Release pull requests get no CI from `GITHUB_TOKEN`, and a dispatched run attached to the commit but not to #6's check summary, so test on the next release pull request whether that satisfies a required check. If not, close and reopen it, and document what works. Then merge it, add `verify` to the `protect-main` ruleset (owner approved), and confirm it's active.
-3. `docs/workbench-direction`: rewrite the specification, requirements, roadmap, plans, ADRs, threat model, data privacy, verified facts and README for the new direction. Mark FR-DP-7 done.
-4. `chore/agent-skills`: only skills usable today, finishing M0.
-5. M1, the public demo and CLI: `chore/web-tooling`, `feat/graph-core`, `feat/design-tokens`, `feat/graph-map`, `feat/impact-check`, `feat/impact-cli`, `ci/demo-deploy`.
+2. `docs/workbench-direction`: open the specification and README by stating the project is built on WunderGraph Cosmo, then rewrite the specification, requirements, roadmap, plans, ADRs, threat model, data privacy, verified facts and README for the new direction. Mark FR-DP-7 done.
+3. `chore/agent-skills`: only skills usable today, finishing M0.
+4. M1, the public demo and CLI: `chore/web-tooling`, `feat/graph-core`, `feat/design-tokens`, `feat/graph-map`, `feat/impact-check`, `feat/impact-cli`, `ci/demo-deploy`.
 
 ## Blocked
 
@@ -57,3 +58,4 @@ In order:
 - Generate `package-lock.json` in a `node:24` container. Older npm drops optional `@emnapi` entries, and `npm ci` then fails in CI.
 - Before pushing, run `npm ci` and `npm run check` on a clean clone in `node:24`, and stop if either fails.
 - Force-pushes need the owner's approval or the owner's own terminal.
+- Shell commands run in zsh, where an unquoted `$VAR` doesn't split into words. After a bulk edit, confirm the result with a search, not an exit code.
