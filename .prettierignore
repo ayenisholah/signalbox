@@ -1,0 +1,7 @@
+dist
+node_modules
+coverage
+cdk.out
+reports
+package-lock.json
+docs
