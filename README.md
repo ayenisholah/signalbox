@@ -1,13 +1,13 @@
 # Signalbox
 
-Signalbox is a production-grade platform for running a federated GraphQL API on AWS. It runs a self-managed [Cosmo Router](https://cosmo-docs.wundergraph.com/router/intro) in front of independently deployed subgraphs, and uses Cosmo Cloud for the schema registry, analytics and Studio.
+Signalbox is a booking web app built on a production-grade federated GraphQL API. Customers browse services, choose a slot and manage bookings in a Next.js app. Behind it, a self-managed [Cosmo Router](https://cosmo-docs.wundergraph.com/router/intro) fronts independently deployed subgraphs on AWS, with Cosmo Cloud for the schema registry, analytics and Studio.
 
 A signal box controls which route each train takes, and keeps trains on separate routes from colliding. Signalbox does the same job for API traffic: one controlled entry point that decides what may pass and where it goes.
 
-The example domain is appointment booking, with fictional data throughout. The platform is the point of the project, so the patterns apply to any federated graph.
+All booking data is fictional, and the patterns apply to any app on a federated graph.
 
 > [!NOTE]
-> **Status: early development.** Today the repository contains the tooling and quality rules. The router, subgraphs and AWS infrastructure described below are planned and not built yet.
+> **Status: early development.** Today the repository contains the tooling and quality rules. The web app, router, subgraphs and AWS infrastructure described below are planned and not built yet.
 
 ## Why it exists
 
@@ -23,9 +23,11 @@ Running a graph router in production involves more than starting a container. Si
 
 ```mermaid
 flowchart TD
-    client[Clients] -->|HTTPS| waf[AWS WAF]
+    client[Browser] -->|HTTPS| waf[AWS WAF]
     waf --> alb[Application Load Balancer]
-    alb --> router[Cosmo Router on ECS Fargate]
+    alb -->|pages| web[Next.js web app on ECS Fargate]
+    alb -->|/graphql| router
+    web --> router[Cosmo Router on ECS Fargate]
 
     subgraph services[Subgraphs on ECS Fargate]
         catalog[Catalog]
@@ -41,10 +43,11 @@ flowchart TD
     router -->|traces and metrics| cloudwatch[CloudWatch and X-Ray]
 ```
 
-The router, subgraphs and data all run in your AWS account. Cosmo Cloud provides Studio, the schema registry and analytics.
+The web app, router, subgraphs and data all run in your AWS account. Cosmo Cloud provides Studio, the schema registry and analytics.
 
 ## Design goals
 
+- **Accessible.** The app meets WCAG 2.2 AA and works by keyboard.
 - **Safe by default.** Production accepts approved operations only, and development features stay off.
 - **Zero-downtime deploys.** Tasks drain before they stop, and failed releases roll back automatically.
 - **Tenant isolation.** The tenant comes from a verified token, never from client input.
@@ -55,6 +58,7 @@ The router, subgraphs and data all run in your AWS account. Cosmo Cloud provides
 
 | Area           | Technology                                   |
 | -------------- | -------------------------------------------- |
+| Web app        | Next.js, React, TypeScript                   |
 | Graph          | Cosmo Router, Cosmo Cloud                    |
 | Services       | TypeScript on Node 24, Postgres, Redis       |
 | Infrastructure | AWS CDK, ECS Fargate, RDS, ElastiCache       |
@@ -91,12 +95,23 @@ There's no application code or tests yet, so the test commands pass with nothing
 | ---------------- | ------------------------------------------------------- | ----------- |
 | Foundation       | Tooling, specification, quality gates                   | In progress |
 | Local graph      | Three subgraphs running behind the router locally       | Planned     |
+| Web app          | Sign in, find a slot, book and cancel, locally          | Planned     |
 | Network and data | VPC, databases and edge in CDK                          | Planned     |
-| Services         | Router and subgraphs on a staging environment           | Planned     |
+| Services         | Web app, router and subgraphs on staging                | Planned     |
 | Observability    | End-to-end traces, dashboards and alarms                | Planned     |
 | Delivery         | Schema checks and automated, reversible deploys         | Planned     |
 | Resilience       | Load, failover and recovery tests with recorded results | Planned     |
 | Production       | Launch with runbooks and a cost baseline                | Planned     |
+
+## Documentation
+
+- [Specification](SPEC.md)
+- [Requirements](docs/REQUIREMENTS.md)
+- [Roadmap](docs/ROADMAP.md)
+- [Architecture decisions](docs/adr/README.md)
+- [Verified facts](docs/VERIFIED_FACTS.md)
+- [Service level objectives](docs/SLOS.md)
+- [Threat model](docs/THREAT_MODEL.md)
 
 ## Contributing
 
@@ -104,6 +119,8 @@ There's no application code or tests yet, so the test commands pass with nothing
 - `main` is protected, so all changes arrive through a pull request and land by rebase merge.
 - Commits follow [Conventional Commits](https://www.conventionalcommits.org/) and each one is a single, complete change. A hook checks the format.
 - New behaviour comes with tests in the same commit.
+
+See [contributing](CONTRIBUTING.md) for details, and [security](SECURITY.md) to report a vulnerability.
 
 ## Licence
 
