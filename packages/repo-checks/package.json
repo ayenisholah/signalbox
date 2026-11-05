@@ -1,0 +1,9 @@
+{
+  "name": "@signalbox/repo-checks",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Repository hygiene and requirement traceability checks.",
+  "license": "MIT",
+  "type": "module",
+  "exports": "./src/index.ts"
+}
