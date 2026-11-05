@@ -5,3 +5,5 @@ cdk.out
 reports
 package-lock.json
 docs
+CHANGELOG.md
+.release-please-manifest.json

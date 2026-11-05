@@ -27,6 +27,8 @@ The pipeline stops at the first failure.
 
 `release-please` reads Conventional Commits on `main` and maintains a release pull request with the version and changelog.
 
+GitHub doesn't run workflows for pull requests that `GITHUB_TOKEN` opens or updates, so a release pull request has no checks. Close and reopen it to run CI, and do so again after release-please updates it. A manual `gh workflow run` isn't enough: its result attaches to the commit but not to the pull request.
+
 ## Database migrations
 
 Use expand and contract, so old and new code can run during a deploy:
