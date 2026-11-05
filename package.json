@@ -24,7 +24,8 @@
     "check:unused": "knip",
     "check:hygiene": "node scripts/repo-check.ts hygiene",
     "check:traceability": "node scripts/repo-check.ts traceability",
-    "check": "npm run format:check && npm run lint && npm run typecheck && npm run check:deps && npm run check:dupes && npm run check:unused && npm run check:hygiene && npm run check:traceability && npm run test:coverage",
+    "check:progress": "node scripts/check-progress.ts",
+    "check": "npm run format:check && npm run lint && npm run typecheck && npm run check:deps && npm run check:dupes && npm run check:unused && npm run check:hygiene && npm run check:traceability && npm run check:progress && npm run test:coverage",
     "prepare": "lefthook install"
   },
   "devDependencies": {
