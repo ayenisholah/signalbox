@@ -1,8 +1,6 @@
-# Signalbox
+# Traverse
 
-Signalbox is a booking web app built on a production-grade federated GraphQL API. Customers browse services, choose a slot and manage bookings in a Next.js app. Behind it, a self-managed [Cosmo Router](https://cosmo-docs.wundergraph.com/router/intro) fronts independently deployed subgraphs on AWS, with Cosmo Cloud for the schema registry, analytics and Studio.
-
-A signal box controls which route each train takes, and keeps trains on separate routes from colliding. Signalbox does the same job for API traffic: one controlled entry point that decides what may pass and where it goes.
+Traverse is a booking web app built on a production-grade federated GraphQL API. Customers browse services, choose a slot and manage bookings in a Next.js app. Behind it, a self-managed [Cosmo Router](https://cosmo-docs.wundergraph.com/router/intro) fronts independently deployed subgraphs on AWS, with Cosmo Cloud for the schema registry, analytics and Studio.
 
 All booking data is fictional, and the patterns apply to any app on a federated graph.
 
@@ -11,7 +9,7 @@ All booking data is fictional, and the patterns apply to any app on a federated 
 
 ## Why it exists
 
-Running a graph router in production involves more than starting a container. Signalbox aims to be a complete, tested answer to the harder questions:
+Running a graph router in production involves more than starting a container. Traverse aims to be a complete, tested answer to the harder questions:
 
 - How do you deploy without dropping requests?
 - What happens when the control plane is unreachable?
@@ -71,8 +69,8 @@ The web app, router, subgraphs and data all run in your AWS account. Cosmo Cloud
 You need Node 24 and npm. These commands work today:
 
 ```sh
-git clone https://github.com/ayenisholah/signalbox.git
-cd signalbox
+git clone https://github.com/ayenisholah/traverse.git
+cd traverse
 nvm use
 npm ci
 ```
@@ -126,4 +124,4 @@ See [contributing](CONTRIBUTING.md) for details, and [security](SECURITY.md) to 
 
 [MIT](LICENSE)
 
-Signalbox is an independent project and isn't affiliated with WunderGraph or AWS.
+Traverse is an independent project and isn't affiliated with WunderGraph or AWS.

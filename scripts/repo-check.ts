@@ -1,6 +1,6 @@
 import { execFileSync } from "node:child_process";
 import { existsSync, readFileSync } from "node:fs";
-import { runCheck } from "@signalbox/repo-checks";
+import { runCheck } from "@traverse/repo-checks";
 
 const TEXT_FILE = /\.(?:ts|tsx|js|cjs|mjs|md|ya?ml)$/;
 

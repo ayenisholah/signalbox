@@ -1,4 +1,4 @@
-# Signalbox agent instructions
+# Traverse agent instructions
 
 A Next.js booking web app on a federated Cosmo graph, hosted on AWS. TypeScript, Node 24, npm workspaces. Read the linked docs before changing what they cover.
 

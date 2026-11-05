@@ -1,5 +1,5 @@
 import { execFileSync } from "node:child_process";
-import { checkProgress } from "@signalbox/repo-checks";
+import { checkProgress } from "@traverse/repo-checks";
 
 const base = process.argv[2] ?? "origin/main";
 

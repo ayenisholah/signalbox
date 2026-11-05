@@ -4,7 +4,7 @@
 
 ## Context
 
-Signalbox's product is a booking web app. Keeping tokens away from browser code (GR-9) needs a server-side layer between the browser and the router.
+Traverse's product is a booking web app. Keeping tokens away from browser code (GR-9) needs a server-side layer between the browser and the router.
 
 ## Decision
 

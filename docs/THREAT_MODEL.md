@@ -40,4 +40,4 @@
 ## Accepted risks
 
 - A Region-wide AWS outage stops the service, because multi-Region failover is out of scope.
-- Cosmo Cloud holds the schema and sampled telemetry. Signalbox treats its schema as public.
+- Cosmo Cloud holds the schema and sampled telemetry. Traverse treats its schema as public.

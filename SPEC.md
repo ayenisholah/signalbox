@@ -1,8 +1,8 @@
-# Signalbox specification
+# Traverse specification
 
 **Status:** Draft v1 · **Updated:** 2026-11-05
 
-Signalbox is a booking web app built on a federated GraphQL API. Customers browse services, choose a slot and manage bookings in a Next.js app, which talks to a self-managed Cosmo Router in front of independently deployed subgraphs on AWS. This document describes the target system. [Requirements](docs/REQUIREMENTS.md) define what must be true and how it's checked, and the [roadmap](docs/ROADMAP.md) shows what's built.
+Traverse is a booking web app built on a federated GraphQL API. Customers browse services, choose a slot and manage bookings in a Next.js app, which talks to a self-managed Cosmo Router in front of independently deployed subgraphs on AWS. This document describes the target system. [Requirements](docs/REQUIREMENTS.md) define what must be true and how it's checked, and the [roadmap](docs/ROADMAP.md) shows what's built.
 
 ## Goals
 
