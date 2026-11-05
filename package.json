@@ -1,5 +1,5 @@
 {
-  "name": "signalbox",
+  "name": "traverse",
   "version": "0.1.0",
   "private": true,
   "description": "A production Cosmo Router and federated GraphQL subgraphs on AWS Fargate.",
@@ -32,7 +32,7 @@
     "@commitlint/cli": "^21.2.4",
     "@commitlint/config-conventional": "^21.2.4",
     "@eslint/js": "^10.0.1",
-    "@signalbox/repo-checks": "*",
+    "@traverse/repo-checks": "*",
     "@types/node": "^24.19.2",
     "@vitest/coverage-v8": "^4.1.12",
     "dependency-cruiser": "^18.7.2",

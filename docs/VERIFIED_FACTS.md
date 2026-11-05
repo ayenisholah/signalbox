@@ -2,7 +2,7 @@
 
 **Updated:** 2026-11-05
 
-This file records what Signalbox relies on from Cosmo and AWS, and how far each claim can be trusted. Add a fact here before depending on it.
+This file records what Traverse relies on from Cosmo and AWS, and how far each claim can be trusted. Add a fact here before depending on it.
 
 | Status | Meaning |
 |---|---|

@@ -1,6 +1,6 @@
 # Data privacy
 
-Signalbox stores fictional data. These rules are written as if it were real, so the design holds for real use.
+Traverse stores fictional data. These rules are written as if it were real, so the design holds for real use.
 
 ## What's stored
 

@@ -6,7 +6,7 @@ Read this first. It says what's done, what's in progress and what's left, so any
 
 ## Direction
 
-The project is changing from a customer booking app to **Traverse**, a tool for frontend developers to explore a federated graph: which subgraphs a query touches, and what a schema change breaks. The repository is still named Signalbox, and `SPEC.md`, the requirements and the roadmap still describe the booking app until `docs/workbench-direction` lands. Where they disagree with this section, this section is newer.
+The project is changing from a customer booking app to **Traverse**, a tool for frontend developers to explore a federated graph: which subgraphs a query touches, and what a schema change breaks. It was called Signalbox. `SPEC.md`, the requirements and the roadmap still describe the booking app until `docs/workbench-direction` lands. Where they disagree with this section, this section is newer.
 
 - **Core use:** a CLI and GitHub Action read a repository's operations, compose the proposed schema with `@wundergraph/composition`, and report broken operations and screens. Web screens: graph map, operation route, impact.
 - **Data:** real throughout. Subgraphs serve live npm, GitHub and OSV data, plus a `workspace` subgraph. The booking domain goes. Tests replay recorded real responses.
@@ -24,19 +24,23 @@ The project is changing from a customer booking app to **Traverse**, a tool for 
 | 2026-11-05 | `AGENTS.md` and `CLAUDE.md` | #4 |
 | 2026-11-05 | Quality gates, CI, CodeQL, Dependabot and release-please | #5 |
 | 2026-11-05 | Repository setting: GitHub Actions can create pull requests | none |
+| 2026-11-06 | Progress log and `check:progress` | #12 |
+| 2026-11-06 | dependency-cruiser 18 | #7 |
+| 2026-11-06 | Closed #8 and #9 (Vitest 5 needs both together), #10 (stay on Node 24 types), #11 (typescript-eslint rejects TypeScript 7) | none |
+| 2026-11-06 | Closed release #6: `verify` failed on generated `CHANGELOG.md` and `.release-please-manifest.json` formatting | none |
 
 ## In progress
 
 | Branch | State |
 |---|---|
-| `docs/progress-log` | This log, `check:progress`, and the `AGENTS.md` rule. FR-DP-9. |
+| `chore/rename-to-traverse` | Packages, config and docs renamed. After merge, rename the GitHub repository (confirm with the owner first) and update `origin`. URLs already point at `ayenisholah/traverse`, so they 404 until that's done. FR-DP-8. |
 
 ## Next
 
 In order:
 
-1. `chore/rename-to-traverse`: rename packages, config and docs. After merge, rename the GitHub repository (confirm first) and update `origin`. Move the local folder last, in its own session.
-2. `ci/release-fixes`: add `CHANGELOG.md` to `.prettierignore`, group Vitest updates, ignore `@types/node` majors, and document running CI on release pull requests with `gh workflow run ci.yml --ref <branch>`, proving it on #6. Then merge #6, add `verify` to the `protect-main` ruleset (owner approved), and confirm it's active.
+1. Move the local folder to `/home/titan/projects/traverse` in its own session, along with the Claude project memory folder.
+2. `ci/release-fixes`: add `CHANGELOG.md` and `.release-please-manifest.json` to `.prettierignore`, group Vitest updates, and ignore `@types/node` majors. Release pull requests get no CI from `GITHUB_TOKEN`, and a dispatched run attached to the commit but not to #6's check summary, so test on the next release pull request whether that satisfies a required check. If not, close and reopen it, and document what works. Then merge it, add `verify` to the `protect-main` ruleset (owner approved), and confirm it's active.
 3. `docs/workbench-direction`: rewrite the specification, requirements, roadmap, plans, ADRs, threat model, data privacy, verified facts and README for the new direction. Mark FR-DP-7 done.
 4. `chore/agent-skills`: only skills usable today, finishing M0.
 5. M1, the public demo and CLI: `chore/web-tooling`, `feat/graph-core`, `feat/design-tokens`, `feat/graph-map`, `feat/impact-check`, `feat/impact-cli`, `ci/demo-deploy`.
@@ -47,7 +51,6 @@ In order:
 |---|---|---|
 | AWS account setup | Owner | Cognito, Bedrock and every AWS milestone. Not the public demo. |
 | Frox licence for derived files in an MIT repository | Owner's confirmation of the exact terms | `feat/design-tokens` |
-| Dependabot #8, #9 and #11 | Decision on Vitest 5 and TypeScript 7, which fail CI | Nothing yet |
 
 ## Notes for the next session
 
