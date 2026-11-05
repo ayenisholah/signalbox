@@ -25,7 +25,7 @@ The pipeline stops at the first failure.
 
 ## Versioning
 
-`release-please` reads Conventional Commits on `main` and maintains a release pull request with the version and changelog. It arrives with `ci/quality-gates`.
+`release-please` reads Conventional Commits on `main` and maintains a release pull request with the version and changelog.
 
 ## Database migrations
 

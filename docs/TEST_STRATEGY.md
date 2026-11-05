@@ -34,4 +34,4 @@ Adding an exclusion needs a reason here and in `vitest.config.ts`. Try moving th
 
 ## Proving a gate works
 
-A new gate must be shown to fail on a planted violation before it's trusted. Check each command's exit code on its own, so that one failure can't hide behind another.
+A new gate must be shown to fail on a planted violation before it's trusted. Check each command's exit code on its own, so that one failure can't hide behind another. Record the result in [verification](VERIFICATION.md).
