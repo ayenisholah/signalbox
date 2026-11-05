@@ -1,0 +1,16 @@
+{
+  "threshold": 0,
+  "minLines": 8,
+  "minTokens": 60,
+  "reporters": ["console"],
+  "pattern": "**/*.{ts,tsx,mjs}",
+  "path": ["."],
+  "ignore": [
+    "**/generated/**",
+    "**/dist/**",
+    "**/node_modules/**",
+    "**/coverage/**",
+    "**/cdk.out/**"
+  ],
+  "gitignore": true
+}
