@@ -24,6 +24,13 @@ describe("static export", () => {
     expect(html).toContain('id="type-option-Employee"');
   });
 
+  it("[FR-WB-2] exports the impact check as a page of its own", async () => {
+    const impact = await readFile(join(out, "impact.html"), "utf8");
+
+    expect(impact).toContain("<title>Impact check · Traverse</title>");
+    expect(impact).toContain('id="draft"');
+  });
+
   it("[FR-WB-13] links a stylesheet that holds the page's Tailwind classes", async () => {
     const [, href] = /href="(\/_next\/static\/[^"]+\.css)"/.exec(html) ?? [];
 

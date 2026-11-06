@@ -3,6 +3,7 @@ import { basename, join } from "node:path";
 import { buildGraphMap } from "@traverse/graph-core";
 import { expect, it } from "vitest";
 import demoGraph from "../src/generated/demo-graph.json";
+import demoImpact from "../src/generated/demo-impact.json";
 
 const directory = join(import.meta.dirname, "../../../graph/cosmo-demo");
 
@@ -15,4 +16,8 @@ it("[FR-WB-1] keeps the generated demo graph in step with the schemas", () => {
     }));
 
   expect(buildGraphMap(subgraphs)).toEqual({ success: true, map: demoGraph });
+  expect(demoImpact.subgraphs).toEqual(subgraphs);
+  expect(demoImpact.exampleQuery).toBe(
+    readFileSync(join(directory, "example-query.graphql"), "utf8"),
+  );
 });

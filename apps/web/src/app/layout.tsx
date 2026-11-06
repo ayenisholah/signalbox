@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import { SiteNav } from "../site-nav.tsx";
 import { siteDescription, siteName } from "../site.ts";
 import "@fontsource/poppins/400.css";
 import "@fontsource/poppins/600.css";
@@ -12,7 +13,10 @@ export const metadata: Metadata = { title: siteName, description: siteDescriptio
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <SiteNav />
+        {children}
+      </body>
     </html>
   );
 }

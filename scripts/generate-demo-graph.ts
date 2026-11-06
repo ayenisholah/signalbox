@@ -14,4 +14,10 @@ const subgraphs = readdirSync(directory)
 const result = buildGraphMap(subgraphs);
 if (!result.success) throw new Error(result.errors.join("\n"));
 
+const exampleQuery = readFileSync(join(directory, "example-query.graphql"), "utf8");
+
 writeFileSync("apps/web/src/generated/demo-graph.json", `${JSON.stringify(result.map)}\n`);
+writeFileSync(
+  "apps/web/src/generated/demo-impact.json",
+  `${JSON.stringify({ subgraphs, exampleQuery })}\n`,
+);
