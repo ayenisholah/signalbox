@@ -1,0 +1,12 @@
+type Repository @key(fields: "url") {
+  url: ID!
+  stars: Int!
+  latestRelease: String
+  owner: String!
+}
+
+type Package @key(fields: "name") {
+  name: String!
+  repositoryUrl: String @external
+  repository: Repository @requires(fields: "repositoryUrl")
+}

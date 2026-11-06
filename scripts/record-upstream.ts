@@ -5,6 +5,8 @@ import { scrubPersonalData } from "@traverse/repo-checks";
  * printed, and long version lists are cut to what the tests read. Run it through a redirect:
  *
  *   node scripts/record-upstream.ts npm > subgraphs/packages/test/fixtures/recordings.json
+ *   GITHUB_TOKEN=$(gh auth token) node scripts/record-upstream.ts github \
+ *     > subgraphs/repositories/test/fixtures/recordings.json
  */
 const get = async (url: string, accept = "application/json"): Promise<unknown> => {
   const response = await fetch(url, { headers: { accept, "user-agent": "traverse" } });
@@ -31,7 +33,45 @@ const recordPackage = async (name: string): Promise<[string, unknown][]> => {
 const recordNpm = async (): Promise<[string, unknown][]> =>
   (await Promise.all(["ms", "express", "@types/ms"].map(recordPackage))).flat();
 
-const sources: Record<string, () => Promise<[string, unknown][]>> = { npm: recordNpm };
+const GITHUB_QUERY = `query Repository($owner: String!, $name: String!) {
+  repository(owner: $owner, name: $name) {
+    isPrivate
+    stargazerCount
+    owner { login }
+    latestRelease { tagName }
+  }
+}`;
+
+const isDeliberateMiss = (name: string, body: { errors?: { type?: string }[] }): boolean =>
+  name === "nothing" && body.errors?.[0]?.type === "NOT_FOUND";
+
+const recordRepository = async (owner: string, name: string): Promise<[string, unknown]> => {
+  const token = process.env.GITHUB_TOKEN;
+  if (!token) throw new Error("GITHUB_TOKEN is required");
+  const response = await fetch("https://api.github.com/graphql", {
+    method: "POST",
+    headers: { authorization: `Bearer ${token}`, "user-agent": "traverse" },
+    body: JSON.stringify({ query: GITHUB_QUERY, variables: { owner, name } }),
+  });
+  const body = (await response.json()) as { errors?: { type?: string }[] };
+  // A failure must not overwrite good recordings through the redirect.
+  if (!response.ok || (body.errors && !isDeliberateMiss(name, body))) {
+    throw new Error(`GitHub answered ${response.status} for ${owner}/${name}`);
+  }
+  return [`${owner}__${name}`, body];
+};
+
+const recordGithub = (): Promise<[string, unknown][]> =>
+  Promise.all([
+    recordRepository("expressjs", "express"),
+    recordRepository("vercel", "ms"),
+    recordRepository("no-such-owner-traverse", "nothing"),
+  ]);
+
+const sources: Record<string, () => Promise<[string, unknown][]>> = {
+  npm: recordNpm,
+  github: recordGithub,
+};
 
 const source = sources[String(process.argv[2])];
 if (source === undefined) throw new Error(`Choose a source: ${Object.keys(sources).join(", ")}`);

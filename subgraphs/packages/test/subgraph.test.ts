@@ -4,6 +4,7 @@ import { composeGraph, findFieldOwners } from "@traverse/graph-core";
 import { findPersonalData } from "@traverse/repo-checks";
 import type { Subgraph } from "@traverse/subgraph-kit";
 import { afterEach, describe, expect, it, vi } from "vitest";
+import { expectEntrypointToRun } from "../../../packages/subgraph-kit/test/support/run-subgraph.ts";
 import { createPackagesSubgraph } from "../src/subgraph.ts";
 import { fixture, recordingsFile, replay } from "./helpers.ts";
 
@@ -359,14 +360,7 @@ describe("the entrypoint", () => {
   it("[FR-SG-2] starts the subgraph, and stops on SIGTERM", async () => {
     vi.stubEnv("PORT", "0");
     vi.stubEnv("SHUTDOWN_DRAIN_MS", "0");
-    const before = process.listenerCount("SIGTERM");
 
-    await import("../src/main.ts");
-
-    expect(process.listenerCount("SIGTERM")).toBe(before + 1);
-    process.emit("SIGTERM");
-    await vi.waitFor(() => {
-      expect(process.listenerCount("SIGTERM")).toBe(before);
-    });
+    await expectEntrypointToRun(() => import("../src/main.ts"));
   });
 });
