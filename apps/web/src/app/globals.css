@@ -1,1 +1,13 @@
 @import "tailwindcss";
+@import "../generated/tokens.css";
+
+@layer base {
+  body {
+    @apply bg-canvas font-sans text-body text-fg;
+  }
+
+  :focus-visible {
+    outline: 0.125rem solid var(--focus-ring);
+    outline-offset: 0.125rem;
+  }
+}

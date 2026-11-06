@@ -24,5 +24,8 @@ describe("static export", () => {
     const css = await readFile(join(out, href ?? "missing"), "utf8");
 
     expect(css).toContain(".max-w-2xl");
+    expect(css).toContain("--canvas:");
+    expect(css).toContain("prefers-color-scheme");
+    expect(css).not.toContain("--color-red-500");
   });
 });
