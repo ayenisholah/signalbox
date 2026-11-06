@@ -33,4 +33,6 @@ This file records proof that isn't a named test. Each gate below was run on a cl
 
 The traceability run first passed on the `done` plant, because a test fixture named a real ID and counted as evidence. Fixtures now use a prefix no real requirement has.
 
-Still to prove: CI as a required check on `main`, which needs this workflow to have run first.
+## Required checks (FR-DP-7)
+
+`verify` is a required status check in the `protect-main` ruleset. `gh api repos/ayenisholah/traverse/rules/branches/main` lists it, alongside the pull request, linear history, deletion and force-push rules. On 2026-11-06, release #15 showed as mergeable with the rule active, after a passing `verify`.

@@ -6,14 +6,7 @@ Read this first. It says what's done, what's in progress and what's left, so any
 
 ## Direction
 
-The project is changing from a customer booking app to **Traverse**, a tool for frontend developers to explore a federated graph: which subgraphs a query touches, and what a schema change breaks. It was called Signalbox. `SPEC.md`, the requirements and the roadmap still describe the booking app until `docs/workbench-direction` lands. Where they disagree with this section, this section is newer.
-
-- **Core use:** a CLI and GitHub Action read a repository's operations, compose the proposed schema with `@wundergraph/composition`, and report broken operations and screens. Web screens: graph map, operation route, impact.
-- **Data:** real throughout. Subgraphs serve live npm, GitHub and OSV data, plus a `workspace` subgraph. The booking domain goes. Tests replay recorded real responses.
-- **Stack:** Next.js, React, TypeScript, Tailwind, Radix with the Frox scale, tRPC, Zustand.
-- **Kept:** the Cosmo Router, the AWS plan and all guardrails. A separate internal sandbox router serves query plans and free-form operations, so GR-1 and GR-2 stay intact on the public router.
-- **AI:** an optional Amazon Bedrock assistant explains results. Model output is validated before it's shown, and the tool works fully without it.
-- **Cosmo plan:** no paid plan. Self-hosted router, and the free Developer plan for the registry and Studio.
+Traverse is built on WunderGraph Cosmo and helps frontend developers explore a federated graph. `SPEC.md` describes the target, and the [roadmap](ROADMAP.md) lists every branch.
 
 ## Done
 
@@ -28,6 +21,7 @@ The project is changing from a customer booking app to **Traverse**, a tool for 
 | 2026-11-06 | dependency-cruiser 18 | #7 |
 | 2026-11-06 | Closed #8 and #9 (Vitest 5 needs both together), #10 (stay on Node 24 types), #11 (typescript-eslint rejects TypeScript 7) | none |
 | 2026-11-06 | Renamed the project and GitHub repository to Traverse | #14 |
+| 2026-11-06 | Release fixes, and `verify` required on `main`, which finishes FR-DP-7 | #16 |
 | 2026-11-06 | Closed release #13, replaced by #15 after the package rename | none |
 | 2026-11-06 | Closed release #6: `verify` failed on generated `CHANGELOG.md` and `.release-please-manifest.json` formatting | none |
 
@@ -35,27 +29,28 @@ The project is changing from a customer booking app to **Traverse**, a tool for 
 
 | Branch | State |
 |---|---|
-| `ci/release-fixes` | Prettier ignores release-please's generated files, and Dependabot groups Vitest and holds `@types/node` to Node 24. After merge: close and reopen release #15 to run CI, merge it, add `verify` to the `protect-main` ruleset (owner approved), and confirm it's active. FR-DP-7. |
+| `docs/workbench-direction` | Specification, requirements, roadmap, plans, ADRs 0009 to 0013, threat model, privacy, facts and README rewritten for Traverse. FR-DP-7, FR-DP-8. |
 
 ## Next
 
 In order:
 
 1. Move the local folder to `/home/titan/projects/traverse` in its own session, along with the Claude project memory folder.
-2. `docs/workbench-direction`: open the specification and README by stating the project is built on WunderGraph Cosmo, then rewrite the specification, requirements, roadmap, plans, ADRs, threat model, data privacy, verified facts and README for the new direction. Mark FR-DP-7 done.
-3. `chore/agent-skills`: only skills usable today, finishing M0.
-4. M1, the public demo and CLI: `chore/web-tooling`, `feat/graph-core`, `feat/design-tokens`, `feat/graph-map`, `feat/impact-check`, `feat/impact-cli`, `ci/demo-deploy`.
+2. `chore/agent-skills`: only skills usable today, finishing M0.
+3. M1, the public demo and CLI: `chore/web-tooling`, `feat/graph-core`, `feat/design-tokens`, `feat/graph-map`, `feat/impact-check`, `feat/impact-cli`, `ci/demo-deploy`.
 
 ## Blocked
 
 | Item | Waiting on | Blocks |
 |---|---|---|
 | AWS account setup | Owner | Cognito, Bedrock and every AWS milestone. Not the public demo. |
-| Frox licence for derived files in an MIT repository | Owner's confirmation of the exact terms | `feat/design-tokens` |
+| Frox licence for derived files in an MIT repository (U-18) | Owner's confirmation of the exact terms | `feat/design-tokens` |
 
 ## Notes for the next session
 
 - Generate `package-lock.json` in a `node:24` container. Older npm drops optional `@emnapi` entries, and `npm ci` then fails in CI.
 - Before pushing, run `npm ci` and `npm run check` on a clean clone in `node:24`, and stop if either fails.
+- Release pull requests get no CI until closed and reopened, and again after each update.
+- The first risk to test in M1 is U-11: composition in a browser Web Worker. It's proven in Node.
 - Force-pushes need the owner's approval or the owner's own terminal.
 - Shell commands run in zsh, where an unquoted `$VAR` doesn't split into words. After a bulk edit, confirm the result with a search, not an exit code.
