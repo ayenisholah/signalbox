@@ -69,6 +69,16 @@ export interface OperationInput {
   document: string;
 }
 
+export interface OperationFile {
+  path: string;
+  source: string;
+}
+
+export interface CollectedOperations {
+  operations: OperationInput[];
+  conflicts: string[];
+}
+
 export interface Screen {
   name: string;
   operations: string[];
