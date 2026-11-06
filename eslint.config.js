@@ -22,6 +22,8 @@ export default tseslint.config(
       "**/.next/**",
       "**/out/**",
       "**/next-env.d.ts",
+      "**/test-results/**",
+      "**/playwright-report/**",
     ],
   },
   js.configs.recommended,

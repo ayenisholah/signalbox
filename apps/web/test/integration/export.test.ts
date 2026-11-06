@@ -1,0 +1,28 @@
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
+import { beforeAll, describe, expect, it } from "vitest";
+
+const out = join(import.meta.dirname, "../../out");
+
+describe("static export", () => {
+  let html: string;
+
+  beforeAll(async () => {
+    html = await readFile(join(out, "index.html"), "utf8");
+  });
+
+  it("[FR-WB-15] prerenders the page, so it needs no server", () => {
+    expect(html).toContain('<html lang="en"');
+    expect(html).toContain("<title>Traverse</title>");
+    expect(html).toMatch(/<h1[^>]*>Traverse<\/h1>/);
+    expect(html).toContain('role="separator"');
+  });
+
+  it("[FR-WB-13] links a stylesheet that holds the page's Tailwind classes", async () => {
+    const [, href] = /href="(\/_next\/static\/[^"]+\.css)"/.exec(html) ?? [];
+
+    const css = await readFile(join(out, href ?? "missing"), "utf8");
+
+    expect(css).toContain(".max-w-2xl");
+  });
+});
