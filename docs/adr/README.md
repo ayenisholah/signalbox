@@ -17,3 +17,4 @@
 | [0013](0013-real-data.md) | Serve real data | Accepted |
 | [0014](0014-bundled-cli-on-npm.md) | Publish the CLI as a dependency-free bundle | Accepted |
 | [0015](0015-anonymous-public-reads.md) | Allow anonymous reads on the public router | Accepted |
+| [0016](0016-subgraph-kit.md) | Build subgraphs on GraphQL Yoga and @apollo/subgraph | Accepted |

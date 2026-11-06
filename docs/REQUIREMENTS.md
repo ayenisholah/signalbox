@@ -63,7 +63,7 @@ The assistant only adds to deterministic results, through Amazon Bedrock.
 | FR-SG-4 | `advisories` serves OSV data. | Advisories for a real package version match OSV. | contract | M2 | planned |
 | FR-SG-5 | Join data across subgraphs. | One operation returns a package, its repository and its advisories from three subgraphs. | e2e | M2 | planned |
 | FR-SG-6 | Degrade when a source fails. | If one upstream fails or rate limits, other fields still return, the error is clear, and repeat reads come from cache. | integration | M2 | planned |
-| FR-SG-7 | Every subgraph shares one kit. | A new subgraph gets health, auth context, logging and shutdown by supplying only a schema and resolvers. | unit | M2 | planned |
+| FR-SG-7 | Every subgraph shares one kit. | A new subgraph gets health, auth context, logging and shutdown by supplying only a schema and resolvers. | unit | M2 | done |
 | FR-SG-8 | Migrations are safe during rollout. | The previous release's tests pass against the migrated schema. | integration | M7 | planned |
 | FR-SG-9 | `workspace` stores users' work. | Saved drafts and screen maps survive a restart. | integration | M4 | planned |
 | FR-SG-10 | Notice upstream changes. | A scheduled check against the live sources fails if a recorded response no longer matches their shape. | CI | M2 | planned |
@@ -91,7 +91,7 @@ The assistant only adds to deterministic results, through Amazon Bedrock.
 | FR-OB-3 | Show service health at a glance. | Dashboards cover traffic, latency, errors, saturation and data stores for each environment. | staging | M8 | planned |
 | FR-OB-4 | Alert on user impact. | A forced failure raises its alarm and reaches the owner, and every alarm links to a runbook. | staging | M8 | planned |
 | FR-OB-5 | Identify API clients. | Studio separates usage by client name and version. | staging | M8 | planned |
-| FR-OB-6 | Write structured logs. | Every service logs JSON with a trace ID. | unit | M2 | planned |
+| FR-OB-6 | Write structured logs. | Every service logs JSON with a trace ID. | unit | M2 | done |
 
 ## Non-functional
 
