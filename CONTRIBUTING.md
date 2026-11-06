@@ -33,4 +33,4 @@ See [engineering standards](docs/ENGINEERING_STANDARDS.md#definition-of-done).
 
 ## Fixtures
 
-The repository is public. Fixtures stay fictional, with no real business or customer names, and no account IDs or secrets.
+The repository is public. Fixtures are recorded public responses with personal fields removed, and hold no account IDs, tokens or secrets.

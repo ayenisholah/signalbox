@@ -12,7 +12,7 @@ body:
     id: steps
     attributes:
       label: Steps to reproduce
-      description: Don't include real customer data, account IDs or secrets.
+      description: Don't include personal data, account IDs or secrets.
     validations:
       required: true
   - type: input

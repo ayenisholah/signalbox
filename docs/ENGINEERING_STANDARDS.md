@@ -31,7 +31,7 @@ Pass collaborators in as arguments, typed by the narrowest interface needed. Tes
 ## Data
 
 - Money is integer cents. Timestamps are UTC instants.
-- Every query on tenant data is scoped by business, using the verified identity.
+- Every query on workspace data is scoped by user, using the verified identity.
 - Migrations follow the [release process](RELEASE_PROCESS.md).
 
 ## Logging
