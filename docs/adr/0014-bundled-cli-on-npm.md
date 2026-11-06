@@ -8,7 +8,7 @@ Frontend developers need to run Traverse on their own repositories without cloni
 
 ## Decision
 
-Publish `packages/cli` to npm as `@ayenisholah/traverse`, bundled by rolldown with every dependency inlined, so it installs nothing else. The licences of inlined packages ship in `THIRD-PARTY-NOTICES.txt`.
+Publish `packages/cli` to npm as `@ayenis/traverse`, bundled by rolldown with every dependency inlined, so it installs nothing else. The licences of inlined packages ship in `THIRD-PARTY-NOTICES.txt`.
 
 `release.yml` publishes through npm trusted publishing, so no npm token is stored. The version follows the repository's through release-please.
 

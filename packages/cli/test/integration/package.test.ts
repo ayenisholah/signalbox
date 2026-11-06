@@ -18,7 +18,7 @@ const run = (command: string, args: string[], cwd: string) =>
   spawnSync(command, args, { cwd, encoding: "utf8" });
 
 const installed = (...path: string[]): string =>
-  join(project, "node_modules/@ayenisholah/traverse", ...path);
+  join(project, "node_modules/@ayenis/traverse", ...path);
 
 beforeAll(() => {
   work = mkdtempSync(join(tmpdir(), "traverse-package-"));

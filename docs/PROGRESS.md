@@ -30,6 +30,7 @@ Traverse is built on WunderGraph Cosmo and helps frontend developers explore a f
 | 2026-11-06 | Closed release #6: `verify` failed on generated `CHANGELOG.md` and `.release-please-manifest.json` formatting | none |
 | 2026-11-06 | Moved the local folder to `/home/titan/projects/traverse` | none |
 | 2026-11-06 | Owner confirmed Frox can be used in an MIT project, which answers U-18 | `chore/web-tooling` |
+| 2026-11-06 | npm package: `@ayenis/traverse`, a dependency-free bundle with a publish job, not yet published. The scope matches the owner's npm username. | `ci/npm-publish`, `build/npm-scope` |
 | 2026-11-06 | Released `v0.6.0` and `v0.7.0`. The Action can now be pinned to a tag. | #30, #33 |
 | 2026-11-06 | `traverse` CLI and GitHub Action: reads `traverse.json`, `.graphql` files and inline `gql` tags, and comments on the pull request. Proven on [#32](https://github.com/ayenisholah/traverse/pull/32#issuecomment-6683679869), closed unmerged: it failed and commented on a planted break, then passed and updated that comment. | `feat/impact-cli` |
 | 2026-11-06 | Impact check at `/impact`: edit a draft, compose it in a Web Worker, and see the fields, operations and screens it breaks. Answers U-20. | `feat/impact-check` |
@@ -42,13 +43,13 @@ Traverse is built on WunderGraph Cosmo and helps frontend developers explore a f
 
 ## In progress
 
-`ci/npm-publish` (FR-WB-16): the bundle, the licence notices, the packed install test and the publish job. FR-WB-16 stays planned until a real publish.
+Nothing. FR-WB-16 stays planned until the first publish below.
 
 ## Next
 
 In order:
 
-1. Owner: confirm the npm account `ayenisholah`, run the first publish, and add the trusted publisher for `release.yml`. Do this before merging the next release pull request, or its publish job fails.
+1. Owner: run the first publish of `@ayenis/traverse` from the npm account `ayenis`, and add the trusted publisher for `release.yml`. Do this before merging the next release pull request, or its publish job fails.
 2. `ci/demo-deploy`. Confirm with the owner before enabling Pages.
 
 ## Blocked

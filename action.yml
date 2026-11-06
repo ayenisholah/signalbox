@@ -34,7 +34,7 @@ runs:
     - name: Install Traverse
       shell: bash
       working-directory: ${{ github.action_path }}
-      run: npm ci --ignore-scripts --no-audit --no-fund --workspace @ayenisholah/traverse --include-workspace-root=false
+      run: npm ci --ignore-scripts --no-audit --no-fund --workspace @ayenis/traverse --include-workspace-root=false
 
     - name: Fetch the base commit
       shell: bash
