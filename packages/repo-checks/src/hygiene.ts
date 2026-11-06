@@ -1,4 +1,4 @@
-import { isCode, isOwnPackage, isTestFile } from "./paths.ts";
+import { isAppStyleSource, isCode, isOwnPackage, isTestFile } from "./paths.ts";
 import type { RepoFile, Violation } from "./types.ts";
 
 interface Rule {
@@ -34,6 +34,17 @@ const rules: Rule[] = [
     message: "coverage exclusion in source",
     appliesTo: isCode,
     matches: (line) => /\b(?:v8|c8|istanbul) ignore\b/.test(line),
+  },
+  {
+    message: "px unit in app styles",
+    appliesTo: isAppStyleSource,
+    matches: (line) => !isComment(line) && /\d(?:\.\d+)?px\b/.test(line),
+  },
+  {
+    message: "raw colour in app styles",
+    appliesTo: isAppStyleSource,
+    matches: (line) =>
+      !isComment(line) && /(?<![\w&])#[0-9a-f]{3,8}\b|\b(?:rgba?|hsla?|oklch)\(/i.test(line),
   },
   {
     message: "attribution line",
