@@ -22,6 +22,7 @@ The versions below are the only ones whose docs count. Upgrades change this tabl
 | Cosmo Router image | `ghcr.io/wundergraph/cosmo/router:0.366.1` @ `sha256:1a8bc23db2c33c2028720b85b56fce68b7bf35f1064bac0f8301eb5ca6cae81c` | GHCR manifest, read directly |
 | `wgc` | `0.133.6` | npm registry |
 | `@wundergraph/composition` | `0.66.2` | npm registry |
+| `graphql` | `16.15.0` | `package-lock.json`. Composition needs 16, so don't move to 17 alone. |
 | AWS CDK library | `2.275.0` | npm registry |
 | Next.js | `16.4.5` | `package-lock.json` |
 | React | `19.3.1` | `package-lock.json` |
@@ -51,13 +52,16 @@ The versions below are the only ones whose docs count. Upgrades change this tabl
 | C-17 | Prometheus metrics default to `127.0.0.1:8088/metrics`. | `documented` | [Metrics](https://cosmo-docs.wundergraph.com/router/metrics-and-monitoring.md) |
 | C-18 | The Developer plan is free, with 10M requests a month, 1 federated graph, 10 subgraphs, 3 users and 7-day retention. | `documented` | [Pricing](https://wundergraph.com/pricing) |
 | C-19 | `@wundergraph/composition` 0.66.2 is Apache-2.0. | `tested` | npm registry |
-| C-20 | `federateSubgraphs` composes the schema in `SPEC.md`, its `parentDefinitionDataByTypeName` result gives each field's subgraphs, and a planted break fails with an error. Run in Node 24, not yet in a browser. | `tested` | Local run on 2026-11-06 |
+| C-20 | `federateSubgraphs` composes the schema in `SPEC.md`, its `parentDefinitionDataByTypeName` result gives each field's subgraphs, and a planted break fails with an error. Run in Node 24 and in a browser (C-27). | `tested` | Local run on 2026-11-06 |
 | C-21 | Sending `X-WG-Include-Query-Plan` returns the plan in `extensions`. `X-WG-Skip-Loader` skips subgraph requests. | `documented` | [Query plans](https://cosmo-docs.wundergraph.com/router/query-plan) |
 | C-22 | Self-hosting needs no subscription or licence key. | `reported` | [WunderGraph answers](https://wundergraph.com/answers) |
 | C-23 | The pricing table excludes persisted operations, rate limiting and multiple OpenTelemetry exporters below Scale, and cache warming below Enterprise. | `documented` | [Pricing](https://wundergraph.com/pricing) |
 | C-24 | The operations check uses router traffic, 7 days by default. | `documented` | [Schema checks](https://cosmo-docs.wundergraph.com/studio/schema-checks.md) |
 | C-25 | Persisted operations and the execution config can load from S3, with artifacts pushed by your own CI. | `documented` | [Storage providers](https://cosmo-docs.wundergraph.com/router/storage-providers.md) |
 | C-26 | `wgc` commands need `COSMO_API_KEY`, and the router uses `GRAPH_API_TOKEN`. | `documented` | [API keys](https://cosmo-docs.wundergraph.com/cli/api-keys.md) |
+| C-27 | `packages/graph-core`, bundled by esbuild, composes the 10 Cosmo demo subgraphs in a Web Worker in headless Chrome in under 200 ms, 111 to 166 ms over three runs. The bundle is 958 KB, or 240 KB gzipped, and its results survive `structuredClone`. In the spike, the longest main-thread gap during composition was 6 ms. | `tested` | Local run on 2026-11-06 |
+| C-28 | A field's `subgraphNames` includes subgraphs that only declare it `@external`. `externalFieldDataBySubgraphName` marks them with `isDefinedExternal`. | `tested` | `Employee.isAvailable` in the Cosmo demo, 2026-11-06 |
+| C-29 | Composition rejects removing a field while another subgraph still declares it `@external`. | `tested` | `Employee.currentMood` in the Cosmo demo, 2026-11-06 |
 
 ## Data sources
 
@@ -75,6 +79,8 @@ The versions below are the only ones whose docs count. Upgrades change this tabl
 | W-1 | With `output: "export"`, `next build` writes static files to `out`. | `tested` | `next build` in `node:24` on 2026-11-06, and `node_modules/next/dist/docs/01-app/02-guides/static-exports.md` |
 | W-2 | `next build` refuses a route using `dynamic = "force-dynamic"` under `output: "export"`. | `tested` | Planted route on 2026-11-06 |
 | W-3 | `eslint-config-next` 16.4.5 depends on `eslint-plugin-react` and `eslint-plugin-jsx-a11y`, whose peer ranges stop at ESLint 9. | `tested` | npm registry on 2026-11-06 |
+| W-5 | `graphql` 16 ships CJS and ESM builds. Under Vite, composition's schema objects fail in our `graphql` calls with "from another module or realm". AST nodes are plain objects and cross safely. | `tested` | Vitest run on 2026-11-06 |
+| W-6 | `@wundergraph/composition` 0.66.2 asks for `@graphql-tools/utils` ^11, which has two high severity advisories (GHSA-7mx3-vvmw-hjmv, GHSA-c4qx-w738-7hr3). A root npm override to ^12.1.0 clears `npm audit`, and composition passes every test and the Chrome run on it. | `tested` | `npm audit`, and a fresh `npm ci`, on 2026-11-06 |
 | W-4 | Under jsdom, axe reports colour contrast as `incomplete`, not as a violation, even for `#eee` on `#fff`. In Chromium through Playwright, the same text fails `color-contrast`. | `tested` | Local run and planted violation on 2026-11-06 |
 
 ## AWS
@@ -105,13 +111,13 @@ Each is answered by test before the feature that depends on it ships.
 | U-6 | What retention, limits and support does the Cosmo free plan give? | FR-OB-2 | Before the first deploy |
 | U-7 | Which account route gives multi-Region access and the needed quotas, and at what cost? | NFR-6 | Before M4 |
 | U-9 | How are generated operations pushed to Cosmo as persisted operations, and which `wgc` command does it? | FR-WB-12 | M2 |
-| U-11 | Does `@wundergraph/composition` run in a Web Worker, at an acceptable bundle size? Its `dist` is 2.5 MB before bundling. | FR-WB-2 | First, in `feat/graph-core` |
 | U-13 | Do persisted operations from S3, Redis rate limiting and multiple OpenTelemetry exporters work on a self-hosted router on the free plan? | GR-2, FR-GW-5 | M2 |
 | U-14 | Does `wgc router compose` need `COSMO_API_KEY`? C-2 and C-26 disagree. | FR-GW-2 | M2 |
 | U-15 | Do npm, GitHub and OSV terms allow this use, and what are npm's and OSV's practical rate limits? | FR-SG-6 | M2 |
 | U-16 | What shape is the query plan in `extensions`, and does it need dev mode or a token? The docs don't say. | FR-WB-7 | M2 |
 | U-17 | Can a third-party app read the Platform API? The docs describe it as used by the CLI and Studio. | FR-WB-1 | M3 |
 | U-19 | Which current Claude model does Bedrock offer from the chosen Region, and at what cost? | FR-AI-1 | Before M5 |
+| U-20 | Does `packages/graph-core` run in a Web Worker built by Next.js and Turbopack? C-27 used esbuild. | FR-WB-2 | `feat/impact-check` |
 
 ## Answered questions
 
@@ -119,5 +125,6 @@ Each is answered by test before the feature that depends on it ships.
 |---|---|---|---|---|
 | U-8 | Do `SPEC.md`'s entity definitions compose as written? | FR-SG-5 | Yes. | C-20 |
 | U-10 | Does the Frox licence allow derived tokens and components in a public MIT repository? | GR-10 | Partly: the owner confirmed public use. U-18 answers the MIT question. | Owner statement, 2026-11-05, recorded in [ADR 0008](adr/0008-frox-design-system.md) |
+| U-11 | Does `@wundergraph/composition` run in a Web Worker, at an acceptable bundle size? | FR-WB-2 | Yes. 240 KB gzipped is acceptable, because it loads in the worker and not on the main thread. | C-27 |
 | U-12 | Can field-to-subgraph data be read from composition output? | FR-WB-4 | Yes. | C-20 |
 | U-18 | Do the Frox terms allow derived tokens in an MIT repository? | GR-10 | Yes: "you can use frox in an MIT license project". The licence text isn't held in this repository. | Owner statement, 2026-11-06, recorded in [ADR 0010](adr/0010-tailwind-radix-frox-scale.md) |

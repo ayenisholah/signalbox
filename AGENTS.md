@@ -37,8 +37,9 @@ npm run check:progress       # the branch updates docs/PROGRESS.md
 | `scripts/`             | Git hook helpers                                       |
 | `SPEC.md`              | Goals, architecture, interfaces and data model         |
 | `apps/web`             | Next.js workbench, a static export until M3            |
+| `packages/graph-core`  | Composition, field ownership and impact analysis       |
 | `packages/repo-checks` | Hygiene and traceability checks                        |
-| `packages/`            | Planned: graph core and subgraph kit                   |
+| `packages/`            | Planned: subgraph kit                                  |
 | `subgraphs/`           | Planned: packages, repositories, advisories, workspace |
 | `router/`, `graph/`    | Planned: router config and local composition           |
 | `infra/`               | Planned: CDK app and reusable constructs               |

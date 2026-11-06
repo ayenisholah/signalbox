@@ -16,6 +16,7 @@ This file records proof that isn't a named test. Each gate below was run on a cl
 | Boundaries | `npm run check:deps` | Import of a package's internals | Exit 1, `no-deep-package-imports` |
 | Boundaries | `npm run check:deps` | Circular import | Exit 1, `no-circular` |
 | Boundaries | `npm run check:deps` | Node built-in in `packages/domain` | Exit 1, `domain-has-no-io` |
+| Boundaries | `npm run check:deps` | Node built-in in `packages/graph-core` | Exit 1, `graph-core-runs-in-browsers` |
 | Duplication | `npm run check:dupes` | Copied source file | Exit 1, one clone |
 | Unused code | `npm run check:unused` | Orphan file | Exit 1, file named |
 | Unused code | `npm run check:unused` | Unused export | Exit 1, export named |
