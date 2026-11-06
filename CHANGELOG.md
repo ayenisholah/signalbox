@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0](https://github.com/ayenisholah/traverse/compare/v0.2.0...v0.3.0) (2026-11-06)
+
+
+### Features
+
+* **graph-core:** add composition, field ownership and impact analysis ([401451d](https://github.com/ayenisholah/traverse/commit/401451d5c683bdd801504d234e709b4a613f9452))
+
 ## [0.2.0](https://github.com/ayenisholah/traverse/compare/v0.1.0...v0.2.0) (2026-11-06)
 
 
