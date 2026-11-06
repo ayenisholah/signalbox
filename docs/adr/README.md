@@ -15,3 +15,4 @@
 | [0011](0011-sandbox-router.md) | Run a separate sandbox router | Accepted |
 | [0012](0012-bedrock-assistant.md) | Use Amazon Bedrock for an optional assistant | Accepted |
 | [0013](0013-real-data.md) | Serve real data | Accepted |
+| [0014](0014-bundled-cli-on-npm.md) | Publish the CLI as a dependency-free bundle | Accepted |
