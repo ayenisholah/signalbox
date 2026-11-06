@@ -7,6 +7,7 @@ Tests come first, and a bug fix starts with a failing test.
 | Layer | What it proves | Tooling | Runs |
 |---|---|---|---|
 | Unit | Logic, through public functions and small fakes | Vitest | Every pull request |
+| Component | Pages and components render, and axe finds no violations | Vitest, Testing Library, axe-core, jsdom | Every pull request |
 | Property | Rules that must hold for any input, such as workspace scoping | fast-check | Every pull request |
 | Mutation | Tests catch breakage in auth, workspace scoping and policy code | Stryker | Scheduled, and on those modules |
 | Integration | Real Postgres and Redis | Docker Compose | Every pull request |
@@ -16,7 +17,9 @@ Tests come first, and a bug fix starts with a failing test.
 | Post-deploy | A release works where it landed | Smoke tests | Every deploy |
 | Load and resilience | SLOs, scaling and recovery | k6, AWS FIS | Before launch, then on demand |
 
-Only Vitest is in the repository today. Each tool arrives with the first feature that needs it.
+Only Vitest, Testing Library and axe-core are in the repository today. Each tool arrives with the first feature that needs it.
+
+axe can't judge colour contrast under jsdom (W-4), so component tests prove nothing about it. Contrast needs its own token check, and a browser run.
 
 ## Coverage policy
 
