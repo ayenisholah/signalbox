@@ -3,10 +3,10 @@ pre-commit:
   parallel: true
   jobs:
     - name: format
-      glob: "*.{ts,js,cjs,mjs,json,md,yml,yaml}"
+      glob: "*.{ts,tsx,css,js,cjs,mjs,json,md,yml,yaml}"
       run: npx prettier --check --ignore-unknown {staged_files}
     - name: lint
-      glob: "*.{ts,js,cjs,mjs}"
+      glob: "*.{ts,tsx,js,cjs,mjs}"
       run: npx eslint --no-warn-ignored {staged_files}
     - name: secrets
       run: if command -v gitleaks >/dev/null; then gitleaks protect --staged --redact --no-banner; else echo "gitleaks not installed; CI will scan"; fi
