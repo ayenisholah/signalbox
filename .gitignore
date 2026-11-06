@@ -10,3 +10,7 @@ reports/
 *.pem
 *.key
 .DS_Store
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
