@@ -30,6 +30,7 @@ Traverse is built on WunderGraph Cosmo and helps frontend developers explore a f
 | 2026-11-06 | Closed release #6: `verify` failed on generated `CHANGELOG.md` and `.release-please-manifest.json` formatting | none |
 | 2026-11-06 | Moved the local folder to `/home/titan/projects/traverse` | none |
 | 2026-11-06 | Owner confirmed Frox can be used in an MIT project, which answers U-18 | `chore/web-tooling` |
+| 2026-11-06 | Public demo at <https://ayenisholah.github.io/traverse/>, deployed by `demo.yml`. A suite tests the live site after each deploy. The first deployment stalled for 10 minutes for an unknown reason, and the next took under 2. | #39, #40 |
 | 2026-11-06 | `0.7.1` published from `release.yml` by trusted publishing, with provenance, and run from the registry on a planted break. FR-WB-16 is done. | #36, #37 |
 | 2026-11-06 | npm package: `@ayenis/traverse`, a dependency-free bundle with a publish job. The owner published `0.7.0` by hand and added the trusted publisher. The scope matches the owner's npm username. | `ci/npm-publish`, `build/npm-scope` |
 | 2026-11-06 | Released `v0.6.0` and `v0.7.0`. The Action can now be pinned to a tag. | #30, #33 |
@@ -44,14 +45,14 @@ Traverse is built on WunderGraph Cosmo and helps frontend developers explore a f
 
 ## In progress
 
-`ci/demo-deploy` (FR-WB-15): the owner enabled GitHub Pages. The first deployment stalled in `updating_pages` for 10 minutes and was cancelled, with Pages reported as operational and a 1 MB artifact. The cause is unknown. FR-WB-15 stays planned until the demo suite passes on the public URL.
+Nothing. M1 stays open for the one item below.
 
 ## Next
 
 In order:
 
-1. Confirm the public site, and record the URL.
-2. The owner: find three frontend developers to try it on their own repositories, for `docs/USER_FEEDBACK.md`. That's the last M1 exit item, and nobody else can do it.
+1. The owner: ask three frontend developers to try Traverse on their own repositories, and record what they say in `docs/USER_FEEDBACK.md`. Every other M1 exit item is met.
+2. M2, the real graph, once that's done or the owner chooses to start it anyway.
 
 ## Blocked
 
