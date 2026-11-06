@@ -1,0 +1,16 @@
+{
+  "name": "@traverse/repositories-subgraph",
+  "version": "0.0.0",
+  "private": true,
+  "description": "GitHub repository data for the Traverse graph.",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "@traverse/subgraph-kit": "*",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@traverse/graph-core": "*",
+    "@traverse/repo-checks": "*"
+  }
+}
