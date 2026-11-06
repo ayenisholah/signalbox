@@ -36,6 +36,7 @@ Each branch is one pull request and lists the requirements it delivers. Plans fo
 | M0 | `docs/workbench-direction` | FR-DP-7, FR-DP-8 | Merged |
 | M0 | `chore/agent-skills` | FR-DP-9 | Merged |
 | M1 | `chore/web-tooling` | FR-WB-13 | Merged |
+| M1 | `test/web-e2e` | NFR-9 | Merged |
 | M1 | `feat/graph-core` | FR-WB-3, FR-WB-4, FR-WB-6 | Planned |
 | M1 | `feat/design-tokens` | FR-WB-13, NFR-9, NFR-10, GR-10 | Planned |
 | M1 | `feat/graph-map` | FR-WB-1 | Planned |
@@ -53,7 +54,6 @@ Each branch is one pull request and lists the requirements it delivers. Plans fo
 | M3 | `feat/sandbox-router` | FR-GW-9, GR-11 | Planned |
 | M3 | `feat/route-view` | FR-WB-7 | Planned |
 | M3 | `feat/package-explorer` | FR-WB-8, FR-WB-9 | Planned |
-| M3 | `test/web-e2e` | NFR-9 | Planned |
 | M4 | `feat/web-auth` | FR-WB-10, GR-3 | Planned |
 | M4 | `feat/workspace-subgraph` | FR-SG-1, FR-SG-9, FR-WB-11 | Planned |
 | M5 | `feat/bedrock-client` | FR-AI-4, GR-13, GR-14, GR-15 | Planned |

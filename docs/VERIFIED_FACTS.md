@@ -75,7 +75,7 @@ The versions below are the only ones whose docs count. Upgrades change this tabl
 | W-1 | With `output: "export"`, `next build` writes static files to `out`. | `tested` | `next build` in `node:24` on 2026-11-06, and `node_modules/next/dist/docs/01-app/02-guides/static-exports.md` |
 | W-2 | `next build` refuses a route using `dynamic = "force-dynamic"` under `output: "export"`. | `tested` | Planted route on 2026-11-06 |
 | W-3 | `eslint-config-next` 16.4.5 depends on `eslint-plugin-react` and `eslint-plugin-jsx-a11y`, whose peer ranges stop at ESLint 9. | `tested` | npm registry on 2026-11-06 |
-| W-4 | Under jsdom, axe reports colour contrast as `incomplete`, not as a violation, even for `#eee` on `#fff`. | `tested` | Local run on 2026-11-06 |
+| W-4 | Under jsdom, axe reports colour contrast as `incomplete`, not as a violation, even for `#eee` on `#fff`. In Chromium through Playwright, the same text fails `color-contrast`. | `tested` | Local run and planted violation on 2026-11-06 |
 
 ## AWS
 

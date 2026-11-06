@@ -54,6 +54,7 @@ Structured JSON only, through the shared logger, with a trace ID. Never log Grap
 
 - The change traces to a requirement ID.
 - `npm run check` passes, including the 100% coverage gate.
+- Every function has unit tests, every component has UI tests, and every feature has integration and Playwright tests. See the [test strategy](TEST_STRATEGY.md#what-each-thing-needs).
 - Docs and ADRs match the change.
 - Every Cosmo or AWS claim is in [verified facts](VERIFIED_FACTS.md).
 - Commits are atomic, and the pull request is green.

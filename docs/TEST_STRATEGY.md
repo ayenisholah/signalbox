@@ -10,16 +10,27 @@ Tests come first, and a bug fix starts with a failing test.
 | Component | Pages and components render, and axe finds no violations | Vitest, Testing Library, axe-core, jsdom | Every pull request |
 | Property | Rules that must hold for any input, such as workspace scoping | fast-check | Every pull request |
 | Mutation | Tests catch breakage in auth, workspace scoping and policy code | Stryker | Scheduled, and on those modules |
-| Integration | Real Postgres and Redis | Docker Compose | Every pull request |
+| Integration | Parts working together for real: the built export now, Postgres and Redis later | Vitest, Docker Compose | Every pull request |
 | Contract | Subgraphs compose, and persisted operations stay valid | `wgc`, schema snapshots | Every pull request |
-| End to end | The pinned router image, with real auth and safelist | Docker Compose | Every pull request |
+| End to end | A user's journey in a real browser against the static export, and later the pinned router with real auth and safelist | Playwright, `@axe-core/playwright`, Docker Compose | Every pull request |
 | Infrastructure | Resources, IAM and guardrails | CDK assertions, `cdk-nag` | Every pull request |
 | Post-deploy | A release works where it landed | Smoke tests | Every deploy |
 | Load and resilience | SLOs, scaling and recovery | k6, AWS FIS | Before launch, then on demand |
 
-Only Vitest, Testing Library and axe-core are in the repository today. Each tool arrives with the first feature that needs it.
+Vitest, Testing Library, axe-core and Playwright are in the repository today. Each other tool arrives with the first feature that needs it.
 
-axe can't judge colour contrast under jsdom (W-4), so component tests prove nothing about it. Contrast needs its own token check, and a browser run.
+axe can't judge colour contrast under jsdom (W-4), so component tests prove nothing about it. Contrast needs its own token check and the Playwright axe run.
+
+## What each thing needs
+
+| What | Tests | Where |
+|---|---|---|
+| Function | Unit | `test/*.test.ts` |
+| Component | UI: its states, plus an axe check | `apps/*/test/*.test.tsx` |
+| Feature | Integration | `apps/*/test/integration/` |
+| Feature | Playwright end to end, including an axe check | `apps/*/test/e2e/` |
+
+A pure function has no screen to drive, so it needs no Playwright test of its own. The feature that uses it does.
 
 ## Coverage policy
 

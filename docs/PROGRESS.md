@@ -30,6 +30,7 @@ Traverse is built on WunderGraph Cosmo and helps frontend developers explore a f
 | 2026-11-06 | Closed release #6: `verify` failed on generated `CHANGELOG.md` and `.release-please-manifest.json` formatting | none |
 | 2026-11-06 | Moved the local folder to `/home/titan/projects/traverse` | none |
 | 2026-11-06 | Owner confirmed Frox can be used in an MIT project, which answers U-18 | `chore/web-tooling` |
+| 2026-11-06 | Integration and Playwright layers, and the testing rule in `AGENTS.md`, at the owner's request. Pulled forward from M3. NFR-9 stays planned until every route is covered. | `test/web-e2e` |
 | 2026-11-06 | `apps/web` on Next.js, Tailwind and Radix, with every gate extended to `apps/` and `.tsx`. FR-WB-13 stays planned until `feat/design-tokens`. | `chore/web-tooling` |
 
 ## In progress
@@ -54,10 +55,12 @@ In order:
 - Before pushing, run `npm ci` and `npm run check` on a clean clone in `node:24`, and stop if either fails.
 - Release pull requests get no CI until closed and reopened, and again after each update.
 - `apps/web` uses `eslint-plugin-react-hooks` and `@next/eslint-plugin-next` directly, not `eslint-config-next` (W-3).
-- axe can't check contrast under jsdom (W-4), so `feat/design-tokens` needs its own contrast check.
+- axe can't check contrast under jsdom, but the Playwright run can (W-4). `feat/design-tokens` still needs its token contrast check.
+- `vite preview` serves the export for Playwright. `serve` was rejected: its `compression` dependency has a high severity advisory.
 - dependency-cruiser refuses local Node 25, so run the gates in `node:24`.
 - `npm audit` reports 10 moderate `minimatch` findings through ESLint. They're dev-only, and CI audits production dependencies at high.
-- The first risk to test in M1 is U-11: composition in a browser Web Worker. It's proven in Node.
+- U-11 spike, 2026-11-06, not yet recorded in verified facts: `@wundergraph/composition` 0.66.2 ran in a Web Worker in headless Chrome. It composed 10 Cosmo demo subgraphs in 128 ms cold and 91 ms warm, and a planted break failed with an error. The longest main-thread gap was 6 ms. The esbuild worker bundle is 954 KB, or 238 KB gzipped. Record it in `feat/graph-core`.
+- Demo schemas come from `demo/pkg/subgraphs/*` at tag `router@0.366.1`, with the subgraph list in `demo/graph.yaml`.
 - Merge pull requests with `gh pr merge --rebase --delete-branch` once checks pass on the current commit.
 - Force-pushes need the owner's approval or the owner's own terminal.
 - Shell commands run in zsh, where an unquoted `$VAR` doesn't split into words. After a bulk edit, confirm the result with a search, not an exit code.
