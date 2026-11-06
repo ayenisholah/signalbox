@@ -1,0 +1,11 @@
+type Advisory @key(fields: "id") {
+  id: ID!
+  summary: String!
+  severity: String
+  fixedIn: String
+}
+
+type Package @key(fields: "name") {
+  name: String!
+  advisories(version: String): [Advisory!]
+}
