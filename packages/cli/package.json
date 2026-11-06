@@ -1,5 +1,5 @@
 {
-  "name": "@ayenisholah/traverse",
+  "name": "@ayenis/traverse",
   "version": "0.7.0",
   "description": "Finds the operations and screens a federated schema change breaks.",
   "license": "MIT",

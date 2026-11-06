@@ -41,4 +41,4 @@ jobs:
           registry-url: https://registry.npmjs.org
       - run: npm ci --ignore-scripts
       # Trusted publishing: npm exchanges this job's OIDC token, so there's no npm secret to steal.
-      - run: npm publish --workspace @ayenisholah/traverse
+      - run: npm publish --workspace @ayenis/traverse

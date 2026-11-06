@@ -23,7 +23,7 @@ Add `traverse.json` to your repository:
 Then compare your working tree with a branch:
 
 ```sh
-npx @ayenisholah/traverse check --base origin/main
+npx @ayenis/traverse check --base origin/main
 ```
 
 It exits 0 if nothing breaks, 1 if an operation breaks or the proposed schema doesn't compose, and 2 if it can't run.
