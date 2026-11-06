@@ -1,0 +1,51 @@
+{
+  "subgraphs": [
+    {
+      "name": "availability",
+      "schema": "graph/cosmo-demo/availability.graphqls"
+    },
+    {
+      "name": "countries",
+      "schema": "graph/cosmo-demo/countries.graphqls"
+    },
+    {
+      "name": "employee-events",
+      "schema": "graph/cosmo-demo/employee-events.graphqls"
+    },
+    {
+      "name": "employees",
+      "schema": "graph/cosmo-demo/employees.graphqls"
+    },
+    {
+      "name": "employeeupdated",
+      "schema": "graph/cosmo-demo/employeeupdated.graphqls"
+    },
+    {
+      "name": "family",
+      "schema": "graph/cosmo-demo/family.graphqls"
+    },
+    {
+      "name": "hobbies",
+      "schema": "graph/cosmo-demo/hobbies.graphqls"
+    },
+    {
+      "name": "mood",
+      "schema": "graph/cosmo-demo/mood.graphqls"
+    },
+    {
+      "name": "products",
+      "schema": "graph/cosmo-demo/products.graphqls"
+    },
+    {
+      "name": "test1",
+      "schema": "graph/cosmo-demo/test1.graphqls"
+    }
+  ],
+  "operations": ["graph/cosmo-demo/example-query.graphql"],
+  "screens": [
+    {
+      "name": "/impact",
+      "operations": ["graph/cosmo-demo/example-query.graphql"]
+    }
+  ]
+}
