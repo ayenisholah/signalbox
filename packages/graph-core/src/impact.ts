@@ -28,8 +28,9 @@ const parseOperation = (document: string): DocumentNode | string => {
   }
 };
 
-const messages = (schema: GraphQLSchema, document: DocumentNode): string[] =>
-  validate(schema, document).map(({ message }) => message);
+const messages = (schema: GraphQLSchema, document: DocumentNode): string[] => [
+  ...new Set(validate(schema, document).map(({ message }) => message)),
+];
 
 const analyzeOperation = (
   { name, document }: OperationInput,

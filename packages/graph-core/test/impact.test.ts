@@ -125,6 +125,20 @@ describe("analyzeImpact", () => {
     ]);
   });
 
+  it("[FR-WB-3] reports a repeated error once", () => {
+    const document =
+      'query { a: package(name: "a") { license } b: package(name: "b") { license } }';
+    const after = replace("license: String\n", "\n");
+
+    const { operations } = analyzeImpact({
+      before,
+      after,
+      operations: [{ name: "Twice", document }],
+    });
+
+    expect(operations[0]?.errors).toHaveLength(1);
+  });
+
   it("[FR-WB-3] finds fields used through a fragment", () => {
     const document = /* GraphQL */ `
       query {
