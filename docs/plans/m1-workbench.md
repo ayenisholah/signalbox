@@ -5,12 +5,13 @@
 ## Work
 
 1. `chore/web-tooling`: `apps/*` workspace with Next.js, Tailwind and Radix, and the gates extended to `apps/` and `.tsx`.
-2. `feat/graph-core`: `packages/graph-core`, pure logic over `@wundergraph/composition`: composition, the field-to-subgraph index and impact analysis. Answer U-11 here first.
-3. `feat/design-tokens`: the Frox scale as a Tailwind theme, with contrast and rem checks.
-4. `feat/graph-map`: the searchable map.
-5. `feat/impact-check`: schema draft editor, Web Worker and results view.
-6. `feat/impact-cli`: the CLI and GitHub Action.
-7. `ci/demo-deploy`: static export to GitHub Pages. Confirm with the owner before enabling Pages.
+2. `test/web-e2e`: integration and Playwright test layers, and the testing rule in `AGENTS.md`.
+3. `feat/graph-core`: `packages/graph-core`, pure logic over `@wundergraph/composition`: composition, the field-to-subgraph index and impact analysis. Answer U-11 here first.
+4. `feat/design-tokens`: the Frox scale as a Tailwind theme, with contrast and rem checks.
+5. `feat/graph-map`: the searchable map.
+6. `feat/impact-check`: schema draft editor, Web Worker and results view.
+7. `feat/impact-cli`: the CLI and GitHub Action.
+8. `ci/demo-deploy`: static export to GitHub Pages. Confirm with the owner before enabling Pages.
 
 ## Exit
 

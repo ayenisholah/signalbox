@@ -12,7 +12,7 @@ description: Builds one feature end to end from a requirement ID to a pull reque
 5. **Look for reuse.** Search `packages/` for existing helpers, types and patterns.
 6. **Failing test.** Write a test named `[ID] behaviour` that captures the acceptance check, and watch it fail for the right reason.
 7. **Implement.** Make the smallest change that passes. Pure logic goes in a package. Inject dependencies.
-8. **Cover.** Run `npm run test:coverage`. Close gaps with real behaviour tests. Don't add exclusions.
+8. **Cover.** Add the tests each level needs: unit for functions, UI for components, integration and Playwright for features. Run `npm run test:coverage`, `npm run test:integration` and `npm run test:e2e`. Close gaps with real behaviour tests. Don't add exclusions.
 9. **Guardrails.** If the change touches the routers, auth, workspace data, upstream data or AI, run the `guardrail-reviewer` agent.
 10. **Docs.** Update docs and the threat model if behaviour, trust boundaries or data stores changed. Use `write-adr` for significant decisions.
 11. **Progress.** Update `docs/PROGRESS.md` in the same commit as the work.

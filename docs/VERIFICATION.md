@@ -53,6 +53,21 @@ Run on 2026-11-06 in a clean clone in `node:24`, with each violation planted in 
 
 The `<img>` plant first passed, because the Next rules only warn. `npm run lint` now fails on warnings.
 
+## Browser and integration gates (NFR-9)
+
+Run on 2026-11-06 in a clean clone in `node:24`, against a rebuilt static export. Chromium came from `npx playwright install --with-deps chromium`.
+
+| Gate | Command | Planted violation | Result |
+|---|---|---|---|
+| Integration | `npm run test:integration` | Page with no heading | Exit 1, test named |
+| End to end | `npm run test:e2e` | `#eee` text on `#fff` | Exit 1, `color-contrast` |
+| End to end | `npm run test:e2e` | Empty stylesheet | Exit 1, one test failed |
+| End to end | `npm run test:e2e` | `console.error` in the browser | Exit 1, one test failed |
+| End to end | `npm run test:e2e` | `test.only` | Exit 1, refused by `forbidOnly` |
+| Hygiene | `npm run check:hygiene` | `test.only` in `apps/web/test/e2e` | Exit 1, file and line named |
+
+The contrast plant passed the jsdom axe test with exit 0, then failed in Playwright. That matches W-4.
+
 ## Agent rules (FR-DP-9)
 
 `AGENTS.md` sets the order of truth and accuracy rules, the `verify-fact` skill defines how a claim is checked and recorded, and `docs/VERIFIED_FACTS.md` records each Cosmo, AWS and upstream claim with a source and status. Reviewed on 2026-11-06.

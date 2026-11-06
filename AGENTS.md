@@ -8,6 +8,8 @@ A tool for frontend developers to explore a federated graph, built on WunderGrap
 npm run check                # every gate; run before opening a PR
 npm run test:coverage        # tests with the 100% per-file gate
 npm run build:web            # static export of the web app
+npm run test:integration     # integration tests, after a build
+npm run test:e2e             # Playwright on the static export, after a build
 npm run check:deps           # module boundaries
 npm run check:dupes          # duplicated code
 npm run check:unused         # unused files, exports, dependencies
@@ -91,6 +93,9 @@ Enforced by tests or policy, never by convention alone. Full text: [requirements
 
 - Search `packages/` before writing a helper, and inject dependencies. See [engineering standards](docs/ENGINEERING_STANDARDS.md).
 - Write the failing test first. Follow the [test strategy](docs/TEST_STRATEGY.md), and don't add coverage exclusions to get past the gate.
+- Every function has unit tests.
+- Every component has UI tests: its states, plus an axe check.
+- Every feature has integration tests, and Playwright end-to-end tests of what a user does, including an axe check in the browser.
 - Prove any new gate fails on a planted violation before trusting it.
 - Comments explain why, never what.
 - Docs state what's true now. Mark anything unbuilt as planned.

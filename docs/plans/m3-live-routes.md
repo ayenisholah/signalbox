@@ -8,7 +8,7 @@
 2. `feat/sandbox-router`: an internal router that serves query plans and read-only free-form operations (GR-11).
 3. `feat/route-view`: the query plan as a route.
 4. `feat/package-explorer`: package pages and the `package.json` check, whose operations become the app's real screen map.
-5. `test/web-e2e`: Playwright and axe on every route, against the pinned router.
+5. Each route adds its own Playwright and axe tests, under the rule in `AGENTS.md`. Tests that need the pinned router arrive with `feat/route-view`.
 
 ## Exit
 
