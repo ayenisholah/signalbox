@@ -1,8 +1,11 @@
 import { spawn, type ChildProcess } from "node:child_process";
 import { once } from "node:events";
+import { readFileSync } from "node:fs";
 import { createServer, type IncomingHttpHeaders, type Server } from "node:http";
 import type { AddressInfo } from "node:net";
-import { expect, vi } from "vitest";
+import { join } from "node:path";
+import { afterEach, expect, vi } from "vitest";
+import type { Subgraph, SubgraphDependencies } from "../../src/index.ts";
 
 export interface RunningSubgraph {
   child: ChildProcess;
@@ -62,3 +65,57 @@ export const expectEntrypointToRun = async (load: () => Promise<unknown>): Promi
     expect(process.listenerCount("SIGTERM")).toBe(before);
   });
 };
+
+type CreateSubgraph = (dependencies: SubgraphDependencies & { fetch?: typeof fetch }) => Subgraph;
+
+/** Starts a subgraph for one test, stops it afterwards, and captures its logs. */
+export const useSubgraph = (create: CreateSubgraph, env: Record<string, string> = {}) => {
+  let running: Subgraph | undefined;
+
+  afterEach(async () => {
+    await running?.shutdown();
+    running = undefined;
+    vi.unstubAllEnvs();
+    vi.unstubAllGlobals();
+  });
+
+  const listen = async (subgraph: Subgraph): Promise<string> => {
+    running = subgraph;
+    return `http://127.0.0.1:${await subgraph.listen()}/graphql`;
+  };
+
+  return {
+    listen,
+    start: (upstream: typeof fetch, logs: string[] = []): Promise<string> =>
+      listen(
+        create({
+          fetch: upstream,
+          env: { PORT: "0", SHUTDOWN_DRAIN_MS: "0", ...env },
+          logStream: { write: (line: string) => void logs.push(line) },
+        }),
+      ),
+  };
+};
+
+/** Replaces global fetch, so a subgraph's default reaches recordings and tests reach the server. */
+export const stubUpstream = (recorded: typeof fetch) => {
+  const realFetch = globalThis.fetch;
+  const upstream = vi.fn<typeof fetch>((input, init) =>
+    (input as string).startsWith("http://127.0.0.1")
+      ? realFetch(input, init)
+      : recorded(input, init),
+  );
+  vi.stubGlobal("fetch", upstream);
+  vi.stubEnv("PORT", "0");
+  vi.stubEnv("SHUTDOWN_DRAIN_MS", "0");
+  return upstream;
+};
+
+export const readSchemas = (...names: string[]): { name: string; sdl: string }[] =>
+  names.map((name) => ({
+    name,
+    sdl: readFileSync(
+      join(import.meta.dirname, `../../../../subgraphs/${name}/schema.graphqls`),
+      "utf8",
+    ),
+  }));

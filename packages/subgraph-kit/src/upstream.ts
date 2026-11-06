@@ -12,7 +12,6 @@ interface UpstreamRequest<T> {
   body?: string;
   headers?: Record<string, string>;
   timeoutMs?: number;
-  /** A GraphQL endpoint always exists, so a 404 from one means the address is wrong. */
   notFoundIsFailure?: boolean;
 }
 
@@ -27,6 +26,10 @@ export const upstreamError = (source: string): GraphQLError =>
   new GraphQLError(`${source} is unavailable.`, {
     extensions: { code: "UPSTREAM_UNAVAILABLE", source },
   });
+
+/** For input that can't be answered, where an empty result would read as a real one. */
+export const invalidInput = (message: string): GraphQLError =>
+  new GraphQLError(message, { extensions: { code: "BAD_USER_INPUT" } });
 
 const readBody = async (response: Response): Promise<string> => {
   if (response.body === null) return "";
@@ -73,3 +76,7 @@ export const fetchJson = async <T>({
     throw upstreamError(source);
   }
 };
+
+/** For an endpoint that always exists, where a 404 means the address is wrong, not an empty result. */
+export const fetchRequired = <T>(request: Omit<UpstreamRequest<T>, "notFoundIsFailure">) =>
+  fetchJson({ ...request, notFoundIsFailure: true }) as Promise<T>;

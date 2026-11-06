@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import { z } from "zod";
-import { fetchJson, upstreamError } from "../src/index.ts";
+import { fetchJson, fetchRequired, invalidInput, upstreamError } from "../src/index.ts";
 
 const schema = z.object({ value: z.string() });
 
@@ -76,9 +76,9 @@ describe("fetchJson", () => {
   });
 
   it("[FR-SG-7] can treat a 404 as a failure, for an endpoint that always exists", async () => {
-    await expect(
-      fetchJson({ ...request(answer({ value: "x" }, 404)), notFoundIsFailure: true }),
-    ).rejects.toMatchObject({ message: "npm is unavailable." });
+    await expect(fetchRequired(request(answer({ value: "x" }, 404)))).rejects.toMatchObject({
+      message: "npm is unavailable.",
+    });
   });
 
   it.each<[string, typeof globalThis.fetch]>([
@@ -95,6 +95,15 @@ describe("fetchJson", () => {
     expect((error as { extensions: object }).extensions).toEqual({
       code: "UPSTREAM_UNAVAILABLE",
       source: "npm",
+    });
+  });
+});
+
+describe("invalidInput", () => {
+  it("[FR-SG-7] marks the error as the caller's", () => {
+    expect(invalidInput("Bad version.")).toMatchObject({
+      message: "Bad version.",
+      extensions: { code: "BAD_USER_INPUT" },
     });
   });
 });
