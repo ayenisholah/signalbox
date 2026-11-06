@@ -1,0 +1,18 @@
+type Package @key(fields: "name") {
+  name: String!
+  latestVersion: String!
+  versions: [String!]
+  license: String
+  weeklyDownloads: Int
+  repositoryUrl: String
+  dependencies: [Dependency!]!
+}
+
+type Dependency {
+  name: String!
+  range: String!
+}
+
+type Query {
+  package(name: String!): Package
+}

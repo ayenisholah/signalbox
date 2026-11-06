@@ -9,8 +9,15 @@
       "project": ["src/**", "test/**"]
     },
     "packages/*": {
-      "project": ["src/**", "test/**"],
-      "entry": ["test/integration/fixtures/*.ts"]
+      "project": ["src/**", "test/**"]
+    },
+    "subgraphs/*": {
+      "entry": ["src/main.ts"],
+      "project": ["src/**", "test/**"]
+    },
+    "packages/subgraph-kit": {
+      "entry": ["test/integration/fixtures/*.ts"],
+      "project": ["src/**", "test/**"]
     }
   }
 }
