@@ -23,7 +23,7 @@ Every requirement has an ID, a testable acceptance check, how it's verified, the
 | FR-WB-10 | Sign in through Cognito. | Sign-in uses authorization code with PKCE, sessions expire and refresh, and signing out ends the session. | e2e | M4 | planned |
 | FR-WB-11 | Save a workspace. | A signed-in user saves schema drafts and a screen map and reopens them in a new session. | e2e | M4 | planned |
 | FR-WB-12 | Use generated, typed operations. | Every operation the app sends is generated from its documents, and a schema mismatch fails the build. | contract | M3 | planned |
-| FR-WB-13 | Build the UI from one design system. | Components use semantic tokens only, generated from one source, and each has state tests and an accessibility check. | unit | M1 | planned |
+| FR-WB-13 | Build the UI from one design system. | Components use semantic tokens only, generated from one source, and each has state tests and an accessibility check. | unit | M1 | done |
 | FR-WB-14 | Serve the web app from AWS. | The app runs on Fargate behind the load balancer and deploys without failed requests. | staging | M7 | planned |
 | FR-WB-15 | Offer a public demo. | A public URL loads the map and impact check with no sign-in. | e2e | M1 | planned |
 
@@ -105,7 +105,7 @@ The assistant only adds to deterministic results, through Amazon Bedrock.
 | NFR-7 | Encrypt data at rest and in transit. | Stores use KMS encryption, and connections to data stores require TLS. | infrastructure | M6 | planned |
 | NFR-8 | Operate from runbooks. | Each alarm's runbook has been followed once in staging. | staging | M11 | planned |
 | NFR-9 | Meet WCAG 2.2 AA. | axe finds no violations on any route, every flow works by keyboard, and token contrast pairs pass in both themes. | e2e | M3 | planned |
-| NFR-10 | Scale with the user's font size. | Styles use rem, em and % only, and a check rejects `px`. | CI | M3 | planned |
+| NFR-10 | Scale with the user's font size. | Styles use rem, em and % only, and a check rejects `px`. | CI | M1 | done |
 | NFR-11 | Load quickly. | Largest Contentful Paint stays under 2.5 seconds at the 75th percentile on staging. | load | M10 | planned |
 | NFR-12 | Stay responsive during composition. | Composing a real graph causes no main-thread task over 200 ms. | e2e | M1 | planned |
 
@@ -124,7 +124,7 @@ Guardrails are enforced by tests or policy, never by convention alone.
 | GR-7 | Breaking schema changes can't merge. | The schema check is a required status on `main`. | CI | M9 | planned |
 | GR-8 | Production changes only through the approved pipeline. | Only the pipeline role can change production services. | infrastructure | M9 | planned |
 | GR-9 | Browser code can't read auth tokens or secrets. | Tokens live in `HttpOnly`, `Secure` cookies, and the client bundle contains no secrets. | e2e | M3 | planned |
-| GR-10 | Licensed design assets enter the repository only after their licence is confirmed. | A written record of the licence check exists before any Frox-derived file is merged. | review | M1 | planned |
+| GR-10 | Licensed design assets enter the repository only after their licence is confirmed. | A written record of the licence check exists before any Frox-derived file is merged. | review | M1 | done |
 | GR-11 | The sandbox router is never reachable from the internet and can't run mutations. | A test finds no public route to it, and a mutation sent to it is rejected. | e2e | M3 | planned |
 | GR-12 | Model output is shown only after validation. | An invalid suggestion or operation from the model never reaches the user. | integration | M5 | planned |
 | GR-13 | User schemas and upstream text are data, never instructions. | An instruction planted in a schema comment or README doesn't change the assistant's behaviour. | integration | M5 | planned |
