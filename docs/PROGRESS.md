@@ -30,6 +30,7 @@ Traverse is built on WunderGraph Cosmo and helps frontend developers explore a f
 | 2026-11-06 | Closed release #6: `verify` failed on generated `CHANGELOG.md` and `.release-please-manifest.json` formatting | none |
 | 2026-11-06 | Moved the local folder to `/home/titan/projects/traverse` | none |
 | 2026-11-06 | Owner confirmed Frox can be used in an MIT project, which answers U-18 | `chore/web-tooling` |
+| 2026-11-06 | `traverse` CLI and GitHub Action: reads `traverse.json`, `.graphql` files and inline `gql` tags, and comments on the pull request. Proven on [#32](https://github.com/ayenisholah/traverse/pull/32#issuecomment-6683679869), closed unmerged: it failed and commented on a planted break, then passed and updated that comment. | `feat/impact-cli` |
 | 2026-11-06 | Impact check at `/impact`: edit a draft, compose it in a Web Worker, and see the fields, operations and screens it breaks. Answers U-20. | `feat/impact-check` |
 | 2026-11-06 | Searchable graph map at `/`, on the Cosmo demo schemas, by keyboard. Composition runs ahead of time into `apps/web/src/generated/demo-graph.json`. | `feat/graph-map` |
 | 2026-11-06 | `packages/design-tokens`: the Frox scale as semantic tokens and a Tailwind theme, with Poppins, contrast checks in both themes, and gates against `px` and raw colours. | `feat/design-tokens` |
@@ -40,7 +41,7 @@ Traverse is built on WunderGraph Cosmo and helps frontend developers explore a f
 
 ## In progress
 
-`feat/impact-cli` (FR-WB-5): the CLI, the Action and `traverse.json` are built and tested locally. The guardrail review is done and its findings are fixed. Next: a clean-clone `npm run check`, the pull request, and the real pull request proof. That proof is a throwaway pull request into this branch, closed unmerged. FR-WB-5 stays planned until it passes.
+Nothing. Start the next item below.
 
 ## Next
 

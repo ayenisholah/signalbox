@@ -91,6 +91,7 @@ The versions below are the only ones whose docs count. Upgrades change this tabl
 | W-12 | `fs.globSync` in Node 24 expands braces, and `exclude` receives a `Dirent` with `withFileTypes`. | `tested` | `packages/cli/test/source.test.ts`, 2026-11-06 |
 | W-13 | Issue comments: `GET` and `POST /repos/{owner}/{repo}/issues/{number}/comments`, with `per_page` up to 100, and `PATCH /repos/{owner}/{repo}/issues/comments/{id}`. The current API version is `2026-03-10`. Comments include `user.type`. | `documented` | [Issue comments](https://docs.github.com/en/rest/issues/comments) |
 | W-14 | On `pull_request` from a fork, `GITHUB_TOKEN` is read-only and secrets aren't passed. | `documented` | [Events that trigger workflows](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows) |
+| W-15 | With `pull-requests: write`, `GITHUB_TOKEN` can list, create and update issue comments on a pull request, and the author is `github-actions[bot]`. `git fetch` of a base SHA works in a public repository with `persist-credentials: false`. | `tested` | [Pull request #32](https://github.com/ayenisholah/traverse/pull/32#issuecomment-6683679869), 2026-11-06 |
 
 ## AWS
 

@@ -42,7 +42,7 @@ Each branch is one pull request and lists the requirements it delivers. Plans fo
 | M1 | `feat/design-tokens` | FR-WB-13, NFR-9, NFR-10, GR-10 | Merged |
 | M1 | `feat/graph-map` | FR-WB-1 | Merged |
 | M1 | `feat/impact-check` | FR-WB-2, NFR-12 | Merged |
-| M1 | `feat/impact-cli` | FR-WB-5 | Planned |
+| M1 | `feat/impact-cli` | FR-WB-5 | Merged |
 | M1 | `ci/demo-deploy` | FR-WB-15 | Planned |
 | M2 | `feat/subgraph-kit` | FR-SG-7, FR-OB-6 | Planned |
 | M2 | `feat/packages-subgraph` | FR-SG-2, GR-16 | Planned |

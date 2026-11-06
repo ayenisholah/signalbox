@@ -15,7 +15,7 @@ Every requirement has an ID, a testable acceptance check, how it's verified, the
 | FR-WB-2 | Compose schema drafts in the browser. | Editing a draft runs Cosmo composition in a Web Worker and shows its errors, with the page still responding. | e2e | M1 | done |
 | FR-WB-3 | Show what a schema change breaks. | A change to a field lists every operation and screen that uses it, and no others. | unit | M1 | done |
 | FR-WB-4 | Find who owns a field. | Any field resolves to its subgraphs and their owners, using composition output. | unit | M1 | done |
-| FR-WB-5 | Check a repository from the command line and CI. | The CLI exits non-zero on a broken operation, and the GitHub Action comments on a real pull request with broken operations and screens. | CI | M1 | planned |
+| FR-WB-5 | Check a repository from the command line and CI. | The CLI exits non-zero on a broken operation, and the GitHub Action comments on a real pull request with broken operations and screens. | CI | M1 | done |
 | FR-WB-6 | Work on any Federation SDL. | The Cosmo demo subgraph schemas compose and map correctly, with no project-specific code. | contract | M1 | done |
 | FR-WB-7 | Show a query's route. | The route view's subgraphs and fetch order match the plan the router returns for that operation. | e2e | M3 | planned |
 | FR-WB-8 | Explore real package data. | A package's versions, repository and advisories render from the graph, and loading, empty and error states all render. | e2e | M3 | planned |
