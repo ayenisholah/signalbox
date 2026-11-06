@@ -12,7 +12,7 @@ Explore a federated GraphQL graph from the frontend, built on [WunderGraph Cosmo
 Traverse answers two questions for frontend developers: **which subgraphs does my query touch, and what breaks if this schema changes?**
 
 > [!NOTE]
-> **Status: early development.** Today the repository holds the specification, the quality gates, a searchable graph map and an impact check on the Cosmo demo, the design tokens, and the core that composes a graph, finds who owns a field and works out what a schema change breaks. The rest of this page is planned and not built yet. The first public release will be a demo and a CLI you can run on your own repository.
+> **Status: early development.** Today the repository holds the specification, the quality gates, a searchable graph map and an impact check on the Cosmo demo, a CLI and GitHub Action that check a repository, the design tokens, and the core that composes a graph, finds who owns a field and works out what a schema change breaks. The rest of this page is planned and not built yet. The first public release will be a demo and a CLI you can run on your own repository.
 
 ## What you'll be able to do
 
@@ -98,6 +98,38 @@ An optional assistant on Amazon Bedrock explains results and suggests safe chang
 | Edge           | Route 53, AWS WAF, Application Load Balancer               |
 | Observability  | OpenTelemetry, CloudWatch, X-Ray                           |
 | Delivery       | GitHub Actions with OIDC                                   |
+
+## Check a pull request
+
+Add `traverse.json` to your repository:
+
+```json
+{
+  "subgraphs": [
+    { "name": "employees", "schema": "graph/employees.graphqls", "owner": "people-team" }
+  ],
+  "operations": ["src/**/*.graphql", "src/**/*.{ts,tsx}"],
+  "screens": [{ "name": "Checkout", "operations": ["GetCart"] }]
+}
+```
+
+Then add a workflow:
+
+```yaml
+on: pull_request
+
+jobs:
+  impact:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ayenisholah/traverse@main
+```
+
+The job fails if an operation breaks, and comments with the operations, screens, subgraphs and owners involved. Traverse reads `.graphql` files and inline `gql` tags in JavaScript and TypeScript. The [specification](SPEC.md#cli-and-github-action) has the details.
 
 ## Getting started
 

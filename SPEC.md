@@ -137,7 +137,34 @@ An optional layer over deterministic results, called only from the server throug
 
 ### CLI and GitHub Action
 
-The CLI takes a repository's operations, the current subgraph schemas and the proposed change, and exits non-zero if an operation breaks. The GitHub Action runs it and comments on the pull request. Exact flags are set in M1.
+The CLI reads `traverse.json` at the root of a repository, and compares the working tree with a git ref:
+
+```json
+{
+  "subgraphs": [
+    { "name": "employees", "schema": "graph/employees.graphqls", "owner": "people-team" }
+  ],
+  "operations": ["src/**/*.graphql", "src/**/*.{ts,tsx}"],
+  "screens": [{ "name": "Checkout", "operations": ["GetCart"] }]
+}
+```
+
+`owner` and `screens` are optional. Each team fills them in, and Traverse never guesses an owner. Paths must stay inside the repository. A screen names operations, and an anonymous operation goes by its file path.
+
+Operations come from `.graphql` and `.gql` files, and from `gql` tags, `graphql()` calls and `/* GraphQL */` comments in JavaScript and TypeScript source. Source is parsed and never run. Vue, Svelte and Astro files aren't read. Traverse drops `${...}` from a tag. A fragment still resolves, from any matched file. A tag left unreadable is listed under "Couldn't be checked" and only fails the check with `--strict`. A tag that still parses is checked as written, so a selection added by interpolation isn't seen, and a tag from an unrecognised package isn't found at all. Fragments that share a name must match, because either could otherwise replace the other and hide a break.
+
+| Command                                                      | What it does                                                                                                                                                                                |
+| ------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `traverse check --base <ref> [--markdown <file>] [--strict]` | Compares the two, using each side's own `traverse.json`, and can also write the report as Markdown. Operations come from both sides' patterns, so a pull request can't narrow its own check |
+| `traverse comment --pr <number> --file <file>`               | Posts that file to a pull request, or updates the earlier comment. Reads `GITHUB_TOKEN` and `GITHUB_REPOSITORY`                                                                             |
+
+| Exit code | Meaning                                                                                                                                                                                                                               |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0         | No operation breaks. Operations that are affected but still valid are listed. Also a base with no `traverse.json`, which is skipped with a message                                                                                    |
+| 1         | An operation breaks, or the proposed schema doesn't compose                                                                                                                                                                           |
+| 2         | The check couldn't run: bad config or usage, the current schema doesn't compose, no operations matched, a screen names an unknown operation, fragments clash, git can't read the base, or with `--strict`, a file couldn't be checked |
+
+The GitHub Action in `action.yml` runs both commands on `pull_request`. It comments only when something is affected, and updates that comment afterwards. Use `pull_request`, never `pull_request_target`, because the check reads files the pull request controls. On a fork's pull request the token is read-only, so the job summary and exit code report the result without a comment. To gate merges, pin the Action to a release and make the job a required check.
 
 ### Public API
 
