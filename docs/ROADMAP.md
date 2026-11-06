@@ -37,7 +37,7 @@ Each branch is one pull request and lists the requirements it delivers. Plans fo
 | M0 | `chore/agent-skills` | FR-DP-9 | Merged |
 | M1 | `chore/web-tooling` | FR-WB-13 | Merged |
 | M1 | `test/web-e2e` | NFR-9 | Merged |
-| M1 | `feat/graph-core` | FR-WB-3, FR-WB-4, FR-WB-6 | Planned |
+| M1 | `feat/graph-core` | FR-WB-3, FR-WB-4, FR-WB-6 | Merged |
 | M1 | `feat/design-tokens` | FR-WB-13, NFR-9, NFR-10, GR-10 | Planned |
 | M1 | `feat/graph-map` | FR-WB-1 | Planned |
 | M1 | `feat/impact-check` | FR-WB-2, NFR-12 | Planned |
