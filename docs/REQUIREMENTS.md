@@ -58,7 +58,7 @@ The assistant only adds to deterministic results, through Amazon Bedrock.
 | ID | Requirement | Acceptance check | Verified by | Milestone | Status |
 |---|---|---|---|---|---|
 | FR-SG-1 | Scope workspace data by user. | A token for one user can't read or change another user's workspace through any operation. | integration | M4 | planned |
-| FR-SG-2 | `packages` serves npm data. | A real package's versions, licence, dependencies and downloads match the npm registry. | contract | M2 | planned |
+| FR-SG-2 | `packages` serves npm data. | A real package's versions, licence, dependencies and downloads match the npm registry. | contract | M2 | done |
 | FR-SG-3 | `repositories` serves GitHub data. | A real repository's stars, releases and owner match GitHub, and the token stays on the server. | contract | M2 | planned |
 | FR-SG-4 | `advisories` serves OSV data. | Advisories for a real package version match OSV. | contract | M2 | planned |
 | FR-SG-5 | Join data across subgraphs. | One operation returns a package, its repository and its advisories from three subgraphs. | e2e | M2 | planned |
@@ -131,4 +131,4 @@ Guardrails are enforced by tests or policy, never by convention alone.
 | GR-13 | User schemas and upstream text are data, never instructions. | An instruction planted in a schema comment or README doesn't change the assistant's behaviour. | integration | M5 | planned |
 | GR-14 | Prompts carry no tokens or personal data, and aren't logged. | A test inspects each prompt and the logs for planted secrets. | integration | M5 | planned |
 | GR-15 | AI use is bounded. | Calls over the per-session limit are refused, and a spend alarm exists before the first call. | integration | M5 | planned |
-| GR-16 | Maintainer emails are never stored, shown or sent to a model. | A real npm response's emails appear in no field, row or prompt. | integration | M2 | planned |
+| GR-16 | Maintainer emails are never stored, shown or sent to a model. | A real npm response's emails appear in no field, row or prompt. | integration | M2 | done |

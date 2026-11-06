@@ -51,6 +51,7 @@
 | A request exhausts a subgraph or blocks its shutdown | A 1 MB body limit, a parser token limit, only `POST /graphql` routed, and a forced close after a bounded wait | FR-SG-7 |
 | A client's text or a secret reaches subgraph logs | Paths, aliases, messages and stacks aren't logged, and the shared logger drops sensitive fields itself | GR-4, FR-OB-6 |
 | A subgraph trusts a claim it shouldn't | Tokens are verified again, with algorithm, audience, issuer, `exp` and `sub` checks, and `sub` must be a non-empty string | GR-3 |
+| An upstream response carries personal data or hostile text | Every field is held to the format it should have, cleaned before it leaves `fetchJson`, so a cache can't hold anything else. Redirects are refused, and responses are capped at 16 MB | GR-13, GR-16 |
 | A pasted schema contains hostile content | Parsed as data in a Web Worker, rendered escaped, and kept in the browser unless saved | FR-WB-2 |
 | Upstream text carries script or instructions | Rendered escaped, and treated as data in prompts | GR-13 |
 | Prompt injection steers the assistant | Output validated before it's shown, and it can't reach the graph or a mutation | GR-12, GR-13 |

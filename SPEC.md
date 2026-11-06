@@ -186,7 +186,7 @@ Each field that comes from a different upstream than its parent is nullable, so 
 type Package @key(fields: "name") {
   name: String!
   latestVersion: String!
-  versions: [String!]!
+  versions: [String!]
   license: String
   weeklyDownloads: Int
   repositoryUrl: String

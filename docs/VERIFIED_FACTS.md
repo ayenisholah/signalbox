@@ -90,6 +90,8 @@ The versions below are the only ones whose docs count. Upgrades change this tabl
 | D-6 | GitHub's terms can suspend API access for excessive requests, ban sharing tokens to exceed rate limits, and ban selling users' personal information. | `documented` | [GitHub terms](https://docs.github.com/en/site-policy/github-terms/github-terms-of-service) |
 | D-7 | OSV says its API has no limit, and caps HTTP/1.1 responses at 32 MiB. | `documented` | [OSV FAQ](https://google.github.io/osv.dev/faq/) |
 | D-8 | npm's `/{name}/latest` includes `maintainers` with emails. OSV records carry `database_specific.severity`, and `affected[].ranges[].events` with `fixed`. | `tested` | Live requests on 2026-11-06 |
+| D-9 | npm's abbreviated version document is 8.8 MB for `typescript`, and took 1.7 to 12.8 seconds here. Scoped names work encoded or plain, and an unknown package returns 404. | `tested` | Live requests on 2026-11-06 |
+| D-10 | `repository.url` comes in many forms: `git+https://`, `git+ssh://git@`, `git://`, `github:owner/repo`, and paths such as `/tree/master/packages/x`. | `tested` | 15 real packages on 2026-11-06 |
 
 ## Web
 
