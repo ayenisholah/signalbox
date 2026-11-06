@@ -99,6 +99,7 @@ The versions below are the only ones whose docs count. Upgrades change this tabl
 | W-20 | `npx @ayenis/traverse@0.7.1` from the registry runs in a clean `node:24` container, exits 0 on the Cosmo demo schemas and 1 on a planted break. `release.yml` published it through the trusted publisher, with SLSA provenance and no runtime dependencies. | `tested` | [Release run](https://github.com/ayenisholah/traverse/actions/runs/42233755838), 2026-11-06 |
 | W-21 | `npm publish` in CI warns `No bin file found at dist/bin.js`, because `dist` doesn't exist until `prepack` runs. The published manifest still has `bin`, and the command works. | `tested` | The same run, and the registry manifest of `0.7.1` |
 | W-22 | A Pages deployment ID is the commit SHA. Once cancelled, it stays `deployment_cancelled`, and rerunning that run fails within seconds. | `tested` | [Run 42246560098](https://github.com/ayenisholah/traverse/actions/runs/42246560098), attempt 2 |
+| W-23 | GitHub Pages serves `/traverse/impact` from `impact.html`, and redirects `/traverse` to `/traverse/` with a 301. The Web Worker, fonts and links work under that path. | `tested` | [Run 42249140309](https://github.com/ayenisholah/traverse/actions/runs/42249140309) |
 
 ## AWS
 
