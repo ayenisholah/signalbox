@@ -83,7 +83,7 @@ export const downloadsSchema = z
   .transform(({ downloads }) => downloads);
 
 export const createNpmClient = ({ fetch, registryUrl, downloadsUrl }: NpmOptions): NpmClient => {
-  const registryPath = (name: string): string => `${registryUrl}/${name.replace("/", "%2f")}`;
+  const registryPath = (name: string): string => `${registryUrl}/${name.replaceAll("/", "%2f")}`;
 
   return {
     latest: async (name) => {

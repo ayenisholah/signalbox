@@ -5,7 +5,7 @@ import { findPersonalData } from "@traverse/repo-checks";
 import type { Subgraph } from "@traverse/subgraph-kit";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { createPackagesSubgraph } from "../src/subgraph.ts";
-import { fixture, fixtureFiles, fixtures, replay } from "./helpers.ts";
+import { fixture, recordingsFile, replay } from "./helpers.ts";
 
 const PLANTED = "planted.person@example.org";
 const ALL_FIELDS = `
@@ -310,9 +310,7 @@ describe("personal data", () => {
   });
 
   it("[GR-16] keeps recordings free of personal data", () => {
-    for (const file of fixtureFiles()) {
-      expect(findPersonalData(readFileSync(join(fixtures, file), "utf8"))).toEqual([]);
-    }
+    expect(findPersonalData(readFileSync(recordingsFile, "utf8"))).toEqual([]);
   });
 });
 
