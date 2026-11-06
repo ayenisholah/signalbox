@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.1](https://github.com/ayenisholah/traverse/compare/v0.7.0...v0.7.1) (2026-11-06)
+
+
+### Continuous Integration
+
+* skip the package cache when publishing ([c7f44de](https://github.com/ayenisholah/traverse/commit/c7f44deca5b416a4f2169926d31e31da127549f3))
+
 ## [0.7.0](https://github.com/ayenisholah/traverse/compare/v0.6.0...v0.7.0) (2026-11-06)
 
 
