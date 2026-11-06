@@ -1,4 +1,4 @@
-# M7: Load and resilience
+# M10: Load and resilience
 
 All tests run in staging, with results recorded in `docs/`.
 

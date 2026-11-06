@@ -4,16 +4,16 @@
 
 | Environment | Purpose | Status |
 |---|---|---|
-| Local | Development with Docker Compose | Planned, M1 |
-| CI | Throwaway services on each run | Planned, M0 |
-| Staging | Proving releases | Planned, M4 |
-| Production | Live traffic | Planned, M8 |
+| Local | Development with Docker Compose | Planned, M2 |
+| CI | Throwaway services on each run | In use |
+| Staging | Proving releases | Planned, M7 |
+| Production | Live traffic | Planned, M11 |
 
 ## Change flow
 
 Feature branch → pull request → green checks → rebase merge. See [contributing](../CONTRIBUTING.md).
 
-From M6, merging to `main` deploys staging and runs smoke tests. Production waits for an owner's approval.
+From M9, merging to `main` deploys staging and runs smoke tests. Production waits for an owner's approval.
 
 ## Release order
 

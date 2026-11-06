@@ -1,4 +1,4 @@
-# M3: Network, data and edge
+# M6: Network, data and edge
 
 **Needs:** [account setup](account-setup.md), and owner approval of the first deployment.
 
