@@ -7,6 +7,7 @@ import { scrubPersonalData } from "@traverse/repo-checks";
  *   node scripts/record-upstream.ts npm > subgraphs/packages/test/fixtures/recordings.json
  *   GITHUB_TOKEN=$(gh auth token) node scripts/record-upstream.ts github \
  *     > subgraphs/repositories/test/fixtures/recordings.json
+ *   node scripts/record-upstream.ts osv > subgraphs/advisories/test/fixtures/recordings.json
  */
 const get = async (url: string, accept = "application/json"): Promise<unknown> => {
   const response = await fetch(url, { headers: { accept, "user-agent": "traverse" } });
@@ -68,9 +69,44 @@ const recordGithub = (): Promise<[string, unknown][]> =>
     recordRepository("no-such-owner-traverse", "nothing"),
   ]);
 
+interface OsvRecord {
+  details?: string;
+  references?: unknown;
+}
+
+const trimRecord = ({ details: _details, references: _references, ...record }: OsvRecord) => record;
+
+const recordQuery = async (key: string, body: object): Promise<[string, unknown]> => {
+  const response = await fetch("https://api.osv.dev/v1/query", {
+    method: "POST",
+    headers: { "user-agent": "traverse" },
+    body: JSON.stringify(body),
+  });
+  if (!response.ok) throw new Error(`OSV answered ${response.status} for ${key}`);
+  const { vulns = [], next_page_token: nextPage } = (await response.json()) as {
+    vulns?: OsvRecord[];
+    next_page_token?: string;
+  };
+  if (nextPage !== undefined) throw new Error(`${key} has more pages than this records`);
+  return [key, { vulns: vulns.map(trimRecord) }];
+};
+
+const recordOsv = async (): Promise<[string, unknown][]> => [
+  await recordQuery("lodash@4.17.20", {
+    package: { name: "lodash", ecosystem: "npm" },
+    version: "4.17.20",
+  }),
+  await recordQuery("express", { package: { name: "express", ecosystem: "npm" } }),
+  [
+    "GHSA-29mw-wpgm-hmr9",
+    trimRecord((await get("https://api.osv.dev/v1/vulns/GHSA-29mw-wpgm-hmr9")) as OsvRecord),
+  ],
+];
+
 const sources: Record<string, () => Promise<[string, unknown][]>> = {
   npm: recordNpm,
   github: recordGithub,
+  osv: recordOsv,
 };
 
 const source = sources[String(process.argv[2])];
