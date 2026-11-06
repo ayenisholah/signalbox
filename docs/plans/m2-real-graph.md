@@ -4,15 +4,16 @@
 
 ## Work
 
-1. `feat/subgraph-kit`: server, health, token verification, logging and shutdown.
-2. `feat/packages-subgraph`, `feat/repositories-subgraph`, `feat/advisories-subgraph`: tests first, replaying recorded real responses.
-3. `feat/upstream-resilience`: caching, retries, rate limit handling, and a scheduled check against the live sources.
-4. `feat/local-router`: compose config, JWT, persisted operations, limits, and the production config test for GR-1.
-5. `docs/spike-results`: answers to U-2, U-3, U-4, U-5, U-9, U-13, U-14, U-15 and U-16.
+1. `docs/spike-results`: the router questions first, because GR-2 depended on them. Persisted operations, JWT rules and query plans are proven on the pinned image (C-31 to C-42).
+2. `feat/subgraph-kit`: server, health, token verification, logging and shutdown.
+3. `feat/packages-subgraph`, `feat/repositories-subgraph`, `feat/advisories-subgraph`: tests first, replaying recorded real responses.
+4. `feat/upstream-resilience`: caching, retries, rate limit handling, and a scheduled check against the live sources.
+5. `feat/local-router`: compose config, JWT, persisted operations, limits, and the production config test for GR-1. That test also bans `engine.debug.always_include_query_plan`, `demo_mode` and both forms of the introspection and playground settings.
 
 ## Exit
 
 - An end-to-end test passes against the pinned router image.
 - One operation joins a real package, repository and advisories.
-- A non-persisted operation is rejected on the public router config.
+- A non-persisted operation is rejected on the public config.
 - With one upstream blocked, the others still return.
+- A request with no token gets public data, and an invalid token is refused.

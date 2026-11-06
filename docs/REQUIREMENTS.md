@@ -43,8 +43,8 @@ The assistant only adds to deterministic results, through Amazon Bedrock.
 
 | ID | Requirement | Acceptance check | Verified by | Milestone | Status |
 |---|---|---|---|---|---|
-| FR-GW-1 | Serve the federated graph over HTTPS. | An authenticated persisted operation returns data from every subgraph; plain HTTP redirects to HTTPS. | e2e | M7 | planned |
-| FR-GW-2 | Reject invalid or missing JWTs. | Expired, wrong-audience, wrongly signed and missing tokens are refused and reach no subgraph. | e2e | M2 | planned |
+| FR-GW-1 | Serve the federated graph over HTTPS. | A persisted operation returns data from every subgraph; plain HTTP redirects to HTTPS. | e2e | M7 | planned |
+| FR-GW-2 | Reject invalid JWTs. | Expired, wrong-audience and wrongly signed tokens are refused and reach no subgraph. A request with no token gets public data only. | e2e | M2 | planned |
 | FR-GW-3 | Keep serving if the Cosmo CDN is unavailable. | With the CDN blocked, running tasks and newly started tasks serve the last good configuration. | resilience | M10 | planned |
 | FR-GW-4 | Limit request cost. | Operations over the depth or field limits, and bodies over the size limit, are rejected. | e2e | M2 | planned |
 | FR-GW-5 | Rate limit each client. | A client over its limit is rejected while other clients are unaffected. | e2e | M7 | planned |
