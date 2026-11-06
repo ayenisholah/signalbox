@@ -47,6 +47,8 @@ jobs:
         run: npm run check:progress -- "${{ github.event.pull_request.base.sha }}"
       - name: Tests with 100% coverage gate
         run: npm run test:coverage
+      - name: Static export of the web app
+        run: npm run build:web
       - run: npm audit --omit=dev --audit-level=high
       - name: Scan full history for committed secrets
         run: docker run --rm -v "$PWD:/repo" zricethezav/gitleaks:v8.24.3 git /repo --no-banner --redact

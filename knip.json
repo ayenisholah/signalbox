@@ -5,6 +5,9 @@
       "entry": ["scripts/*.ts"],
       "project": ["scripts/**"]
     },
+    "apps/*": {
+      "project": ["src/**", "test/**"]
+    },
     "packages/*": {
       "project": ["src/**", "test/**"]
     }

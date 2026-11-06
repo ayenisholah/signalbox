@@ -14,10 +14,11 @@
     "subgraphs/*"
   ],
   "scripts": {
-    "lint": "eslint .",
+    "lint": "eslint . --max-warnings 0",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p apps/web/tsconfig.json --noEmit",
+    "build:web": "npm run build -w @traverse/web",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "check:deps": "depcruise \"{packages,subgraphs,apps,infra,scripts}/**/*.{ts,tsx}\" --config .dependency-cruiser.cjs",
@@ -26,13 +27,14 @@
     "check:hygiene": "node scripts/repo-check.ts hygiene",
     "check:traceability": "node scripts/repo-check.ts traceability",
     "check:progress": "node scripts/check-progress.ts",
-    "check": "npm run format:check && npm run lint && npm run typecheck && npm run check:deps && npm run check:dupes && npm run check:unused && npm run check:hygiene && npm run check:traceability && npm run check:progress && npm run test:coverage",
+    "check": "npm run format:check && npm run lint && npm run typecheck && npm run check:deps && npm run check:dupes && npm run check:unused && npm run check:hygiene && npm run check:traceability && npm run check:progress && npm run test:coverage && npm run build:web",
     "prepare": "lefthook install"
   },
   "devDependencies": {
     "@commitlint/cli": "^21.2.4",
     "@commitlint/config-conventional": "^21.2.4",
     "@eslint/js": "^10.0.1",
+    "@next/eslint-plugin-next": "^16.4.5",
     "@testing-library/dom": "^10.4.2",
     "@testing-library/react": "^16.3.3",
     "@traverse/repo-checks": "*",
@@ -44,6 +46,7 @@
     "axe-core": "^4.14.0",
     "dependency-cruiser": "^18.7.2",
     "eslint": "^10.14.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
     "globals": "^17.14.0",
     "jscpd": "^5.4.2",
     "jsdom": "^31.0.0",
