@@ -22,6 +22,8 @@ export default defineConfig({
           include: ["apps/*/test/*.test.{ts,tsx}"],
           setupFiles: ["apps/web/test/setup.ts"],
           environment: "jsdom",
+          // axe over a full page in jsdom takes about a second, and far longer on a busy machine.
+          testTimeout: 20_000,
         },
       },
     ],

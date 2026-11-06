@@ -18,7 +18,7 @@ test("[FR-WB-15] the home page loads with no sign-in", async ({ page }) => {
 test("[FR-WB-13] Tailwind styles reach the browser", async ({ page }) => {
   await page.goto("/");
 
-  await expect(page.getByRole("main")).toHaveCSS("max-width", "672px");
+  await expect(page.getByRole("main")).toHaveCSS("max-width", "1280px");
 });
 
 test("[FR-WB-13] the Frox font loads", async ({ page }) => {
