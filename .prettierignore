@@ -7,3 +7,7 @@ package-lock.json
 docs
 CHANGELOG.md
 .release-please-manifest.json
+.next
+out
+next-env.d.ts
+*.tsbuildinfo
