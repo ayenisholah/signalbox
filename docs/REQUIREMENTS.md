@@ -59,7 +59,7 @@ The assistant only adds to deterministic results, through Amazon Bedrock.
 |---|---|---|---|---|---|
 | FR-SG-1 | Scope workspace data by user. | A token for one user can't read or change another user's workspace through any operation. | integration | M4 | planned |
 | FR-SG-2 | `packages` serves npm data. | A real package's versions, licence, dependencies and downloads match the npm registry. | contract | M2 | done |
-| FR-SG-3 | `repositories` serves GitHub data. | A real repository's stars, releases and owner match GitHub, and the token stays on the server. | contract | M2 | planned |
+| FR-SG-3 | `repositories` serves GitHub data. | A real repository's stars, releases and owner match GitHub, and the token stays on the server. | contract | M2 | done |
 | FR-SG-4 | `advisories` serves OSV data. | Advisories for a real package version match OSV. | contract | M2 | planned |
 | FR-SG-5 | Join data across subgraphs. | One operation returns a package, its repository and its advisories from three subgraphs. | e2e | M2 | planned |
 | FR-SG-6 | Degrade when a source fails. | If one upstream fails or rate limits, other fields still return, the error is clear, and repeat reads come from cache. | integration | M2 | planned |

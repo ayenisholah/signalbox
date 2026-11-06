@@ -30,6 +30,7 @@ Traverse is built on WunderGraph Cosmo and helps frontend developers explore a f
 | 2026-11-06 | Closed release #6: `verify` failed on generated `CHANGELOG.md` and `.release-please-manifest.json` formatting | none |
 | 2026-11-06 | Moved the local folder to `/home/titan/projects/traverse` | none |
 | 2026-11-06 | Owner confirmed Frox can be used in an MIT project, which answers U-18 | `chore/web-tooling` |
+| 2026-11-06 | `subgraphs/repositories`: live GitHub data, joined to a package through `@requires`, with the token kept on the server. | `feat/repositories-subgraph` |
 | 2026-11-06 | `subgraphs/packages`: live npm data, with every field held to a strict format, so emails can't get through. `fetchJson` in the kit adds timeouts, a size cap and no redirects. | `feat/packages-subgraph` |
 | 2026-11-06 | `packages/subgraph-kit`: a subgraph from a name, SDL and resolvers, with health, verified user context, JSON logs with a trace ID, masked errors and SIGTERM shutdown. | `feat/subgraph-kit` |
 | 2026-11-06 | M2 router spike, run first because GR-2 depended on it. Persisted operations run from local files with no paid plan (C-33). Anonymous reads decided in ADR 0015, and `SPEC.md`'s schema fixed for FR-SG-6. | `docs/spike-results` |
@@ -54,7 +55,7 @@ Nothing. Start the next item below.
 
 In order:
 
-1. M2, in this order: `feat/repositories-subgraph`, `feat/advisories-subgraph`, `feat/upstream-resilience`, `feat/local-router`.
+1. M2, in this order: `feat/advisories-subgraph`, `feat/upstream-resilience`, `feat/local-router`.
 2. Set aside by the owner on 2026-11-06: three frontend developers trying Traverse on their own repositories, for `docs/USER_FEEDBACK.md`. It's the last M1 exit item, and only the owner can arrange it.
 
 ## Blocked
@@ -93,7 +94,8 @@ In order:
 - `feat:` commits open release pull requests that publish to npm when merged, so merge those deliberately.
 - For `workspace` in M4: add a shared `requireUser` helper, and make the subgraph refuse to start without auth settings. U-22 must be answered first.
 - Run the guardrail mutations again after changing `packages/subgraph-kit`: its review showed tests can pass with a guard removed.
-- `feat/upstream-resilience` must also limit concurrent upstream calls, because 1,600 aliases made 4,800 calls in review, and log upstream failures, which are invisible today.
+- `feat/upstream-resilience` must also limit concurrent upstream calls and dedupe them per request, and log upstream failures, which are invisible today. In review, 1,600 aliases made 4,800 npm calls, and one forged request of 5,000 entities would spend GitHub's whole hourly budget. This must land before any deployment.
+- `subgraphs/repositories` serves no private repository, because a package can name any repository. Release tags holding `@` read as no release, by choice (GR-16).
 - Hold upstream text to an allow-list, never a list of what to refuse. Review found ten ways past an email pattern. Schemas clean as they parse, so `fetchJson` output is safe to cache.
 - `traverse.json` stays on the Cosmo demo. Adding the real subgraphs would compose them with it, so `feat/local-router` gets its own config beside `router/`, where the operations are.
 - The Cosmo demo schemas define no owners, so the map shows "No owner set". The owner chose a config file, filled in by each team and kept in their repository, which `packages/cli` reads as `traverse.json`. A global store of owners was rejected: names aren't unique, ownership is private, and nobody could verify entries. Never invent owners.
