@@ -1,6 +1,6 @@
 # 0008: Adopt Frox after a licence check
 
-**Status:** Accepted on 2026-11-05, after the owner confirmed the licence check: "i can use frox for public use". This is the written record GR-10 requires. The licence text isn't held in this repository.
+**Status:** Superseded by [0010](0010-tailwind-radix-frox-scale.md). Accepted on 2026-11-05, after the owner confirmed the licence check: "i can use frox for public use". This is the written record GR-10 requires. The licence text isn't held in this repository.
 
 ## Context
 
