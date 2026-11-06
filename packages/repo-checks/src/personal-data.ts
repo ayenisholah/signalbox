@@ -13,9 +13,22 @@ const PERSONAL_KEYS = new Set([
   "publisher",
 ]);
 
-const EMAIL_LIKE = /[^\s"'<>(),]+(?:@|%40)[^\s"'<>(),/]+\.[\p{L}]{2,}/giu;
+const SEPARATORS = /([\s"'<>(),]+)/;
+const AT = /@|%40/;
+const DOMAIN = /^(?:@|%40)[^/]+\.\p{L}{2,}/u;
 
-const scrubText = (text: string): string => text.replace(EMAIL_LIKE, "removed");
+const isEmailLike = (token: string): boolean => {
+  const at = token.search(AT);
+  return at > 0 && DOMAIN.test(token.slice(at));
+};
+
+// Splitting first keeps this linear. These run on untrusted text, and one pattern over the whole
+// string would backtrack badly on a long run of ordinary characters.
+const scrubText = (text: string): string =>
+  text
+    .split(SEPARATORS)
+    .map((token) => (isEmailLike(token) ? "removed" : token))
+    .join("");
 
 export const scrubPersonalData = (value: unknown): unknown => {
   if (typeof value === "string") return scrubText(value);
@@ -29,6 +42,6 @@ export const scrubPersonalData = (value: unknown): unknown => {
 };
 
 export const findPersonalData = (text: string): string[] => [
-  ...(text.match(EMAIL_LIKE) ?? []),
+  ...text.split(SEPARATORS).filter(isEmailLike),
   ...[...PERSONAL_KEYS].filter((key) => text.includes(`"${key}"`)),
 ];

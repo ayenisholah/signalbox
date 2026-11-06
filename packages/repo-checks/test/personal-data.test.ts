@@ -34,6 +34,14 @@ describe("scrubPersonalData", () => {
     });
   });
 
+  it("[GR-16] stays fast on a long run of hostile text", () => {
+    const started = performance.now();
+
+    scrubPersonalData("!@".repeat(200_000));
+
+    expect(performance.now() - started).toBeLessThan(1000);
+  });
+
   it("[GR-16] leaves package versions, numbers and nulls alone", () => {
     const value = { id: "ms@2.1.3", size: 3, nothing: null, ok: true };
 
