@@ -17,17 +17,21 @@ const SEPARATORS = /([\s"'<>(),]+)/;
 const AT = /@|%40/;
 const DOMAIN = /^(?:@|%40)[^/]+\.\p{L}{2,}/u;
 
+const IPV4 = /^\d{1,3}(?:\.\d{1,3}){3}\.?$/;
+
 const isEmailLike = (token: string): boolean => {
   const at = token.search(AT);
   return at > 0 && DOMAIN.test(token.slice(at));
 };
+
+const isPersonal = (token: string): boolean => isEmailLike(token) || IPV4.test(token);
 
 // Splitting first keeps this linear. These run on untrusted text, and one pattern over the whole
 // string would backtrack badly on a long run of ordinary characters.
 const scrubText = (text: string): string =>
   text
     .split(SEPARATORS)
-    .map((token) => (isEmailLike(token) ? "removed" : token))
+    .map((token) => (isPersonal(token) ? "removed" : token))
     .join("");
 
 export const scrubPersonalData = (value: unknown): unknown => {
@@ -42,6 +46,6 @@ export const scrubPersonalData = (value: unknown): unknown => {
 };
 
 export const findPersonalData = (text: string): string[] => [
-  ...text.split(SEPARATORS).filter(isEmailLike),
+  ...text.split(SEPARATORS).filter(isPersonal),
   ...[...PERSONAL_KEYS].filter((key) => text.includes(`"${key}"`)),
 ];

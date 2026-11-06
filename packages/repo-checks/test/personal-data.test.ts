@@ -10,6 +10,7 @@ describe("scrubPersonalData", () => {
     "person@exämple.org",
     "person%40example.org",
     "git@example.org",
+    "203.0.113.9",
   ])("[GR-16] removes %s from text", (address) => {
     expect(JSON.stringify(scrubPersonalData({ note: `ask ${address} now` }))).not.toContain(
       address,
