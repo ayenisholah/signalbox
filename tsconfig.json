@@ -10,6 +10,7 @@
     "scripts/**/*.ts",
     "packages/*/src/**/*.ts",
     "packages/*/test/**/*.ts",
+    "packages/*/*.config.ts",
     "subgraphs/*/src/**/*.ts",
     "subgraphs/*/test/**/*.ts",
     "*.config.ts"
