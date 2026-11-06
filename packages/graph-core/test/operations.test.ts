@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { splitOperations } from "../src/index.ts";
+import { collectOperations, splitOperations } from "../src/index.ts";
 
 describe("splitOperations", () => {
   it("[FR-WB-5] splits a document into named operations", () => {
@@ -70,5 +70,67 @@ describe("splitOperations", () => {
 
   it("[FR-WB-5] returns nothing for blank text", () => {
     expect(splitOperations("  \n")).toEqual([]);
+  });
+});
+
+describe("collectOperations", () => {
+  it("[FR-WB-5] resolves a fragment defined in another file", () => {
+    const { operations, conflicts } = collectOperations([
+      { path: "a.graphql", source: "query A { ...F }" },
+      { path: "b.graphql", source: "fragment F on Query { a }" },
+    ]);
+
+    expect(conflicts).toEqual([]);
+    expect(operations).toHaveLength(1);
+    expect(operations[0]?.name).toBe("A");
+    expect(operations[0]?.document).toContain("fragment F on Query");
+  });
+
+  it("[FR-WB-5] names anonymous operations by file, numbering any after the first", () => {
+    const { operations } = collectOperations([
+      { path: "a.graphql", source: "{ a } { b }" },
+      { path: "a.graphql", source: "{ c }" },
+      { path: "b.graphql", source: "{ d }" },
+    ]);
+
+    expect(operations.map(({ name }) => name)).toEqual([
+      "a.graphql",
+      "a.graphql#2",
+      "a.graphql#3",
+      "b.graphql",
+    ]);
+  });
+
+  it("[FR-WB-5] keeps a file it can't parse whole, without hiding the others", () => {
+    const { operations } = collectOperations([
+      { path: "bad.graphql", source: "query {" },
+      { path: "good.graphql", source: "query A { a }" },
+    ]);
+
+    expect(operations.map(({ name }) => name)).toEqual(["bad.graphql", "A"]);
+    expect(operations[0]?.document).toBe("query {");
+  });
+
+  it("[FR-WB-5] ignores empty files", () => {
+    expect(collectOperations([{ path: "empty.graphql", source: "  " }]).operations).toEqual([]);
+  });
+
+  it("[FR-WB-5] reports fragments that share a name but differ, which could hide a break", () => {
+    const { conflicts } = collectOperations([
+      { path: "a.graphql", source: "fragment F on Query { b }" },
+      { path: "z.graphql", source: "fragment F on Query { a }" },
+    ]);
+
+    expect(conflicts).toEqual(["F"]);
+  });
+
+  it("[FR-WB-5] accepts the same fragment defined twice", () => {
+    const source = "fragment F on Query { a }";
+    const { conflicts } = collectOperations([
+      { path: "a.graphql", source },
+      { path: "b.graphql", source },
+    ]);
+
+    expect(conflicts).toEqual([]);
   });
 });
