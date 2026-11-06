@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import {
   createSubgraph,
+  isSafeEndpoint,
   type Subgraph,
   type SubgraphDependencies,
   type UpstreamFetch,
@@ -10,9 +11,15 @@ import { createNpmClient, type PackageData } from "./npm.ts";
 
 const typeDefs = readFileSync(new URL("../schema.graphqls", import.meta.url), "utf8");
 
+const endpoint = (official: string) =>
+  z
+    .url({ abort: true })
+    .refine((url) => isSafeEndpoint(url, official), "must be npm's address, or a local service")
+    .default(official);
+
 const environmentSchema = z.object({
-  NPM_REGISTRY_URL: z.url().default("https://registry.npmjs.org"),
-  NPM_DOWNLOADS_URL: z.url().default("https://api.npmjs.org"),
+  NPM_REGISTRY_URL: endpoint("https://registry.npmjs.org"),
+  NPM_DOWNLOADS_URL: endpoint("https://api.npmjs.org"),
 });
 
 interface PackagesDependencies extends SubgraphDependencies {

@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import {
   createSubgraph,
+  isSafeEndpoint,
   type Subgraph,
   type SubgraphDependencies,
   type UpstreamFetch,
@@ -12,18 +13,15 @@ const typeDefs = readFileSync(new URL("../schema.graphqls", import.meta.url), "u
 
 const GITHUB_GRAPHQL_URL = "https://api.github.com/graphql";
 
-// The token goes wherever this points, so only GitHub, or a local stand-in for tests, will do.
-const isSafeEndpoint = (url: string): boolean => {
-  const { protocol, hostname } = new URL(url);
-  const isLocal = protocol === "http:" && (hostname === "127.0.0.1" || !hostname.includes("."));
-  return url === GITHUB_GRAPHQL_URL || isLocal;
-};
-
 const environmentSchema = z.object({
   GITHUB_TOKEN: z.string().min(1),
   GITHUB_GRAPHQL_URL: z
     .url({ abort: true })
-    .refine(isSafeEndpoint, "must be GitHub's GraphQL endpoint, or a local service")
+    // The token goes wherever this points.
+    .refine(
+      (url) => isSafeEndpoint(url, GITHUB_GRAPHQL_URL),
+      "must be GitHub's GraphQL endpoint, or a local service",
+    )
     .default(GITHUB_GRAPHQL_URL),
 });
 

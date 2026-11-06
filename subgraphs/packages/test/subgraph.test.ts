@@ -330,11 +330,14 @@ describe("contract", () => {
 });
 
 describe("configuration", () => {
-  it("[FR-SG-2] refuses a bad upstream address before it starts", () => {
-    expect(() => createPackagesSubgraph({ env: { NPM_REGISTRY_URL: "not a url" } })).toThrow(
-      /NPM_REGISTRY_URL/,
-    );
-  });
+  it.each(["not a url", "http://registry.npmjs.org", "https://evil.example"])(
+    "[FR-SG-2] refuses the address %s before it starts",
+    (NPM_REGISTRY_URL) => {
+      expect(() => createPackagesSubgraph({ env: { NPM_REGISTRY_URL } })).toThrow(
+        /NPM_REGISTRY_URL/,
+      );
+    },
+  );
 
   it("[FR-SG-2] calls the real services by default", async () => {
     const realFetch = globalThis.fetch;

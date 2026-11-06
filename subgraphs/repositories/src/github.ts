@@ -1,4 +1,4 @@
-import { fetchJson, type UpstreamFetch } from "@traverse/subgraph-kit";
+import { fetchRequired, type UpstreamFetch } from "@traverse/subgraph-kit";
 import { z } from "zod";
 
 interface RepositoryData {
@@ -91,13 +91,12 @@ export const createGithubClient = ({ fetch, graphqlUrl, token }: GithubOptions):
   repository: async (url) => {
     const [, owner, name] = REPOSITORY_URL.exec(typeof url === "string" ? url : "") ?? [];
     if (owner === undefined || name === undefined) return null;
-    const document = await fetchJson({
+    const document = await fetchRequired({
       source: "GitHub",
       url: graphqlUrl,
       schema: repositorySchema,
       fetch,
       method: "POST",
-      notFoundIsFailure: true,
       headers: { authorization: `Bearer ${token}`, "content-type": "application/json" },
       body: JSON.stringify({ query: QUERY, variables: { owner, name } }),
     });

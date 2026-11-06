@@ -1,4 +1,4 @@
-import { fetchJson, type UpstreamFetch } from "@traverse/subgraph-kit";
+import { fetchJson, isPackageName, isVersion, type UpstreamFetch } from "@traverse/subgraph-kit";
 import { z } from "zod";
 import { normalizeRepositoryUrl } from "./repository-url.ts";
 
@@ -24,23 +24,14 @@ interface NpmOptions {
 
 // npm lets authors write almost anything in these fields. Each is held to the format it should
 // have, because a list of what to refuse can't keep up with what an address can look like (GR-16).
-const PACKAGE_NAME = /^(?:@[a-z0-9][\w.~-]*\/)?[a-z0-9][\w.~-]*$/i;
-const SEMVER = /^\d+\.\d+\.\d+(?:-[0-9a-z.-]+)?(?:\+[0-9a-z.-]+)?$/i;
 const LICENSE = /^[a-z0-9.+() -]+$/i;
 const RANGE = /^[a-z0-9.*^~<>=| -]+$/i;
 
-const MAX_NAME_LENGTH = 214;
 const MAX_TEXT_LENGTH = 256;
 const MAX_INT = 2_147_483_647;
 
 // The version document is npm's largest, at 8.8 MB for `typescript`, and it's slow to arrive.
 const VERSIONS_TIMEOUT_MS = 15_000;
-
-const isPackageName = (name: unknown): name is string =>
-  typeof name === "string" && name.length <= MAX_NAME_LENGTH && PACKAGE_NAME.test(name);
-
-const isVersion = (version: string): boolean =>
-  version.length <= MAX_TEXT_LENGTH && SEMVER.test(version);
 
 const matching = (pattern: RegExp, text: string | undefined): string | null =>
   text !== undefined && text.length <= MAX_TEXT_LENGTH && pattern.test(text) ? text : null;

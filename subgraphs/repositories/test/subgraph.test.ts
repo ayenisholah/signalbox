@@ -1,10 +1,13 @@
 import { readFileSync } from "node:fs";
-import { join } from "node:path";
 import { composeGraph, findFieldOwners } from "@traverse/graph-core";
 import { findPersonalData } from "@traverse/repo-checks";
-import type { Subgraph } from "@traverse/subgraph-kit";
-import { afterEach, describe, expect, it, vi } from "vitest";
-import { expectEntrypointToRun } from "../../../packages/subgraph-kit/test/support/run-subgraph.ts";
+import { describe, expect, it, vi } from "vitest";
+import {
+  expectEntrypointToRun,
+  readSchemas,
+  stubUpstream,
+  useSubgraph,
+} from "../../../packages/subgraph-kit/test/support/run-subgraph.ts";
 import { repositorySchema } from "../src/github.ts";
 import { createRepositoriesSubgraph } from "../src/subgraph.ts";
 import { recordings, recordingsFile, replay } from "./helpers.ts";
@@ -17,23 +20,7 @@ interface Result {
   errors?: { message: string; extensions?: Record<string, unknown> }[];
 }
 
-let running: Subgraph | undefined;
-
-afterEach(async () => {
-  await running?.shutdown();
-  running = undefined;
-  vi.unstubAllEnvs();
-  vi.unstubAllGlobals();
-});
-
-const start = async (upstream: typeof fetch, logs: string[] = []) => {
-  running = createRepositoriesSubgraph({
-    fetch: upstream,
-    env: { PORT: "0", SHUTDOWN_DRAIN_MS: "0", GITHUB_TOKEN: TOKEN },
-    logStream: { write: (line: string) => void logs.push(line) },
-  });
-  return `http://127.0.0.1:${await running.listen()}/graphql`;
-};
+const { start, listen } = useSubgraph(createRepositoriesSubgraph, { GITHUB_TOKEN: TOKEN });
 
 const entities = async (url: string, representations: object[]): Promise<Result> => {
   const response = await fetch(url, {
@@ -369,14 +356,8 @@ describe("recordings", () => {
 });
 
 describe("contract", () => {
-  const sdl = (name: string) =>
-    readFileSync(join(import.meta.dirname, `../../${name}/schema.graphqls`), "utf8");
-
   it("[FR-SG-5] composes with the packages subgraph in Cosmo", () => {
-    const graph = composeGraph([
-      { name: "packages", sdl: sdl("packages") },
-      { name: "repositories", sdl: sdl("repositories") },
-    ]);
+    const graph = composeGraph(readSchemas("packages", "repositories"));
 
     expect(graph).toMatchObject({ success: true });
     if (graph.success) {
@@ -396,18 +377,9 @@ describe("the entrypoint", () => {
   });
 
   it("[FR-SG-3] uses the process's fetch and environment by default", async () => {
-    const realFetch = globalThis.fetch;
-    const upstream = vi.fn<typeof fetch>((input, init) =>
-      (input as string).startsWith("http://127.0.0.1")
-        ? realFetch(input, init)
-        : fromRecordings(input, init),
-    );
-    vi.stubGlobal("fetch", upstream);
-    vi.stubEnv("PORT", "0");
-    vi.stubEnv("SHUTDOWN_DRAIN_MS", "0");
+    const upstream = stubUpstream(fromRecordings);
     vi.stubEnv("GITHUB_TOKEN", TOKEN);
-    running = createRepositoriesSubgraph();
-    const url = `http://127.0.0.1:${await running.listen()}/graphql`;
+    const url = await listen(createRepositoriesSubgraph());
 
     await entities(url, [repository(EXPRESS)]);
 
