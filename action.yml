@@ -1,0 +1,80 @@
+name: Traverse impact check
+description: Comments on a pull request with the operations and screens a federated schema change breaks.
+branding:
+  icon: git-pull-request
+  color: purple
+
+inputs:
+  base:
+    description: Commit to compare with. Defaults to the pull request's base.
+    default: ${{ github.event.pull_request.base.sha }}
+  pull-request:
+    description: Pull request to comment on. Defaults to the one that triggered the run.
+    default: ${{ github.event.pull_request.number }}
+  strict:
+    description: Fail if a file couldn't be checked, for example a tag built with interpolation.
+    default: "false"
+  working-directory:
+    description: Directory holding traverse.json.
+    default: .
+
+outputs:
+  exit-code:
+    description: 0 if nothing breaks, 1 if something breaks, 2 if the check couldn't run.
+    value: ${{ steps.check.outputs.code }}
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+      with:
+        node-version: 24
+
+    # Scripts stay off: this step shouldn't run anything but npm.
+    - name: Install Traverse
+      shell: bash
+      working-directory: ${{ github.action_path }}
+      run: npm ci --ignore-scripts --no-audit --no-fund --omit=dev --workspace @ayenisholah/traverse --include-workspace-root=false
+
+    - name: Fetch the base commit
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      env:
+        BASE: ${{ inputs.base }}
+      run: git -c safe.bareRepository=explicit fetch --no-tags --depth=1 origin --end-of-options "$BASE"
+
+    - name: Check operations
+      id: check
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      env:
+        BASE: ${{ inputs.base }}
+        STRICT: ${{ inputs.strict }}
+      run: |
+        set +e
+        strict=()
+        if [ "$STRICT" = "true" ]; then strict=(--strict); fi
+        node "$GITHUB_ACTION_PATH/packages/cli/src/bin.ts" check --base "$BASE" --markdown "$RUNNER_TEMP/traverse-impact.md" "${strict[@]}"
+        echo "code=$?" >> "$GITHUB_OUTPUT"
+
+    - name: Write the job summary
+      shell: bash
+      run: |
+        if [ -f "$RUNNER_TEMP/traverse-impact.md" ]; then
+          cat "$RUNNER_TEMP/traverse-impact.md" >> "$GITHUB_STEP_SUMMARY"
+        fi
+
+    - name: Comment on the pull request
+      if: inputs.pull-request != ''
+      shell: bash
+      working-directory: ${{ runner.temp }}
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+        PULL_REQUEST: ${{ inputs.pull-request }}
+      run: node "$GITHUB_ACTION_PATH/packages/cli/src/bin.ts" comment --pr "$PULL_REQUEST" --file traverse-impact.md
+
+    - name: Report the result
+      shell: bash
+      env:
+        CODE: ${{ steps.check.outputs.code }}
+      run: exit "$CODE"
