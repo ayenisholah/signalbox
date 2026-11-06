@@ -44,7 +44,7 @@ Traverse is built on WunderGraph Cosmo and helps frontend developers explore a f
 
 ## In progress
 
-`ci/demo-deploy` (FR-WB-15): the owner approved enabling GitHub Pages on 2026-11-06, as part of finishing M1. The build, `demo.yml` and a demo suite that runs under `/traverse` are ready. FR-WB-15 stays planned until the suite passes on the public URL.
+`ci/demo-deploy` (FR-WB-15): the owner enabled GitHub Pages. The first deployment stalled in `updating_pages` for 10 minutes and was cancelled, with Pages reported as operational and a 1 MB artifact. The cause is unknown. FR-WB-15 stays planned until the demo suite passes on the public URL.
 
 ## Next
 
@@ -69,6 +69,7 @@ In order:
 - The design source is the [Frox Figma file](https://www.figma.com/design/jWHhIpI52m6ABnQpcTzZkG/Frox_dashboard_v5?node-id=1169-12005). Compare `packages/design-tokens` with its variables when the MCP call limit resets (U-21).
 - After changing `packages/design-tokens`, run `npm run generate:tokens`. A test fails if the CSS is stale.
 - Add a contrast pair for each new token that carries text. The theme follows the OS setting, and there's no toggle yet.
+- Pages uses the commit as the deployment ID, so rerunning a cancelled deployment fails at once. It needs a new commit.
 - `npm run test:demo` rebuilds `apps/web/out` for `/traverse`, so run `build:web` again before `test:e2e` on its own.
 - `vite preview` serves the export for Playwright. `serve` was rejected: its `compression` dependency has a high severity advisory.
 - dependency-cruiser refuses local Node 25, so run the gates in `node:24`.
