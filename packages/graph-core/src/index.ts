@@ -6,5 +6,7 @@ export type {
   SchemaChangeReport,
 } from "./check.ts";
 export { composeGraph, findFieldOwners } from "./compose.ts";
+export { buildGraphMap } from "./graph-map.ts";
+export type { GraphMapSuccess } from "./graph-map.ts";
 export { analyzeImpact, diffSchemas } from "./impact.ts";
 export type * from "./types.ts";
