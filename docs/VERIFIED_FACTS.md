@@ -1,6 +1,6 @@
 # Verified facts
 
-**Updated:** 2026-11-05
+**Updated:** 2026-11-06
 
 This file records what Traverse relies on from Cosmo and AWS, and how far each claim can be trusted. Add a fact here before depending on it.
 
@@ -21,6 +21,7 @@ The versions below are the only ones whose docs count. Upgrades change this tabl
 | Cosmo Router | `0.366.1` | [Release list](https://github.com/wundergraph/cosmo/releases) |
 | Cosmo Router image | `ghcr.io/wundergraph/cosmo/router:0.366.1` @ `sha256:1a8bc23db2c33c2028720b85b56fce68b7bf35f1064bac0f8301eb5ca6cae81c` | GHCR manifest, read directly |
 | `wgc` | `0.133.6` | npm registry |
+| `@wundergraph/composition` | `0.66.2` | npm registry |
 | AWS CDK library | `2.275.0` | npm registry |
 
 ## Cosmo
@@ -44,7 +45,24 @@ The versions below are the only ones whose docs count. Upgrades change this tabl
 | C-15 | A config swap closes WebSocket and SSE subscriptions, and invalidates the planner cache. | `documented` | [Hot reload](https://cosmo-docs.wundergraph.com/router/deployment/config-hot-reload.md) |
 | C-16 | With no exporters configured, telemetry goes to Cosmo Cloud. Sending it elsewhere as well means listing Cosmo Cloud as an explicit exporter. | `documented` | [OpenTelemetry](https://cosmo-docs.wundergraph.com/router/open-telemetry.md) |
 | C-17 | Prometheus metrics default to `127.0.0.1:8088/metrics`. | `documented` | [Metrics](https://cosmo-docs.wundergraph.com/router/metrics-and-monitoring.md) |
-| C-18 | Cosmo Cloud is free up to 10M requests a month. | `reported` | [WunderGraph answers](https://wundergraph.com/answers) |
+| C-18 | The Developer plan is free, with 10M requests a month, 1 federated graph, 10 subgraphs, 3 users and 7-day retention. | `documented` | [Pricing](https://wundergraph.com/pricing) |
+| C-19 | `@wundergraph/composition` 0.66.2 is Apache-2.0. | `tested` | npm registry |
+| C-20 | `federateSubgraphs` composes the schema in `SPEC.md`, its `parentDefinitionDataByTypeName` result gives each field's subgraphs, and a planted break fails with an error. Run in Node 24, not yet in a browser. | `tested` | Local run on 2026-11-06 |
+| C-21 | Sending `X-WG-Include-Query-Plan` returns the plan in `extensions`. `X-WG-Skip-Loader` skips subgraph requests. | `documented` | [Query plans](https://cosmo-docs.wundergraph.com/router/query-plan) |
+| C-22 | Self-hosting needs no subscription or licence key. | `reported` | [WunderGraph answers](https://wundergraph.com/answers) |
+| C-23 | The pricing table excludes persisted operations, rate limiting and multiple OpenTelemetry exporters below Scale, and cache warming below Enterprise. | `documented` | [Pricing](https://wundergraph.com/pricing) |
+| C-24 | The operations check uses router traffic, 7 days by default. | `documented` | [Schema checks](https://cosmo-docs.wundergraph.com/studio/schema-checks.md) |
+| C-25 | Persisted operations and the execution config can load from S3, with artifacts pushed by your own CI. | `documented` | [Storage providers](https://cosmo-docs.wundergraph.com/router/storage-providers.md) |
+| C-26 | `wgc` commands need `COSMO_API_KEY`, and the router uses `GRAPH_API_TOKEN`. | `documented` | [API keys](https://cosmo-docs.wundergraph.com/cli/api-keys.md) |
+
+## Data sources
+
+| ID | Fact | Status | Source |
+|---|---|---|---|
+| D-1 | The npm registry and downloads API answer with no key. | `tested` | Live request on 2026-11-05 |
+| D-2 | OSV answers version queries with no key. It returned 4 advisories for `lodash` 4.17.20. | `tested` | Live request on 2026-11-05 |
+| D-3 | GitHub GraphQL allows 5,000 points an hour for an authenticated user. | `tested` | `rate_limit` API on 2026-11-05 |
+| D-4 | The deps.dev `:dependencies` endpoint returned 404, so npm metadata is used instead. | `tested` | Live request on 2026-11-05 |
 
 ## AWS
 
@@ -66,18 +84,27 @@ Each is answered by test before the feature that depends on it ships.
 
 | ID | Question | Needed by | Answered in |
 |---|---|---|---|
-| U-1 | Does the router's S3 provider use Fargate task-role credentials? The docs only name EC2 and EKS. | FR-GW-3 | M4 |
-| U-2 | Does the router image contain anything that can run a container health check? | FR-GW-7 | M1 |
-| U-3 | What does the router do when the CDN is down at startup, and while running? | FR-GW-3 | M1, M7 |
-| U-4 | Is the router's HTTP idle timeout longer than the load balancer's? If not, it must change to avoid 502 errors (A-3). | NFR-2 | M1 |
-| U-5 | How is the `Authorization` header forwarded to subgraphs, and how is it configured? | GR-3 | M1 |
-| U-6 | What retention, limits and support does the Cosmo free plan give? | FR-OB-2 | Before M3 |
-| U-7 | Which account route gives multi-Region access and the needed quotas, and at what cost? | NFR-6 | Before M3 |
-| U-9 | How are generated operations pushed to Cosmo as persisted operations, and which `wgc` command does it? | FR-WEB-6 | M1 |
-| U-8 | Do `SPEC.md`'s `extend type` and `@external` definitions compose as written? | FR-SG-2 | M1 |
+| U-1 | Does the router's S3 provider use Fargate task-role credentials? The docs only name EC2 and EKS. | FR-GW-3 | M7 |
+| U-2 | Does the router image contain anything that can run a container health check? | FR-GW-7 | M2 |
+| U-3 | What does the router do when the CDN is down at startup, and while running? | FR-GW-3 | M2, M10 |
+| U-4 | Is the router's HTTP idle timeout longer than the load balancer's? If not, it must change to avoid 502 errors (A-3). | NFR-2 | M2 |
+| U-5 | How is the `Authorization` header forwarded to subgraphs, and how is it configured? | GR-3 | M2 |
+| U-6 | What retention, limits and support does the Cosmo free plan give? | FR-OB-2 | Before the first deploy |
+| U-7 | Which account route gives multi-Region access and the needed quotas, and at what cost? | NFR-6 | Before M4 |
+| U-9 | How are generated operations pushed to Cosmo as persisted operations, and which `wgc` command does it? | FR-WB-12 | M2 |
+| U-11 | Does `@wundergraph/composition` run in a Web Worker, at an acceptable bundle size? Its `dist` is 2.5 MB before bundling. | FR-WB-2 | First, in `feat/graph-core` |
+| U-13 | Do persisted operations from S3, Redis rate limiting and multiple OpenTelemetry exporters work on a self-hosted router on the free plan? | GR-2, FR-GW-5 | M2 |
+| U-14 | Does `wgc router compose` need `COSMO_API_KEY`? C-2 and C-26 disagree. | FR-GW-2 | M2 |
+| U-15 | Do npm, GitHub and OSV terms allow this use, and what are npm's and OSV's practical rate limits? | FR-SG-6 | M2 |
+| U-16 | What shape is the query plan in `extensions`, and does it need dev mode or a token? The docs don't say. | FR-WB-7 | M2 |
+| U-17 | Can a third-party app read the Platform API? The docs describe it as used by the CLI and Studio. | FR-WB-1 | M3 |
+| U-18 | Do the Frox terms allow derived tokens in an MIT repository? The owner confirmed public use, which may not cover relicensing. | GR-10 | Before `feat/design-tokens` |
+| U-19 | Which current Claude model does Bedrock offer from the chosen Region, and at what cost? | FR-AI-1 | Before M5 |
 
 ## Answered questions
 
 | ID | Question | Needed by | Answer | Source |
 |---|---|---|---|---|
-| U-10 | Does the Frox licence allow derived tokens and components in a public MIT repository? | GR-10 | Yes, on the owner's confirmation that Frox can be used publicly. | Owner statement, 2026-11-05, recorded in [ADR 0008](adr/0008-frox-design-system.md) |
+| U-8 | Do `SPEC.md`'s entity definitions compose as written? | FR-SG-5 | Yes. | C-20 |
+| U-10 | Does the Frox licence allow derived tokens and components in a public MIT repository? | GR-10 | Partly: the owner confirmed public use. U-18 tracks the MIT question. | Owner statement, 2026-11-05, recorded in [ADR 0008](adr/0008-frox-design-system.md) |
+| U-12 | Can field-to-subgraph data be read from composition output? | FR-WB-4 | Yes. | C-20 |

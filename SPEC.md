@@ -1,25 +1,41 @@
 # Traverse specification
 
-**Status:** Draft v1 · **Updated:** 2026-11-05
+**Status:** Draft v2 · **Updated:** 2026-11-06
 
-Traverse is a booking web app built on a federated GraphQL API. Customers browse services, choose a slot and manage bookings in a Next.js app, which talks to a self-managed Cosmo Router in front of independently deployed subgraphs on AWS. This document describes the target system. [Requirements](docs/REQUIREMENTS.md) define what must be true and how it's checked, and the [roadmap](docs/ROADMAP.md) shows what's built.
+Traverse is built on [WunderGraph Cosmo](https://cosmo-docs.wundergraph.com/overview): Cosmo's composition engine powers its checks, the Cosmo Router serves its graph, and Cosmo Cloud is its schema registry, with Studio and `wgc` for checks and publishing. It's an independent project.
+
+Traverse helps frontend developers explore a federated graph. It answers two questions: which subgraphs does my query touch, and what breaks if this schema changes? This document describes the target system. [Requirements](docs/REQUIREMENTS.md) define what must be true and how it's checked, and the [roadmap](docs/ROADMAP.md) shows what's built.
+
+## Use cases
+
+Every feature serves one of these jobs. A feature that doesn't is cut.
+
+| Job                                      | Who                                 | How Traverse does it                                                                                                          |
+| ---------------------------------------- | ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| Catch breaks in code that hasn't shipped | Frontend developer, schema reviewer | A CLI and GitHub Action read a repository's operations, compose the proposed schema, and report broken operations and screens |
+| Find who owns a field                    | Frontend developer                  | Field to subgraph to owner lookup                                                                                             |
+| See a query's cost before shipping       | Frontend developer                  | The real query plan as a route: subgraphs hit and fetch order                                                                 |
+| Learn an unfamiliar graph                | New team member                     | A searchable graph map                                                                                                        |
+| Vet a dependency                         | Any developer                       | Paste a `package.json` to see licences, advisories and maintenance from live data                                             |
+
+Cosmo's [operations check](https://cosmo-docs.wundergraph.com/studio/schema-checks.md) uses router traffic, 7 days by default, so it can't see operations on a feature branch or ones that run rarely. Traverse reads the code, and complements `wgc subgraph check`. [GraphQL Inspector](https://github.com/graphql-hive/graphql-inspector) already validates operations against a schema. Traverse adds Cosmo's composition engine, subgraph and owner attribution, and screen mapping.
 
 ## Goals
 
-- Give customers a fast, accessible way to find a slot and book it.
-- Serve one graph through a single hardened entry point.
+- Show a frontend developer what a schema change breaks before it merges.
+- Work on any Federation SDL, and be useful with no account.
+- Serve real data through one hardened entry point.
 - Deploy any subgraph or the router without failed requests.
 - Keep serving when Cosmo Cloud is unreachable.
-- Stop breaking schema changes before they merge.
-- Isolate tenants by a verified identity.
+- Keep each user's saved work private by a verified identity.
 - Trace any request from the load balancer to the database.
 - Define all infrastructure in reviewed, tested code.
 
 ## Non-goals
 
+- Replacing Cosmo Studio, Hub or `wgc subgraph check`.
 - Multi-region failover.
 - Self-hosting the Cosmo control plane.
-- Real customers or businesses. Booking data is fictional.
 - Payments and notifications.
 - A native mobile app.
 
@@ -29,17 +45,25 @@ Traverse is a booking web app built on a federated GraphQL API. Customers browse
 flowchart TD
     client[Browser] -->|HTTPS| waf[AWS WAF]
     waf --> alb[Application Load Balancer]
-    alb -->|pages| web[Next.js web app on ECS Fargate]
-    alb -->|/graphql| router
-    web --> router[Cosmo Router on ECS Fargate]
+    alb -->|pages and tRPC| web[Next.js app on ECS Fargate]
+    alb -->|/graphql| router[Cosmo Router on ECS Fargate]
+    web --> router
+    web --> sandbox[Sandbox Cosmo Router, internal only]
     web --> cognito[Cognito]
-    router -->|Service Connect| catalog[catalog]
-    router -->|Service Connect| availability[availability]
-    router -->|Service Connect| bookings[bookings]
-    catalog --> rds[(RDS Postgres)]
-    availability --> rds
-    bookings --> rds
-    router --> redis[(ElastiCache)]
+    web --> bedrock[Amazon Bedrock]
+    router -->|Service Connect| subgraphs
+    sandbox -->|Service Connect| subgraphs
+    subgraph subgraphs[Subgraphs on ECS Fargate]
+        packages[packages]
+        repositories[repositories]
+        advisories[advisories]
+        workspace[workspace]
+    end
+    packages --> npm[npm registry]
+    repositories --> github[GitHub GraphQL]
+    advisories --> osv[OSV]
+    workspace --> rds[(RDS Postgres)]
+    subgraphs --> redis[(ElastiCache)]
     router --> s3[(S3 fallback config)]
     router -->|config and telemetry| cosmo[Cosmo Cloud]
     router --> adot[ADOT collector]
@@ -50,13 +74,18 @@ flowchart TD
 | ------------------------- | ----------------------------------------------------------------------- |
 | AWS WAF                   | Managed rule groups and a coarse rate rule at the edge                  |
 | Application Load Balancer | TLS termination, target health, access logs                             |
+| Next.js app               | The workbench UI, sessions, and tRPC from browser to server             |
 | Cosmo Router              | JWT validation, persisted operations, limits, query planning, telemetry |
-| Subgraphs                 | Business rules and data for one domain each                             |
-| RDS Postgres              | Durable data, one schema per subgraph                                   |
-| ElastiCache               | Router rate-limit counters                                              |
-| S3                        | Fallback router configuration                                           |
+| Sandbox router            | Query plans and free-form read operations, for the web server only      |
+| Subgraphs                 | Live public data, and users' saved work                                 |
+| RDS Postgres              | Saved workspaces                                                        |
+| ElastiCache               | Upstream response cache and rate-limit counters                         |
+| S3                        | Fallback router configuration and persisted operations                  |
 | Cosmo Cloud               | Schema registry, composition, config delivery, Studio analytics         |
+| Amazon Bedrock            | Optional explanations and suggestions                                   |
 | ADOT collector            | Sends traces and metrics to AWS                                         |
+
+**Why two routers.** The workbench needs query plans and free-form operations, which GR-1 and GR-2 ban on the public router. A separate sandbox router, reachable only from the web server and limited to reads (GR-11), serves them, so the public router stays hardened.
 
 ### Environments
 
@@ -82,21 +111,33 @@ Production starts with 3 tasks of 2 vCPU and 4 GB, and scales to 9 on CPU and re
 
 ## Web app
 
-A Next.js app in `apps/web`, rendered on the server.
+A Next.js app in `apps/web`. Until M3 it's a static export with no server, hosted on GitHub Pages. From M3 it runs on a server.
 
-| Route                   | Purpose                                        |
-| ----------------------- | ---------------------------------------------- |
-| `/`                     | Services for the signed-in customer's business |
-| `/services/[id]`        | Choose a date and slot, then book              |
-| `/bookings`             | View and cancel bookings                       |
-| `/sign-in`, `/sign-out` | Cognito sign-in and sign-out                   |
+| Route                   | Purpose                                                             |
+| ----------------------- | ------------------------------------------------------------------- |
+| `/`                     | Graph map                                                           |
+| `/impact`               | Edit a schema draft and see composition errors, operations, screens |
+| `/operations`           | Write an operation and see its route                                |
+| `/packages/[name]`      | Package explorer, on live data                                      |
+| `/sign-in`, `/sign-out` | Cognito sign-in and sign-out, needed only to save                   |
 
-- The server holds the session and calls the router, so browser code never handles tokens (GR-9).
-- Operations are written as `.graphql` documents, which generate typed clients and the persisted operation list (FR-WEB-6).
+- Stack: Next.js, React, TypeScript, Tailwind, Radix, tRPC, Zustand, Monaco and React Flow.
+- Composition runs in a Web Worker with `@wundergraph/composition`, so the page keeps responding (FR-WB-2).
+- Pasted or uploaded SDL stays in the browser unless the user saves it.
+- The server holds the session and calls the routers, so browser code never handles tokens (GR-9).
+- Operations are written as `.graphql` documents, which generate typed clients (FR-WB-12) and the screen map.
 - Every data view has loading, empty and error states.
-- The design system uses semantic tokens generated from one source, rem sizing and AA contrast in light and dark themes.
+- The design is dense and keyboard-first. Semantic tokens come from one source, using the Frox scale as the Tailwind theme, with rem sizing and AA contrast in light and dark themes.
+
+### AI assistant
+
+An optional layer over deterministic results, called only from the server through its task role. It explains results, suggests safe migrations and drafts operations. A suggestion is run through real composition, and a draft is validated against the schema, before either is shown (GR-12). See GR-12 to GR-15 and FR-AI-4.
 
 ## Interfaces
+
+### CLI and GitHub Action
+
+The CLI takes a repository's operations, the current subgraph schemas and the proposed change, and exits non-zero if an operation breaks. The GitHub Action runs it and comments on the pull request. Exact flags are set in M1.
 
 ### Public API
 
@@ -106,78 +147,86 @@ A Next.js app in `apps/web`, rendered on the server.
 
 ### Identity
 
-Tokens are issued by a Cognito user pool. A token carries a `business_id` claim, which is the only source of tenant identity. The router validates each token. Subgraphs verify it again against the same keys, so a subgraph never trusts a caller for tenant identity.
+Tokens are issued by a Cognito user pool. A token's subject is the only source of user identity. The router validates each token, and the `workspace` subgraph verifies it again against the same keys, so it never trusts a caller's claim alone (GR-3). Public package data needs no sign-in.
 
 ### Graph
 
 ```graphql
-# catalog
-type Business @key(fields: "id") {
-  id: ID!
+# packages: npm registry and downloads API
+type Package @key(fields: "name") {
   name: String!
-  timezone: String!
+  latestVersion: String!
+  license: String
+  weeklyDownloads: Int!
+  repositoryUrl: String
+  dependencies: [Dependency!]!
 }
 
-type Service @key(fields: "id") {
-  id: ID!
+type Dependency {
   name: String!
-  durationMinutes: Int!
-  priceCents: Int!
+  range: String!
 }
 
 type Query {
-  services: [Service!]!
+  package(name: String!): Package
 }
 
-# availability
-type Slot @key(fields: "id") {
+# repositories: GitHub GraphQL
+type Repository @key(fields: "url") {
+  url: ID!
+  stars: Int!
+  latestRelease: String
+  owner: String!
+}
+
+type Package @key(fields: "name") {
+  name: String!
+  repositoryUrl: String @external
+  repository: Repository @requires(fields: "repositoryUrl")
+}
+
+# advisories: OSV
+type Advisory @key(fields: "id") {
   id: ID!
-  startsAt: DateTime!
-  endsAt: DateTime!
+  summary: String!
+  severity: String
+  fixedIn: String
 }
 
-extend type Service @key(fields: "id") {
-  id: ID! @external
-  slots(date: Date!): [Slot!]!
+type Package @key(fields: "name") {
+  name: String!
+  advisories(version: String): [Advisory!]!
 }
 
-# bookings
-enum BookingStatus {
-  CONFIRMED
-  CANCELLED
-}
-
-type Booking @key(fields: "id") {
+# workspace: Postgres
+type Workspace @key(fields: "id") {
   id: ID!
-  status: BookingStatus!
-  slot: Slot!
-  service: Service!
+  name: String!
+  draftSchemas: [String!]!
+  screenMap: String
 }
 
-extend type Service @key(fields: "id") {
-  id: ID! @external
-  bookings: [Booking!]!
+type Query {
+  workspaces: [Workspace!]!
 }
 
 type Mutation {
-  createBooking(slotId: ID!, serviceId: ID!, idempotencyKey: ID!): Booking!
-  cancelBooking(bookingId: ID!): Booking!
+  saveWorkspace(name: String!, draftSchemas: [String!]!, screenMap: String): Workspace!
 }
 ```
 
-No operation accepts a business ID as an argument. This schema is a design sketch, and M1 confirms it against composition.
+No operation accepts a user ID as an argument. This schema composes with `@wundergraph/composition` 0.66.2 (U-8). Field details may change in M2.
 
 ## Data model
 
-Each subgraph owns its tables, and no subgraph reads another's schema.
+| Subgraph       | Source                     | Rules                                                                       |
+| -------------- | -------------------------- | --------------------------------------------------------------------------- |
+| `packages`     | npm registry and downloads | No key. Maintainer emails are dropped on read (GR-16)                       |
+| `repositories` | GitHub GraphQL             | Read-only token, server-side. 5,000 points an hour, so responses are cached |
+| `advisories`   | OSV                        | No key                                                                      |
+| `workspace`    | RDS Postgres, `workspace`  | Every row carries `user_id` and an index on it                              |
 
-| Subgraph       | Tables                  | Rules                                                                                                     |
-| -------------- | ----------------------- | --------------------------------------------------------------------------------------------------------- |
-| `catalog`      | `business`, `service`   | Prices are integer cents                                                                                  |
-| `availability` | `opening_hours`, `slot` | Timestamps are UTC, shown in the business timezone                                                        |
-| `bookings`     | `booking`               | One active booking per slot, enforced by a partial unique index; `idempotency_key` is unique per business |
-
-Every table carries `business_id` and an index on it.
+Upstream responses are cached in Redis, and each subgraph degrades clearly when its source is down (FR-SG-6). Tests replay recorded real responses, and a scheduled check compares them with the live sources (FR-SG-10).
 
 ## Delivery
 
@@ -192,6 +241,7 @@ Each release runs in this order, so the router never receives a schema ahead of 
 ## Success criteria
 
 - All requirements are `done`, with recorded verification.
+- Developers use the CLI on their own repositories, and their findings are recorded.
 - A rolling deploy under load produces no 5xx responses.
 - With the Cosmo CDN blocked, running tasks and new tasks serve the last good configuration.
 - Measured recovery meets the targets in [SLOs](docs/SLOS.md).

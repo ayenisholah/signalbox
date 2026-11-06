@@ -1,6 +1,6 @@
 # Service level objectives
 
-**Status:** Proposed. Targets are confirmed by load and resilience tests in M7.
+**Status:** Proposed. Targets are confirmed by load and resilience tests in M10.
 
 | Objective | Target | Measured at |
 |---|---|---|
