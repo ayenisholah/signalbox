@@ -126,7 +126,7 @@ jobs:
       pull-requests: write
     steps:
       - uses: actions/checkout@v7
-      - uses: ayenisholah/traverse@main
+      - uses: ayenisholah/traverse@v0.7.0
 ```
 
 The job fails if an operation breaks, and comments with the operations, screens, subgraphs and owners involved. Traverse reads `.graphql` files and inline `gql` tags in JavaScript and TypeScript. The [specification](SPEC.md#cli-and-github-action) has the details.

@@ -11,7 +11,8 @@
 5. `feat/graph-map`: the searchable map.
 6. `feat/impact-check`: schema draft editor, Web Worker and results view.
 7. `feat/impact-cli`: the CLI and GitHub Action.
-8. `ci/demo-deploy`: static export to GitHub Pages. Confirm with the owner before enabling Pages.
+8. `ci/npm-publish`: a bundled CLI on npm, published by trusted publishing. The owner runs the first publish.
+9. `ci/demo-deploy`: static export to GitHub Pages. Confirm with the owner before enabling Pages.
 
 ## Exit
 

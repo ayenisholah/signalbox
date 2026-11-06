@@ -30,6 +30,7 @@ Traverse is built on WunderGraph Cosmo and helps frontend developers explore a f
 | 2026-11-06 | Closed release #6: `verify` failed on generated `CHANGELOG.md` and `.release-please-manifest.json` formatting | none |
 | 2026-11-06 | Moved the local folder to `/home/titan/projects/traverse` | none |
 | 2026-11-06 | Owner confirmed Frox can be used in an MIT project, which answers U-18 | `chore/web-tooling` |
+| 2026-11-06 | Released `v0.6.0` and `v0.7.0`. The Action can now be pinned to a tag. | #30, #33 |
 | 2026-11-06 | `traverse` CLI and GitHub Action: reads `traverse.json`, `.graphql` files and inline `gql` tags, and comments on the pull request. Proven on [#32](https://github.com/ayenisholah/traverse/pull/32#issuecomment-6683679869), closed unmerged: it failed and commented on a planted break, then passed and updated that comment. | `feat/impact-cli` |
 | 2026-11-06 | Impact check at `/impact`: edit a draft, compose it in a Web Worker, and see the fields, operations and screens it breaks. Answers U-20. | `feat/impact-check` |
 | 2026-11-06 | Searchable graph map at `/`, on the Cosmo demo schemas, by keyboard. Composition runs ahead of time into `apps/web/src/generated/demo-graph.json`. | `feat/graph-map` |
@@ -41,16 +42,14 @@ Traverse is built on WunderGraph Cosmo and helps frontend developers explore a f
 
 ## In progress
 
-Nothing. Start the next item below.
+`ci/npm-publish` (FR-WB-16): the bundle, the licence notices, the packed install test and the publish job. FR-WB-16 stays planned until a real publish.
 
 ## Next
 
 In order:
 
-1. `ci/npm-publish`, with a new requirement for it: a bundled, dependency-free `@ayenisholah/traverse`, published by trusted publishing. See the notes below.
-2. Owner: confirm the npm account `ayenisholah`, run the first publish, and add the trusted publisher for `release.yml`.
-3. Close and reopen release pull request #30 for CI, then merge it. Hold it until step 2 is done, or the publish job fails on it.
-4. `ci/demo-deploy`. Confirm with the owner before enabling Pages.
+1. Owner: confirm the npm account `ayenisholah`, run the first publish, and add the trusted publisher for `release.yml`. Do this before merging the next release pull request, or its publish job fails.
+2. `ci/demo-deploy`. Confirm with the owner before enabling Pages.
 
 ## Blocked
 
@@ -75,7 +74,8 @@ In order:
 - `graph-core` must not pass composition's class instances to `graphql` (W-5). Print or read AST nodes instead.
 - `graph-core` looks at field changes. Removed enum values and union members only show up if validation fails, which `feat/impact-check` should revisit.
 - Remove the `@graphql-tools/utils` override in `package.json` once composition depends on a fixed version (W-6). After editing overrides, confirm the package is present before trusting `npm audit`: a missing package audits clean.
-- `ci/npm-publish` must bundle: Node can't strip types under `node_modules` (W-10), and overrides don't reach consumers, so a package depending on composition would hand them the W-6 advisories. Inline every dependency and include their licence notices. Trusted publishing needs `id-token: write`, npm 11.5.1 or later, and an exact `repository.url`.
+- `packages/cli` keeps its dependencies under `devDependencies`, because the bundle inlines them (ADR 0014). The Action runs from source, so it must not use `--omit=dev`.
+- `ci:` and `docs:` commits don't open a release pull request, but the next `feat:` or `fix:` will.
 - The owner chose to read inline `gql` tags as well as `.graphql` files. Tags left unreadable by `${...}` are listed as "Couldn't be checked" and only fail with `--strict`, which this repository's workflow sets. A tag that still parses is checked as written, so interpolated selections aren't seen.
 - The impact check can't block a merge yet: only `verify` is required on `main`, and a pull request here runs its own copy of the Action through `uses: ./`. `ci/schema-checks` (GR-7) is where that gets decided, and it needs the owner, because it's a repository setting.
 - The Action uses `GITHUB_TOKEN` only, because comments are matched on the `github-actions[bot]` login.
