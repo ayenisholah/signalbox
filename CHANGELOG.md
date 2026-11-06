@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.0](https://github.com/ayenisholah/traverse/compare/v0.4.0...v0.5.0) (2026-11-06)
+
+
+### Features
+
+* **graph-core:** add the graph map model ([863531e](https://github.com/ayenisholah/traverse/commit/863531eaea0b4dd13db2cf289c004f7321109932))
+* **web:** add the searchable graph map ([81c2bf1](https://github.com/ayenisholah/traverse/commit/81c2bf17d83b3ab77c86a3396496ee414975094e))
+
 ## [0.4.0](https://github.com/ayenisholah/traverse/compare/v0.3.0...v0.4.0) (2026-11-06)
 
 
