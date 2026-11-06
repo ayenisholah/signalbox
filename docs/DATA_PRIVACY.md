@@ -1,19 +1,20 @@
 # Data privacy
 
-Traverse stores fictional data. These rules are written as if it were real, so the design holds for real use.
+Traverse serves real public data about open-source packages, and stores users' own saved work.
 
 ## What's stored
 
 | Data | Location | Retention |
 |---|---|---|
-| Businesses, services and slots | RDS Postgres | Until deleted |
-| Bookings | RDS Postgres | Until deleted |
+| Saved workspaces: schema drafts and screen maps | RDS Postgres | Until the user deletes them |
+| User identity: Cognito subject and email | Cognito | Until the account is deleted |
+| Cached public npm, GitHub and OSV responses | ElastiCache | Short-lived |
 | Rate-limit counters | ElastiCache | Short-lived |
 | Backups | RDS automated backups | 14 days |
 | Logs | CloudWatch Logs | 30 days |
 | Traces and metrics | CloudWatch, X-Ray | Service defaults |
 
-Retention values are design targets, set in CDK during M3 and M5.
+Retention values are design targets, set in CDK during M6 and M8.
 
 ## What leaves AWS
 
@@ -22,11 +23,14 @@ Retention values are design targets, set in CDK during M3 and M5.
 | Subgraph schemas | Cosmo Cloud | Composition and registry |
 | Operation names, timing and client names | Cosmo Cloud | Studio analytics |
 | Sampled traces | Cosmo Cloud | Studio tracing |
+| Schemas, operations and error text the user asks about | Amazon Bedrock, inside AWS | AI assistant |
 
-GraphQL variables and response data must never be exported (GR-4). Exactly which attributes the router sends is reviewed in M5 against a real capture.
+GraphQL variables and response data must never be exported (GR-4). Exactly which attributes the router sends is reviewed in M8 against a real capture.
 
 ## Rules
 
 - Logs and telemetry carry no personal data, tokens or secrets.
-- Fixtures and test data are fictional.
+- Pasted or uploaded schemas stay in the browser unless the user saves them or asks the assistant about them.
+- npm maintainer emails are dropped on read, and never stored, shown or sent to a model (GR-16).
+- Test fixtures are recorded public responses, with personal fields removed. They hold no tokens or account IDs.
 - All data is encrypted at rest and in transit (NFR-7).
