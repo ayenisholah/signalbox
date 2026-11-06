@@ -12,5 +12,5 @@ Use Radix primitives and Tailwind, with the Frox colour, type, radius and spacin
 
 ## Consequences
 
-- `feat/design-tokens` waits for U-18, because the owner's confirmation of public use may not cover MIT relicensing.
-- If it doesn't, our own scale replaces the Frox values, with no change to components.
+- On 2026-11-06 the owner confirmed the MIT question (U-18): "you can use frox in an MIT license project". This is the written record GR-10 requires, so `feat/design-tokens` can proceed. The licence text isn't held in this repository.
+- If the terms turn out not to allow this use, our own scale replaces the Frox values, with no change to components.

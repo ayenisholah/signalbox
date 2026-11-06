@@ -28,24 +28,24 @@ Traverse is built on WunderGraph Cosmo and helps frontend developers explore a f
 | 2026-11-06 | Closed #17: the Vitest group left out `@vitest/coverage-v8`. Update both by hand when needed. | none |
 | 2026-11-06 | Closed release #13, replaced by #15 after the package rename | none |
 | 2026-11-06 | Closed release #6: `verify` failed on generated `CHANGELOG.md` and `.release-please-manifest.json` formatting | none |
+| 2026-11-06 | Moved the local folder to `/home/titan/projects/traverse` | none |
+| 2026-11-06 | Owner confirmed Frox can be used in an MIT project, which answers U-18 | `chore/web-tooling` |
 
 ## In progress
 
-Nothing. Start the next item below.
+`chore/web-tooling` (FR-WB-13): the `apps/web` workspace, with the gates extended to `apps/` and `.tsx`.
 
 ## Next
 
 In order:
 
-1. Move the local folder to `/home/titan/projects/traverse` in its own session, along with the Claude project memory folder.
-2. M1, the public demo and CLI, in this order: `chore/web-tooling`, `feat/graph-core`, `feat/design-tokens`, `feat/graph-map`, `feat/impact-check`, `feat/impact-cli`, `ci/demo-deploy`. Test U-11 first, in `feat/graph-core`.
+1. M1, the public demo and CLI, in this order: `feat/graph-core`, `feat/design-tokens`, `feat/graph-map`, `feat/impact-check`, `feat/impact-cli`, `ci/demo-deploy`. Test U-11 first, in `feat/graph-core`.
 
 ## Blocked
 
 | Item | Waiting on | Blocks |
 |---|---|---|
 | AWS account setup | Owner | Cognito, Bedrock and every AWS milestone. Not the public demo. |
-| Frox licence for derived files in an MIT repository (U-18) | Owner's confirmation of the exact terms | `feat/design-tokens` |
 
 ## Notes for the next session
 

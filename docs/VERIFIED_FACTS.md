@@ -98,7 +98,6 @@ Each is answered by test before the feature that depends on it ships.
 | U-15 | Do npm, GitHub and OSV terms allow this use, and what are npm's and OSV's practical rate limits? | FR-SG-6 | M2 |
 | U-16 | What shape is the query plan in `extensions`, and does it need dev mode or a token? The docs don't say. | FR-WB-7 | M2 |
 | U-17 | Can a third-party app read the Platform API? The docs describe it as used by the CLI and Studio. | FR-WB-1 | M3 |
-| U-18 | Do the Frox terms allow derived tokens in an MIT repository? The owner confirmed public use, which may not cover relicensing. | GR-10 | Before `feat/design-tokens` |
 | U-19 | Which current Claude model does Bedrock offer from the chosen Region, and at what cost? | FR-AI-1 | Before M5 |
 
 ## Answered questions
@@ -106,5 +105,6 @@ Each is answered by test before the feature that depends on it ships.
 | ID | Question | Needed by | Answer | Source |
 |---|---|---|---|---|
 | U-8 | Do `SPEC.md`'s entity definitions compose as written? | FR-SG-5 | Yes. | C-20 |
-| U-10 | Does the Frox licence allow derived tokens and components in a public MIT repository? | GR-10 | Partly: the owner confirmed public use. U-18 tracks the MIT question. | Owner statement, 2026-11-05, recorded in [ADR 0008](adr/0008-frox-design-system.md) |
+| U-10 | Does the Frox licence allow derived tokens and components in a public MIT repository? | GR-10 | Partly: the owner confirmed public use. U-18 answers the MIT question. | Owner statement, 2026-11-05, recorded in [ADR 0008](adr/0008-frox-design-system.md) |
 | U-12 | Can field-to-subgraph data be read from composition output? | FR-WB-4 | Yes. | C-20 |
+| U-18 | Do the Frox terms allow derived tokens in an MIT repository? | GR-10 | Yes: "you can use frox in an MIT license project". The licence text isn't held in this repository. | Owner statement, 2026-11-06, recorded in [ADR 0010](adr/0010-tailwind-radix-frox-scale.md) |
