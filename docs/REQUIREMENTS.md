@@ -12,7 +12,7 @@ Every requirement has an ID, a testable acceptance check, how it's verified, the
 | ID | Requirement | Acceptance check | Verified by | Milestone | Status |
 |---|---|---|---|---|---|
 | FR-WB-1 | Show the graph as a map. | Subgraphs, entities and owners render from real SDL, and a type can be found and opened by keyboard. | e2e | M1 | done |
-| FR-WB-2 | Compose schema drafts in the browser. | Editing a draft runs Cosmo composition in a Web Worker and shows its errors, with the page still responding. | e2e | M1 | planned |
+| FR-WB-2 | Compose schema drafts in the browser. | Editing a draft runs Cosmo composition in a Web Worker and shows its errors, with the page still responding. | e2e | M1 | done |
 | FR-WB-3 | Show what a schema change breaks. | A change to a field lists every operation and screen that uses it, and no others. | unit | M1 | done |
 | FR-WB-4 | Find who owns a field. | Any field resolves to its subgraphs and their owners, using composition output. | unit | M1 | done |
 | FR-WB-5 | Check a repository from the command line and CI. | The CLI exits non-zero on a broken operation, and the GitHub Action comments on a real pull request with broken operations and screens. | CI | M1 | planned |
@@ -107,7 +107,7 @@ The assistant only adds to deterministic results, through Amazon Bedrock.
 | NFR-9 | Meet WCAG 2.2 AA. | axe finds no violations on any route, every flow works by keyboard, and token contrast pairs pass in both themes. | e2e | M3 | planned |
 | NFR-10 | Scale with the user's font size. | Styles use rem, em and % only, and a check rejects `px`. | CI | M1 | done |
 | NFR-11 | Load quickly. | Largest Contentful Paint stays under 2.5 seconds at the 75th percentile on staging. | load | M10 | planned |
-| NFR-12 | Stay responsive during composition. | Composing a real graph causes no main-thread task over 200 ms. | e2e | M1 | planned |
+| NFR-12 | Stay responsive during composition. | Composing a real graph causes no main-thread task over 200 ms. | e2e | M1 | done |
 
 ## Guardrails
 
