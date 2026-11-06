@@ -10,6 +10,13 @@ module.exports = {
       to: { dependencyTypes: ["core", "npm"], pathNot: "node_modules/zod" },
     },
     {
+      name: "graph-core-runs-in-browsers",
+      comment: "packages/graph-core runs in a Web Worker, so it can't use Node built-ins.",
+      severity: "error",
+      from: { path: "^packages/graph-core/src" },
+      to: { dependencyTypes: ["core"] },
+    },
+    {
       name: "packages-stay-inward",
       comment: "Packages never import subgraphs, apps or infrastructure.",
       severity: "error",
