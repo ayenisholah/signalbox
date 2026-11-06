@@ -1,0 +1,17 @@
+{
+  "name": "@ayenisholah/traverse",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Finds the operations and screens a federated schema change breaks.",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "traverse": "./src/bin.ts"
+  },
+  "dependencies": {
+    "@graphql-tools/graphql-tag-pluck": "9.0.9",
+    "@traverse/graph-core": "*",
+    "graphql": "^16.15.0",
+    "zod": "^4.0.0"
+  }
+}

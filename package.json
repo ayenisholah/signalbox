@@ -68,6 +68,8 @@
     "vitest": "^4.1.12"
   },
   "overrides": {
-    "@graphql-tools/utils": "^12.1.0"
+    "@wundergraph/composition": {
+      "@graphql-tools/utils": "^12.1.0"
+    }
   }
 }
