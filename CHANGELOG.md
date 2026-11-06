@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.6.0](https://github.com/ayenisholah/traverse/compare/v0.5.0...v0.6.0) (2026-11-06)
+
+
+### Features
+
+* **graph-core:** split operations and report each error once ([9c70593](https://github.com/ayenisholah/traverse/commit/9c7059379b7b94058da517b678c686b0b931b823))
+* **web:** add the impact check ([4f6a9bc](https://github.com/ayenisholah/traverse/commit/4f6a9bcc5aa3b3e377ac2156f350802bd0475d6d))
+
+
+### Bug Fixes
+
+* **web:** ignore worker messages that name an origin ([fde8127](https://github.com/ayenisholah/traverse/commit/fde8127483b9315fc12cb2b3477653d709c4f640))
+
 ## [0.5.0](https://github.com/ayenisholah/traverse/compare/v0.4.0...v0.5.0) (2026-11-06)
 
 
