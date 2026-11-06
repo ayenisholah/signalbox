@@ -16,6 +16,7 @@ enum ExerciseType {
 
 type Exercise implements Hobby {
   employees: [Employee!]! @goField(forceResolver: true)
+  category: ExerciseType!
 }
 
 interface Experience {
