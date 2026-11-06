@@ -23,7 +23,9 @@ describe("scrubPersonalData", () => {
 
   it.each([
     "author",
+    "contact",
     "contributors",
+    "credits",
     "maintainers",
     "email",
     "publisher",
