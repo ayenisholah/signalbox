@@ -12,6 +12,8 @@ interface UpstreamRequest<T> {
   body?: string;
   headers?: Record<string, string>;
   timeoutMs?: number;
+  /** A GraphQL endpoint always exists, so a 404 from one means the address is wrong. */
+  notFoundIsFailure?: boolean;
 }
 
 const DEFAULT_TIMEOUT_MS = 5000;
@@ -54,6 +56,7 @@ export const fetchJson = async <T>({
   fetch,
   headers,
   timeoutMs = DEFAULT_TIMEOUT_MS,
+  notFoundIsFailure = false,
   ...init
 }: UpstreamRequest<T>): Promise<T | null> => {
   try {
@@ -63,7 +66,7 @@ export const fetchJson = async <T>({
       redirect: "error",
       signal: AbortSignal.timeout(timeoutMs),
     });
-    if (response.status === 404) return null;
+    if (response.status === 404 && !notFoundIsFailure) return null;
     if (!response.ok) throw new Error(`status ${response.status}`);
     return schema.parse(JSON.parse(await readBody(response)));
   } catch {

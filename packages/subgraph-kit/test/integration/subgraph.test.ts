@@ -1,16 +1,14 @@
-import { spawn, type ChildProcess } from "node:child_process";
 import { once } from "node:events";
 import { resolve } from "node:path";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import { runSubgraph, type RunningSubgraph } from "../support/run-subgraph.ts";
 
 const server = resolve("packages/subgraph-kit/test/integration/fixtures/server.ts");
 
-let child: ChildProcess;
-let url: string;
-let output = "";
+let running: RunningSubgraph;
 
 const post = async (query: string) => {
-  const response = await fetch(`${url}/graphql`, {
+  const response = await fetch(`${running.url}/graphql`, {
     method: "POST",
     headers: { "content-type": "application/json" },
     body: JSON.stringify({ query }),
@@ -19,21 +17,11 @@ const post = async (query: string) => {
 };
 
 beforeAll(async () => {
-  child = spawn(process.execPath, [server], {
-    env: { PATH: process.env.PATH, PORT: "0", SHUTDOWN_DRAIN_MS: "0", NODE_ENV: "development" },
-  });
-  child.stdout?.on("data", (chunk: Buffer) => (output += chunk.toString()));
-  const port = await new Promise<number>((done) => {
-    child.stdout?.on("data", () => {
-      const found = /"port":(\d+)/.exec(output)?.[1];
-      if (found !== undefined) done(Number(found));
-    });
-  });
-  url = `http://127.0.0.1:${port}`;
+  running = await runSubgraph(server, { NODE_ENV: "development" });
 }, 30_000);
 
 afterAll(() => {
-  child.kill("SIGKILL");
+  running.child.kill("SIGKILL");
 });
 
 // Vitest resolves graphql differently from Node, so only a real process proves error handling.
@@ -51,22 +39,22 @@ describe("a subgraph in a real Node process", { timeout: 30_000 }, () => {
     const { errors } = await post("{ fails }");
 
     expect(errors[0]?.message).toBe("Unexpected error.");
-    expect(output).not.toContain("private detail");
+    expect(running.output()).not.toContain("private detail");
   });
 
   it("[FR-OB-6] writes JSON lines to stdout", () => {
-    const lines = output.trim().split("\n");
+    const lines = running.output().trim().split("\n");
 
     for (const line of lines) expect(() => JSON.parse(line) as unknown).not.toThrow();
     expect(lines.length).toBeGreaterThan(1);
   });
 
   it("[FR-SG-7] exits cleanly on SIGTERM", async () => {
-    child.kill("SIGTERM");
+    running.child.kill("SIGTERM");
 
-    const [code] = (await once(child, "exit")) as [number | null];
+    const [code] = (await once(running.child, "exit")) as [number | null];
 
     expect(code).toBe(0);
-    expect(output).toContain('"msg":"stopped"');
+    expect(running.output()).toContain('"msg":"stopped"');
   });
 });

@@ -15,7 +15,7 @@ const environmentSchema = z
     SHUTDOWN_DRAIN_MS: integer("5000"),
     SHUTDOWN_CLOSE_MS: integer("10000"),
     JWKS_URL: z
-      .url()
+      .url({ abort: true })
       .refine(isTrustedKeyUrl, "must use https, or http to a local service")
       .optional(),
     JWT_AUDIENCE: z.string().min(1).optional(),
