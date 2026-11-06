@@ -104,6 +104,19 @@ Run on 2026-11-06. The end-to-end plants ran in a clean clone in `node:24`.
 
 The generated data plant first passed because its `sed` matched nothing in the schema. It was rerun with a real change.
 
+## Impact check (FR-WB-2, NFR-12)
+
+Run on 2026-11-06. The end-to-end plants ran in a clean clone in `node:24`.
+
+| Gate | Command | Planted violation | Result |
+|---|---|---|---|
+| End to end | `npm run test:e2e` | Composition moved onto the main thread | Exit 1, three tests failed, including both NFR-12 tests |
+| End to end | `npm run test:e2e` | A breaking draft called safe | Exit 1, two tests failed |
+| UI | `npx vitest run --project web` | Answers to older drafts accepted | Exit 1, test named |
+| UI | `npx vitest run --project web` | No pause before checking | Exit 1, test named |
+
+The pause plant first passed, because fake timers can't tell 300 ms from 0 ms. A test now checks both sides of the pause.
+
 ## Agent rules (FR-DP-9)
 
 `AGENTS.md` sets the order of truth and accuracy rules, the `verify-fact` skill defines how a claim is checked and recorded, and `docs/VERIFIED_FACTS.md` records each Cosmo, AWS and upstream claim with a source and status. Reviewed on 2026-11-06.

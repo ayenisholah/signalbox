@@ -61,6 +61,7 @@ The versions below are the only ones whose docs count. Upgrades change this tabl
 | C-26 | `wgc` commands need `COSMO_API_KEY`, and the router uses `GRAPH_API_TOKEN`. | `documented` | [API keys](https://cosmo-docs.wundergraph.com/cli/api-keys.md) |
 | C-27 | `packages/graph-core`, bundled by esbuild, composes the 10 Cosmo demo subgraphs in a Web Worker in headless Chrome in under 200 ms, 111 to 166 ms over three runs. The bundle is 958 KB, or 240 KB gzipped, and its results survive `structuredClone`. In the spike, the longest main-thread gap during composition was 6 ms. | `tested` | Local run on 2026-11-06 |
 | C-28 | A field's `subgraphNames` includes subgraphs that only declare it `@external`. `externalFieldDataBySubgraphName` marks them with `isDefinedExternal`. | `tested` | `Employee.isAvailable` in the Cosmo demo, 2026-11-06 |
+| C-30 | `new Worker(new URL("./compose.worker.ts", import.meta.url), { type: "module" })` works under Next.js 16.4.5 and Turbopack in a static export. Checking the Cosmo demo graph in it caused no main-thread long task, and the composer's 1 MB chunk loads only in the worker. | `tested` | Playwright run on 2026-11-06 |
 | C-29 | Composition rejects removing a field while another subgraph still declares it `@external`. | `tested` | `Employee.currentMood` in the Cosmo demo, 2026-11-06 |
 
 ## Data sources
@@ -121,7 +122,6 @@ Each is answered by test before the feature that depends on it ships.
 | U-17 | Can a third-party app read the Platform API? The docs describe it as used by the CLI and Studio. | FR-WB-1 | M3 |
 | U-19 | Which current Claude model does Bedrock offer from the chosen Region, and at what cost? | FR-AI-1 | Before M5 |
 | U-21 | Do the values in `packages/design-tokens` match the Figma file's variables exactly? See W-7. | FR-WB-13 | When the Figma call limit resets |
-| U-20 | Does `packages/graph-core` run in a Web Worker built by Next.js and Turbopack? C-27 used esbuild. | FR-WB-2 | `feat/impact-check` |
 
 ## Answered questions
 
@@ -131,4 +131,5 @@ Each is answered by test before the feature that depends on it ships.
 | U-10 | Does the Frox licence allow derived tokens and components in a public MIT repository? | GR-10 | Partly: the owner confirmed public use. U-18 answers the MIT question. | Owner statement, 2026-11-05, recorded in [ADR 0008](adr/0008-frox-design-system.md) |
 | U-11 | Does `@wundergraph/composition` run in a Web Worker, at an acceptable bundle size? | FR-WB-2 | Yes. 240 KB gzipped is acceptable, because it loads in the worker and not on the main thread. | C-27 |
 | U-12 | Can field-to-subgraph data be read from composition output? | FR-WB-4 | Yes. | C-20 |
+| U-20 | Does `packages/graph-core` run in a Web Worker built by Next.js and Turbopack? | FR-WB-2 | Yes. | C-30 |
 | U-18 | Do the Frox terms allow derived tokens in an MIT repository? | GR-10 | Yes: "you can use frox in an MIT license project". The licence text isn't held in this repository. | Owner statement, 2026-11-06, recorded in [ADR 0010](adr/0010-tailwind-radix-frox-scale.md) |
