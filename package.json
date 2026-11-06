@@ -2,7 +2,7 @@
   "name": "traverse",
   "version": "0.2.0",
   "private": true,
-  "description": "A production Cosmo Router and federated GraphQL subgraphs on AWS Fargate.",
+  "description": "Explore a federated GraphQL graph from the frontend, built on WunderGraph Cosmo.",
   "license": "MIT",
   "type": "module",
   "engines": {
