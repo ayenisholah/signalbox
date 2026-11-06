@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.7.0](https://github.com/ayenisholah/traverse/compare/v0.6.0...v0.7.0) (2026-11-06)
+
+
+### Features
+
+* **cli:** add the traverse check and comment commands ([1faf86f](https://github.com/ayenisholah/traverse/commit/1faf86faea95377fdc36066ea2e3df27ab691b88))
+* **graph-core:** collect operations and fragments across files ([b017c00](https://github.com/ayenisholah/traverse/commit/b017c00da5f458c0619a1556263545df7b20727a))
+
 ## [0.6.0](https://github.com/ayenisholah/traverse/compare/v0.5.0...v0.6.0) (2026-11-06)
 
 
