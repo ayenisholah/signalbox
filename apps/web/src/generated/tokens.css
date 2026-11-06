@@ -1,0 +1,108 @@
+/* Generated from packages/design-tokens. Run npm run generate:tokens. */
+@theme inline {
+  --color-*: initial;
+  --text-*: initial;
+  --radius-*: initial;
+  --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
+  --radius-pill: 999rem;
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-surface-sunken: var(--surface-sunken);
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-fg-subtle: var(--fg-subtle);
+  --color-line: var(--line);
+  --color-brand: var(--brand);
+  --color-on-brand: var(--on-brand);
+  --color-brand-fg: var(--brand-fg);
+  --color-brand-soft: var(--brand-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-info: var(--info);
+  --color-info-soft: var(--info-soft);
+  --color-focus-ring: var(--focus-ring);
+  --text-h1: 2.5rem;
+  --text-h1--line-height: 3.75rem;
+  --text-h1--font-weight: 700;
+  --text-h2: 2rem;
+  --text-h2--line-height: 2.4375rem;
+  --text-h2--font-weight: 800;
+  --text-h4: 1.75rem;
+  --text-h4--line-height: 2.125rem;
+  --text-h4--font-weight: 600;
+  --text-h5: 1.5rem;
+  --text-h5--line-height: 1.875rem;
+  --text-h5--font-weight: 700;
+  --text-h6: 1.25rem;
+  --text-h6--line-height: 1.5rem;
+  --text-h6--font-weight: 600;
+  --text-h7: 1.125rem;
+  --text-h7--line-height: 1.375rem;
+  --text-h7--font-weight: 700;
+  --text-subtitle: 1rem;
+  --text-subtitle--line-height: 1.25rem;
+  --text-subtitle--font-weight: 600;
+  --text-body: 0.875rem;
+  --text-body--line-height: 1.25rem;
+  --text-body--font-weight: 400;
+  --text-caption: 0.75rem;
+  --text-caption--line-height: 1rem;
+  --text-caption--font-weight: 400;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+}
+
+:root {
+  color-scheme: light;
+  --canvas: #f5f5fa;
+  --surface: #ffffff;
+  --surface-sunken: #f5f5fa;
+  --fg: #16161e;
+  --fg-muted: #636373;
+  --fg-subtle: #7e7e8f;
+  --line: #e2e2ea;
+  --brand: #7364db;
+  --on-brand: #ffffff;
+  --brand-fg: #5b4cc6;
+  --brand-soft: #eeecfb;
+  --danger: #b8292b;
+  --danger-soft: #fde8e8;
+  --success: #0f7a5f;
+  --success-soft: #e3f7f1;
+  --warning: #9c4a14;
+  --warning-soft: #fdefe6;
+  --info: #1d5fd6;
+  --info-soft: #e7efff;
+  --focus-ring: #7364db;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --canvas: #1f2128;
+    --surface: #282a33;
+    --surface-sunken: #1e1e24;
+    --fg: #eaeaf4;
+    --fg-muted: #a9a9b7;
+    --fg-subtle: #8b8b93;
+    --line: #363844;
+    --brand: #7364db;
+    --on-brand: #ffffff;
+    --brand-fg: #b2a7ff;
+    --brand-soft: #2f2a52;
+    --danger: #ff8a8a;
+    --danger-soft: #3d2024;
+    --success: #6ee0c4;
+    --success-soft: #1c3631;
+    --warning: #f4ad85;
+    --warning-soft: #3d2a20;
+    --info: #8cb3ff;
+    --info-soft: #1e2a45;
+    --focus-ring: #b2a7ff;
+  }
+}

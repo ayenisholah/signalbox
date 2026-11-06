@@ -1,0 +1,9 @@
+{
+  "name": "@traverse/design-tokens",
+  "version": "0.0.0",
+  "private": true,
+  "description": "The Frox scale as semantic tokens, with contrast checks and a CSS generator.",
+  "license": "MIT",
+  "type": "module",
+  "exports": "./src/index.ts"
+}
