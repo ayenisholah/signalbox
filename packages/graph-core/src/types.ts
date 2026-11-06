@@ -14,7 +14,40 @@ export interface ComposedGraph {
   success: true;
   sdl: string;
   fields: Map<string, SubgraphRef[]>;
+  types: Map<string, TypeData>;
   warnings: string[];
+}
+
+export interface TypeData {
+  isEntity: boolean;
+  subgraphs: SubgraphRef[];
+}
+
+export type TypeKind = "object" | "interface" | "input" | "enum" | "union" | "scalar";
+
+export interface MapField {
+  name: string;
+  type: string;
+  namedType: string;
+  subgraphs: SubgraphRef[];
+}
+
+export interface MapType extends TypeData {
+  name: string;
+  kind: TypeKind;
+  fields: MapField[];
+  members: string[];
+}
+
+export interface MapSubgraph extends SubgraphRef {
+  entities: string[];
+  fieldCount: number;
+}
+
+/** Arrays only, so it can be written to JSON and handed to the browser. */
+export interface GraphMap {
+  subgraphs: MapSubgraph[];
+  types: MapType[];
 }
 
 export interface CompositionFailure {

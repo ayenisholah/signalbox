@@ -13,5 +13,5 @@ next-env.d.ts
 *.tsbuildinfo
 test-results
 playwright-report
-packages/graph-core/test/fixtures/cosmo-demo
+graph/cosmo-demo
 **/generated

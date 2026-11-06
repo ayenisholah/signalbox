@@ -66,6 +66,20 @@ const indexFields = (
   return fields;
 };
 
+const indexTypes = (
+  { parentDefinitionDataByTypeName }: FederationSuccess,
+  refs: Map<string, SubgraphRef>,
+): ComposedGraph["types"] => {
+  const types: ComposedGraph["types"] = new Map();
+  for (const [typeName, parent] of parentDefinitionDataByTypeName) {
+    types.set(typeName, {
+      isEntity: "isEntity" in parent && parent.isEntity,
+      subgraphs: [...parent.subgraphNames].sort().map((name) => refs.get(name) as SubgraphRef),
+    });
+  }
+  return types;
+};
+
 const toRef = ({ name, owner }: SubgraphInput): [string, SubgraphRef] => [
   name,
   owner === undefined ? { name } : { name, owner },
@@ -86,10 +100,12 @@ export const composeGraph = (inputs: SubgraphInput[]): CompositionResult => {
     return { success: false, errors: result.errors.map(({ message }) => message) };
   }
 
+  const refs = new Map(inputs.map(toRef));
   return {
     success: true,
     sdl: printClientSchema(result.federatedGraphClientSchema),
-    fields: indexFields(result, new Map(inputs.map(toRef))),
+    fields: indexFields(result, refs),
+    types: indexTypes(result, refs),
     warnings: result.warnings.map(({ message }) => message),
   };
 };
