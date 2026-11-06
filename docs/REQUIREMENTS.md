@@ -79,7 +79,7 @@ The assistant only adds to deterministic results, through Amazon Bedrock.
 | FR-DP-6 | Releases run in a safe order. | The pipeline migrates, deploys subgraphs, then publishes schemas, and stops at the first failure. | CI | M9 | planned |
 | FR-DP-7 | Every pull request passes all quality gates. | A planted violation fails each gate, and CI is required on `main`. | CI | M0 | done |
 | FR-DP-8 | Every change traces to a requirement. | A check fails on an unknown ID, a `done` requirement with no evidence, or a roadmap branch with no requirement. | unit | M0 | done |
-| FR-DP-9 | Agents work from verified facts. | `AGENTS.md` and project skills define the sources of truth, and each Cosmo and AWS claim has a recorded source. | review | M0 | planned |
+| FR-DP-9 | Agents work from verified facts. | `AGENTS.md` and project skills define the sources of truth, and each Cosmo and AWS claim has a recorded source. | review | M0 | done |
 
 ## Observability
 

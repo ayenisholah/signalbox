@@ -22,22 +22,23 @@ Traverse is built on WunderGraph Cosmo and helps frontend developers explore a f
 | 2026-11-06 | Closed #8 and #9 (Vitest 5 needs both together), #10 (stay on Node 24 types), #11 (typescript-eslint rejects TypeScript 7) | none |
 | 2026-11-06 | Renamed the project and GitHub repository to Traverse | #14 |
 | 2026-11-06 | Release fixes, and `verify` required on `main`, which finishes FR-DP-7 | #16 |
+| 2026-11-06 | Traverse specification, requirements, roadmap and README | #18 |
+| 2026-11-06 | Released `v0.2.0` | #15 |
+| 2026-11-06 | Project skills, guardrail reviewer and `main` guard. M0 is done. | `chore/agent-skills` |
+| 2026-11-06 | Closed #17: the Vitest group left out `@vitest/coverage-v8`. Update both by hand when needed. | none |
 | 2026-11-06 | Closed release #13, replaced by #15 after the package rename | none |
 | 2026-11-06 | Closed release #6: `verify` failed on generated `CHANGELOG.md` and `.release-please-manifest.json` formatting | none |
 
 ## In progress
 
-| Branch | State |
-|---|---|
-| `docs/workbench-direction` | Specification, requirements, roadmap, plans, ADRs 0009 to 0013, threat model, privacy, facts and README rewritten for Traverse. FR-DP-7, FR-DP-8. |
+Nothing. Start the next item below.
 
 ## Next
 
 In order:
 
 1. Move the local folder to `/home/titan/projects/traverse` in its own session, along with the Claude project memory folder.
-2. `chore/agent-skills`: only skills usable today, finishing M0.
-3. M1, the public demo and CLI: `chore/web-tooling`, `feat/graph-core`, `feat/design-tokens`, `feat/graph-map`, `feat/impact-check`, `feat/impact-cli`, `ci/demo-deploy`.
+2. M1, the public demo and CLI, in this order: `chore/web-tooling`, `feat/graph-core`, `feat/design-tokens`, `feat/graph-map`, `feat/impact-check`, `feat/impact-cli`, `ci/demo-deploy`. Test U-11 first, in `feat/graph-core`.
 
 ## Blocked
 
@@ -52,5 +53,6 @@ In order:
 - Before pushing, run `npm ci` and `npm run check` on a clean clone in `node:24`, and stop if either fails.
 - Release pull requests get no CI until closed and reopened, and again after each update.
 - The first risk to test in M1 is U-11: composition in a browser Web Worker. It's proven in Node.
+- Merge pull requests with `gh pr merge --rebase --delete-branch` once checks pass on the current commit.
 - Force-pushes need the owner's approval or the owner's own terminal.
 - Shell commands run in zsh, where an unquoted `$VAR` doesn't split into words. After a bulk edit, confirm the result with a search, not an exit code.

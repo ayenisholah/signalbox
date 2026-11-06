@@ -108,16 +108,16 @@ npm run check
 
 ## Roadmap
 
-| Milestone | Outcome                                            | Status      |
-| --------- | -------------------------------------------------- | ----------- |
-| M0        | Tooling, specification, quality gates              | In progress |
-| M1        | Public demo and CLI, on real schemas               | Planned     |
-| M2        | Real graph behind the Cosmo Router                 | Planned     |
-| M3        | Live query routes and the Package explorer         | Planned     |
-| M4        | Accounts and saved workspaces                      | Planned     |
-| M5        | AI assistant on Amazon Bedrock                     | Planned     |
-| M6 to M8  | AWS network, services and observability            | Planned     |
-| M9 to M11 | Delivery pipeline, resilience proof and production | Planned     |
+| Milestone | Outcome                                            | Status  |
+| --------- | -------------------------------------------------- | ------- |
+| M0        | Tooling, specification, quality gates              | Done    |
+| M1        | Public demo and CLI, on real schemas               | Planned |
+| M2        | Real graph behind the Cosmo Router                 | Planned |
+| M3        | Live query routes and the Package explorer         | Planned |
+| M4        | Accounts and saved workspaces                      | Planned |
+| M5        | AI assistant on Amazon Bedrock                     | Planned |
+| M6 to M8  | AWS network, services and observability            | Planned |
+| M9 to M11 | Delivery pipeline, resilience proof and production | Planned |
 
 ## Documentation
 
