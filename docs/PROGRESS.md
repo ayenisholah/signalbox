@@ -77,6 +77,8 @@ In order:
 - After changing `graph/cosmo-demo` or `packages/graph-core`, run `npm run generate:demo`. A test fails if the data is stale.
 - CI on `main` took 9 minutes once, on `b04b7d8`, against 1 to 2 minutes usually. Watch for a repeat.
 - The impact check uses a plain `<textarea>`, not Monaco. `SPEC.md` still lists Monaco, and its React wrapper loads from a CDN by default, so the owner should decide.
+- An unresolved CodeQL review thread blocks a merge even when every check passes, because `protect-main` requires threads to be resolved. Fix the finding, don't use `--admin`.
+- Messages to a dedicated worker have an empty `origin`, and `compose.worker.ts` relies on that.
 - The page must import only types from `graph-core`. A Playwright test fails if the composer reaches the map page.
 - Merge pull requests with `gh pr merge --rebase --delete-branch` once checks pass on the current commit.
 - Force-pushes need the owner's approval or the owner's own terminal.
