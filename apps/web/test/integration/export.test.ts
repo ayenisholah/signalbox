@@ -18,12 +18,18 @@ describe("static export", () => {
     expect(html).toContain('role="separator"');
   });
 
+  it("[FR-WB-1] prerenders the real graph, so the map shows before any script runs", () => {
+    expect(html).toContain("employee-events");
+    expect(html).toContain("No owner set");
+    expect(html).toContain('id="type-option-Employee"');
+  });
+
   it("[FR-WB-13] links a stylesheet that holds the page's Tailwind classes", async () => {
     const [, href] = /href="(\/_next\/static\/[^"]+\.css)"/.exec(html) ?? [];
 
     const css = await readFile(join(out, href ?? "missing"), "utf8");
 
-    expect(css).toContain(".max-w-2xl");
+    expect(css).toContain(".max-w-7xl");
     expect(css).toContain("--canvas:");
     expect(css).toContain("prefers-color-scheme");
     expect(css).not.toContain("--color-red-500");
