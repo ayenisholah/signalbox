@@ -104,9 +104,10 @@ Production starts with 3 tasks of 2 vCPU and 4 GB, and scales to 9 on CPU and re
 | Setting                  | Value | Reason                                                       |
 | ------------------------ | ----- | ------------------------------------------------------------ |
 | `SHUTDOWN_DELAY`         | 90s   | Total time for drain and shutdown                            |
-| `DRAIN_PERIOD`           | 65s   | Longer than the 60-second load balancer idle timeout         |
+| `DRAIN_PERIOD`           | 65s   | Longer than the load balancer idle timeout                   |
 | `GRACE_PERIOD`           | 20s   | Time to finish in-flight requests                            |
 | ALB deregistration delay | 90s   | Matches the router's shutdown                                |
+| ALB idle timeout         | 50s   | Shorter than the router's fixed 60 seconds (C-38)            |
 | ECS `stopTimeout`        | 120s  | The Fargate maximum, so the router is never killed mid-drain |
 
 ## Web app
@@ -169,7 +170,7 @@ The GitHub Action in `action.yml` runs both commands on `pull_request`. It comme
 ### Public API
 
 - `POST /graphql` over HTTPS, for persisted operations only. The load balancer routes this path to the router for API clients; the web app reaches the router internally.
-- Requests carry `Authorization: Bearer <JWT>`.
+- Public data needs no token. A request may carry `Authorization: Bearer <JWT>`, and an invalid one is refused ([ADR 0015](docs/adr/0015-anonymous-public-reads.md)).
 - `/health/ready` and `/health/live` serve the load balancer and the platform, and aren't public API.
 
 ### Identity
@@ -178,13 +179,16 @@ Tokens are issued by a Cognito user pool. A token's subject is the only source o
 
 ### Graph
 
+Each field that comes from a different upstream than its parent is nullable, so one failed source can't null a whole `Package` (FR-SG-6).
+
 ```graphql
 # packages: npm registry and downloads API
 type Package @key(fields: "name") {
   name: String!
   latestVersion: String!
+  versions: [String!]!
   license: String
-  weeklyDownloads: Int!
+  weeklyDownloads: Int
   repositoryUrl: String
   dependencies: [Dependency!]!
 }
@@ -222,7 +226,7 @@ type Advisory @key(fields: "id") {
 
 type Package @key(fields: "name") {
   name: String!
-  advisories(version: String): [Advisory!]!
+  advisories(version: String): [Advisory!]
 }
 
 # workspace: Postgres

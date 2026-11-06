@@ -7,8 +7,8 @@ Each branch is one pull request and lists the requirements it delivers. Plans fo
 | Milestone | Outcome | Plan | Status |
 |---|---|---|---|
 | M0 | Foundation: tooling, specification, quality gates | [Plan](plans/m0-foundation.md) | Done |
-| M1 | Public demo and CLI: graph map, impact check and a PR check, on real schemas | [Plan](plans/m1-workbench.md) | In progress |
-| M2 | Real graph: npm, GitHub and OSV subgraphs behind the pinned Cosmo Router | [Plan](plans/m2-real-graph.md) | Planned |
+| M1 | Public demo and CLI: graph map, impact check and a PR check, on real schemas | [Plan](plans/m1-workbench.md) | Waiting on user feedback |
+| M2 | Real graph: npm, GitHub and OSV subgraphs behind the pinned Cosmo Router | [Plan](plans/m2-real-graph.md) | In progress |
 | M3 | Live routes: web server, sandbox router, query plans, Package explorer | [Plan](plans/m3-live-routes.md) | Planned |
 | M4 | Accounts and saved workspaces | [Plan](plans/m4-accounts.md) | Planned |
 | M5 | AI assistant on Amazon Bedrock | [Plan](plans/m5-ai-assistant.md) | Planned |
@@ -45,13 +45,13 @@ Each branch is one pull request and lists the requirements it delivers. Plans fo
 | M1 | `feat/impact-cli` | FR-WB-5 | Merged |
 | M1 | `ci/npm-publish` | FR-WB-16 | Merged |
 | M1 | `ci/demo-deploy` | FR-WB-15 | Merged |
+| M2 | `docs/spike-results` | FR-GW-3, FR-GW-7 | Merged |
 | M2 | `feat/subgraph-kit` | FR-SG-7, FR-OB-6 | Planned |
 | M2 | `feat/packages-subgraph` | FR-SG-2, GR-16 | Planned |
 | M2 | `feat/repositories-subgraph` | FR-SG-3 | Planned |
 | M2 | `feat/advisories-subgraph` | FR-SG-4 | Planned |
 | M2 | `feat/upstream-resilience` | FR-SG-6, FR-SG-10 | Planned |
 | M2 | `feat/local-router` | FR-GW-2, FR-GW-4, FR-SG-5, GR-1, GR-2 | Planned |
-| M2 | `docs/spike-results` | FR-GW-3, FR-GW-7 | Planned |
 | M3 | `feat/web-server` | FR-WB-12, GR-9 | Planned |
 | M3 | `feat/sandbox-router` | FR-GW-9, GR-11 | Planned |
 | M3 | `feat/route-view` | FR-WB-7 | Planned |

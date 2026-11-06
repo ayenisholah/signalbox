@@ -30,6 +30,7 @@ Traverse is built on WunderGraph Cosmo and helps frontend developers explore a f
 | 2026-11-06 | Closed release #6: `verify` failed on generated `CHANGELOG.md` and `.release-please-manifest.json` formatting | none |
 | 2026-11-06 | Moved the local folder to `/home/titan/projects/traverse` | none |
 | 2026-11-06 | Owner confirmed Frox can be used in an MIT project, which answers U-18 | `chore/web-tooling` |
+| 2026-11-06 | M2 router spike, run first because GR-2 depended on it. Persisted operations run from local files with no paid plan (C-33). Anonymous reads decided in ADR 0015, and `SPEC.md`'s schema fixed for FR-SG-6. | `docs/spike-results` |
 | 2026-11-06 | Public demo at <https://ayenisholah.github.io/traverse/>, deployed by `demo.yml`. A suite tests the live site after each deploy. The first deployment stalled for 10 minutes for an unknown reason, and the next took under 2. | #39, #40 |
 | 2026-11-06 | `0.7.1` published from `release.yml` by trusted publishing, with provenance, and run from the registry on a planted break. FR-WB-16 is done. | #36, #37 |
 | 2026-11-06 | npm package: `@ayenis/traverse`, a dependency-free bundle with a publish job. The owner published `0.7.0` by hand and added the trusted publisher. The scope matches the owner's npm username. | `ci/npm-publish`, `build/npm-scope` |
@@ -45,14 +46,14 @@ Traverse is built on WunderGraph Cosmo and helps frontend developers explore a f
 
 ## In progress
 
-Nothing. M1 stays open for the one item below.
+Nothing. Start the next item below.
 
 ## Next
 
 In order:
 
-1. The owner: ask three frontend developers to try Traverse on their own repositories, and record what they say in `docs/USER_FEEDBACK.md`. Every other M1 exit item is met.
-2. M2, the real graph, once that's done or the owner chooses to start it anyway.
+1. M2, in this order: `feat/subgraph-kit`, `feat/packages-subgraph`, `feat/repositories-subgraph`, `feat/advisories-subgraph`, `feat/upstream-resilience`, `feat/local-router`.
+2. Set aside by the owner on 2026-11-06: three frontend developers trying Traverse on their own repositories, for `docs/USER_FEEDBACK.md`. It's the last M1 exit item, and only the owner can arrange it.
 
 ## Blocked
 
@@ -84,6 +85,10 @@ In order:
 - The owner chose to read inline `gql` tags as well as `.graphql` files. Tags left unreadable by `${...}` are listed as "Couldn't be checked" and only fail with `--strict`, which this repository's workflow sets. A tag that still parses is checked as written, so interpolated selections aren't seen.
 - The impact check can't block a merge yet: only `verify` is required on `main`, and a pull request here runs its own copy of the Action through `uses: ./`. `ci/schema-checks` (GR-7) is where that gets decided, and it needs the owner, because it's a repository setting.
 - The Action uses `GITHUB_TOKEN` only, because comments are matched on the `github-actions[bot]` login.
+- The owner decided the public router allows anonymous reads and refuses invalid tokens (ADR 0015).
+- Fields from a separate upstream are nullable in `SPEC.md`, because a non-null failure would null the whole `Package` (FR-SG-6).
+- GR-1's config check in `feat/local-router` must ban `engine.debug.always_include_query_plan`, and cover `introspection.enabled` and `playground.enabled` as well as the deprecated forms (C-37, C-42).
+- `feat:` commits open release pull requests that publish to npm when merged, so merge those deliberately.
 - The Cosmo demo schemas define no owners, so the map shows "No owner set". The owner chose a config file, filled in by each team and kept in their repository, which `packages/cli` reads as `traverse.json`. A global store of owners was rejected: names aren't unique, ownership is private, and nobody could verify entries. Never invent owners.
 - FR-WB-1 is marked done, but no real owner has appeared on screen yet, and the map doesn't read `traverse.json`. Check whether Cosmo labels or `CODEOWNERS` could replace the config file.
 - The map is a keyboard-first list, not a React Flow canvas. `SPEC.md` still lists React Flow, so the owner should decide whether a visual canvas is wanted.
