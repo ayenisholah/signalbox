@@ -89,6 +89,21 @@ GR-10: the written licence record is in [ADR 0010](adr/0010-tailwind-radix-frox-
 
 The missing font plant first passed, because `document.fonts.check` returns true for a font that hasn't loaded (W-9). The test now reads each face's status.
 
+## Graph map (FR-WB-1)
+
+Run on 2026-11-06. The end-to-end plants ran in a clean clone in `node:24`.
+
+| Gate | Command | Planted violation | Result |
+|---|---|---|---|
+| End to end | `npm run test:e2e` | Enter no longer opens a type | Exit 1, three tests failed |
+| End to end | `npm run test:e2e` | Focus no longer moves to the opened type | Exit 1, three tests failed |
+| End to end | `npm run test:e2e` | Fields table wider than a phone | Exit 1, one test failed |
+| UI | `npx vitest run --project web` | Wrong `aria-activedescendant` | Exit 1, three tests failed |
+| UI | `npx vitest run --project web` | An invented owner in place of "No owner set" | Exit 1, one test failed |
+| Generated data | `npx vitest run --project web` | Schema changed with no regeneration | Exit 1, test named |
+
+The generated data plant first passed because its `sed` matched nothing in the schema. It was rerun with a real change.
+
 ## Agent rules (FR-DP-9)
 
 `AGENTS.md` sets the order of truth and accuracy rules, the `verify-fact` skill defines how a claim is checked and recorded, and `docs/VERIFIED_FACTS.md` records each Cosmo, AWS and upstream claim with a source and status. Reviewed on 2026-11-06.
