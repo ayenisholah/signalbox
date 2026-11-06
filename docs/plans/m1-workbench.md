@@ -6,7 +6,7 @@
 
 1. `chore/web-tooling`: `apps/*` workspace with Next.js, Tailwind and Radix, and the gates extended to `apps/` and `.tsx`.
 2. `feat/graph-core`: `packages/graph-core`, pure logic over `@wundergraph/composition`: composition, the field-to-subgraph index and impact analysis. Answer U-11 here first.
-3. `feat/design-tokens`: the Frox scale as a Tailwind theme, with contrast and rem checks. Needs U-18 answered.
+3. `feat/design-tokens`: the Frox scale as a Tailwind theme, with contrast and rem checks.
 4. `feat/graph-map`: the searchable map.
 5. `feat/impact-check`: schema draft editor, Web Worker and results view.
 6. `feat/impact-cli`: the CLI and GitHub Action.
