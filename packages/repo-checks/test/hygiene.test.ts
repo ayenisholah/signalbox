@@ -10,6 +10,34 @@ describe("checkHygiene", () => {
     expect(violationsIn("docs/a.md", "Any TODO here is prose.\n")).toEqual([]);
   });
 
+  it.each([
+    ["apps/web/src/app/globals.css", "  margin: 12px;"],
+    ["apps/web/src/app/page.tsx", '<p className="mt-[3px]">'],
+    ["apps/web/src/app/page.tsx", '<p style={{ width: "1.5px" }}>'],
+  ])("[NFR-10] rejects px in %s: %s", (path, line) => {
+    expect(violationsIn(path, line)).toEqual([{ line: 1, message: "px unit in app styles" }]);
+  });
+
+  it.each([
+    ["apps/web/src/app/globals.css", "  color: #fff;"],
+    ["apps/web/src/app/globals.css", "  background: #7364db;"],
+    ["apps/web/src/app/page.tsx", '<p style={{ color: "rgb(0, 0, 0)" }}>'],
+    ["apps/web/src/app/page.tsx", '<p className="bg-[oklch(0.5_0.1_200)]">'],
+  ])("[FR-WB-13] rejects a raw colour in %s: %s", (path, line) => {
+    expect(violationsIn(path, line)).toEqual([{ line: 1, message: "raw colour in app styles" }]);
+  });
+
+  it.each([
+    ["apps/web/src/app/globals.css", "  margin: 0.75rem;"],
+    ["apps/web/src/app/page.tsx", '<a href="#main" className="h-px">'],
+    ["apps/web/src/app/globals.css", "/* the design shows 12px and #fff */"],
+    ["apps/web/src/generated/tokens.css", "  --surface: #ffffff;"],
+    ["apps/web/test/page.test.tsx", 'expect(width).toBe("12px");'],
+    ["packages/design-tokens/src/themes.ts", 'canvas: "#f5f5fa",'],
+  ])("[NFR-10] allows %s: %s", (path, line) => {
+    expect(violationsIn(path, line)).toEqual([]);
+  });
+
   it.each(["it.only(", "describe.only(", "test.skip(", "it.skip("])(
     "[FR-DP-7] rejects %s in a test file",
     (call) => {
