@@ -21,20 +21,24 @@
     "build:web": "npm run build -w @traverse/web",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
+    "test:integration": "vitest run --config vitest.integration.config.ts",
+    "test:e2e": "playwright test --config apps/web/playwright.config.ts",
     "check:deps": "depcruise \"{packages,subgraphs,apps,infra,scripts}/**/*.{ts,tsx}\" --config .dependency-cruiser.cjs",
     "check:dupes": "jscpd --config .jscpd.json",
     "check:unused": "knip",
     "check:hygiene": "node scripts/repo-check.ts hygiene",
     "check:traceability": "node scripts/repo-check.ts traceability",
     "check:progress": "node scripts/check-progress.ts",
-    "check": "npm run format:check && npm run lint && npm run typecheck && npm run check:deps && npm run check:dupes && npm run check:unused && npm run check:hygiene && npm run check:traceability && npm run check:progress && npm run test:coverage && npm run build:web",
+    "check": "npm run format:check && npm run lint && npm run typecheck && npm run check:deps && npm run check:dupes && npm run check:unused && npm run check:hygiene && npm run check:traceability && npm run check:progress && npm run test:coverage && npm run build:web && npm run test:integration && npm run test:e2e",
     "prepare": "lefthook install"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
     "@commitlint/cli": "^21.2.4",
     "@commitlint/config-conventional": "^21.2.4",
     "@eslint/js": "^10.0.1",
     "@next/eslint-plugin-next": "^16.4.5",
+    "@playwright/test": "^1.65.0",
     "@testing-library/dom": "^10.4.2",
     "@testing-library/react": "^16.3.3",
     "@traverse/repo-checks": "*",
@@ -55,6 +59,7 @@
     "prettier": "^3.9.10",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.72.1",
+    "vite": "^8.3.6",
     "vitest": "^4.1.12"
   }
 }
