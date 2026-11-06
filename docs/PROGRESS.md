@@ -40,13 +40,16 @@ Traverse is built on WunderGraph Cosmo and helps frontend developers explore a f
 
 ## In progress
 
-Nothing. Start the next item below.
+`feat/impact-cli` (FR-WB-5): the CLI, the Action and `traverse.json` are built and tested locally. The guardrail review is done and its findings are fixed. Next: a clean-clone `npm run check`, the pull request, and the real pull request proof. That proof is a throwaway pull request into this branch, closed unmerged. FR-WB-5 stays planned until it passes.
 
 ## Next
 
 In order:
 
-1. M1, the public demo and CLI, in this order: `feat/impact-cli`, `ci/demo-deploy`.
+1. `ci/npm-publish`, with a new requirement for it: a bundled, dependency-free `@ayenisholah/traverse`, published by trusted publishing. See the notes below.
+2. Owner: confirm the npm account `ayenisholah`, run the first publish, and add the trusted publisher for `release.yml`.
+3. Close and reopen release pull request #30 for CI, then merge it. Hold it until step 2 is done, or the publish job fails on it.
+4. `ci/demo-deploy`. Confirm with the owner before enabling Pages.
 
 ## Blocked
 
@@ -71,8 +74,12 @@ In order:
 - `graph-core` must not pass composition's class instances to `graphql` (W-5). Print or read AST nodes instead.
 - `graph-core` looks at field changes. Removed enum values and union members only show up if validation fails, which `feat/impact-check` should revisit.
 - Remove the `@graphql-tools/utils` override in `package.json` once composition depends on a fixed version (W-6). After editing overrides, confirm the package is present before trusting `npm audit`: a missing package audits clean.
-- The Cosmo demo schemas define no owners, so the map shows "No owner set". The owner chose a config file, filled in by each team and kept in their repository, read by `feat/impact-cli`. A global store of owners was rejected: names aren't unique, ownership is private, and nobody could verify entries. Never invent owners.
-- FR-WB-1 is marked done, but no real owner has appeared on screen yet. Check whether Cosmo labels or `CODEOWNERS` could replace the config file.
+- `ci/npm-publish` must bundle: Node can't strip types under `node_modules` (W-10), and overrides don't reach consumers, so a package depending on composition would hand them the W-6 advisories. Inline every dependency and include their licence notices. Trusted publishing needs `id-token: write`, npm 11.5.1 or later, and an exact `repository.url`.
+- The owner chose to read inline `gql` tags as well as `.graphql` files. Tags left unreadable by `${...}` are listed as "Couldn't be checked" and only fail with `--strict`, which this repository's workflow sets. A tag that still parses is checked as written, so interpolated selections aren't seen.
+- The impact check can't block a merge yet: only `verify` is required on `main`, and a pull request here runs its own copy of the Action through `uses: ./`. `ci/schema-checks` (GR-7) is where that gets decided, and it needs the owner, because it's a repository setting.
+- The Action uses `GITHUB_TOKEN` only, because comments are matched on the `github-actions[bot]` login.
+- The Cosmo demo schemas define no owners, so the map shows "No owner set". The owner chose a config file, filled in by each team and kept in their repository, which `packages/cli` reads as `traverse.json`. A global store of owners was rejected: names aren't unique, ownership is private, and nobody could verify entries. Never invent owners.
+- FR-WB-1 is marked done, but no real owner has appeared on screen yet, and the map doesn't read `traverse.json`. Check whether Cosmo labels or `CODEOWNERS` could replace the config file.
 - The map is a keyboard-first list, not a React Flow canvas. `SPEC.md` still lists React Flow, so the owner should decide whether a visual canvas is wanted.
 - After changing `graph/cosmo-demo` or `packages/graph-core`, run `npm run generate:demo`. A test fails if the data is stale.
 - CI on `main` took 9 minutes once, on `b04b7d8`, against 1 to 2 minutes usually. Watch for a repeat.

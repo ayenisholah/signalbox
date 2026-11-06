@@ -39,6 +39,7 @@ npm run check:progress       # the branch updates docs/PROGRESS.md
 | `scripts/`               | Git hook helpers                                       |
 | `SPEC.md`                | Goals, architecture, interfaces and data model         |
 | `apps/web`               | Next.js workbench, a static export until M3            |
+| `packages/cli`           | The `traverse` CLI, run by the root `action.yml`       |
 | `packages/design-tokens` | Frox scale, semantic tokens and the CSS generator      |
 | `packages/graph-core`    | Composition, field ownership and impact analysis       |
 | `packages/repo-checks`   | Hygiene and traceability checks                        |
