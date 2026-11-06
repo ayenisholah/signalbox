@@ -1,21 +1,51 @@
 # Traverse
 
-Traverse is a booking web app built on a production-grade federated GraphQL API. Customers browse services, choose a slot and manage bookings in a Next.js app. Behind it, a self-managed [Cosmo Router](https://cosmo-docs.wundergraph.com/router/intro) fronts independently deployed subgraphs on AWS, with Cosmo Cloud for the schema registry, analytics and Studio.
+Explore a federated GraphQL graph from the frontend, built on [WunderGraph Cosmo](https://cosmo-docs.wundergraph.com/overview).
 
-All booking data is fictional, and the patterns apply to any app on a federated graph.
+Traverse answers two questions for frontend developers: **which subgraphs does my query touch, and what breaks if this schema changes?**
 
 > [!NOTE]
-> **Status: early development.** Today the repository contains the tooling and quality rules. The web app, router, subgraphs and AWS infrastructure described below are planned and not built yet.
+> **Status: early development.** Today the repository holds the specification and quality gates. Everything below is planned and not built yet. The first public release will be a demo and a CLI you can run on your own repository.
 
-## Why it exists
+## What you'll be able to do
 
-Running a graph router in production involves more than starting a container. Traverse aims to be a complete, tested answer to the harder questions:
+| Job                                      | How Traverse helps                                                                                                                       |
+| ---------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| Catch breaks in code that hasn't shipped | A CLI and GitHub Action read your repository's operations, compose your proposed schema, and comment on the pull request with what broke |
+| Find who owns a field                    | Trace any field to its subgraph and owner                                                                                                |
+| See a query's cost before shipping       | See the real query plan as a route: which subgraphs it hits, and in what order                                                           |
+| Learn an unfamiliar graph                | Search a map of subgraphs, entities and owners                                                                                           |
+| Vet a dependency                         | Paste a `package.json` to see licences, advisories and maintenance from live data                                                        |
 
-- How do you deploy without dropping requests?
-- What happens when the control plane is unreachable?
-- How do you stop a schema change from breaking clients?
-- How do you keep one tenant's data away from another?
-- How do you trace a request from the load balancer to the database?
+It works on any Federation SDL, and the core needs no account and no AI.
+
+## Why it's built on Cosmo
+
+| Cosmo part                                                                           | What Traverse uses it for                                  |
+| ------------------------------------------------------------------------------------ | ---------------------------------------------------------- |
+| [`@wundergraph/composition`](https://www.npmjs.com/package/@wundergraph/composition) | Real federation composition, in the CLI and in the browser |
+| [Cosmo Router](https://cosmo-docs.wundergraph.com/router/intro)                      | Serves the graph, and provides real query plans            |
+| Cosmo Cloud and Studio                                                               | Schema registry, composition checks and analytics          |
+| `wgc`                                                                                | Schema checks and publishing                               |
+
+## How it fits with other tools
+
+Traverse complements these tools, and doesn't replace them:
+
+- **`wgc subgraph check`** compares a change with real traffic, 7 days by default. That can't see an operation on a feature branch, or one that runs rarely. Traverse reads the code.
+- **Cosmo Studio and Hub** serve platform teams and schema governance. Traverse starts from the frontend: screen, operation, field, subgraph, owner.
+- **[GraphQL Inspector](https://github.com/graphql-hive/graphql-inspector)** already validates operations against a schema. Traverse adds Cosmo's composition engine, subgraph and owner attribution, and screen mapping.
+
+## Real data
+
+The project's own graph serves live public data, joined across subgraphs:
+
+| Subgraph       | Source   | Data                                        |
+| -------------- | -------- | ------------------------------------------- |
+| `packages`     | npm      | Versions, licences, dependencies, downloads |
+| `repositories` | GitHub   | Stars, releases, owners                     |
+| `advisories`   | OSV      | Known vulnerabilities                       |
+| `workspace`    | Postgres | Your saved drafts and screen maps           |
 
 ## Planned architecture
 
@@ -23,46 +53,44 @@ Running a graph router in production involves more than starting a container. Tr
 flowchart TD
     client[Browser] -->|HTTPS| waf[AWS WAF]
     waf --> alb[Application Load Balancer]
-    alb -->|pages| web[Next.js web app on ECS Fargate]
-    alb -->|/graphql| router
-    web --> router[Cosmo Router on ECS Fargate]
+    alb -->|pages and tRPC| web[Next.js app on ECS Fargate]
+    alb -->|/graphql| router[Cosmo Router on ECS Fargate]
+    web --> router
+    web --> sandbox[Sandbox Cosmo Router, internal only]
+    web --> bedrock[Amazon Bedrock]
 
     subgraph services[Subgraphs on ECS Fargate]
-        catalog[Catalog]
-        availability[Availability]
-        bookings[Bookings]
+        packages[packages]
+        repositories[repositories]
+        advisories[advisories]
+        workspace[workspace]
     end
 
     router --> services
-    services --> rds[(RDS Postgres)]
-    router --> redis[(ElastiCache)]
-    router --> s3[(S3 fallback config)]
+    sandbox --> services
+    packages --> npm[npm]
+    repositories --> github[GitHub]
+    advisories --> osv[OSV]
+    workspace --> rds[(RDS Postgres)]
+    services --> redis[(ElastiCache)]
     router -->|config and telemetry| cosmo[Cosmo Cloud]
     router -->|traces and metrics| cloudwatch[CloudWatch and X-Ray]
 ```
 
-The web app, router, subgraphs and data all run in your AWS account. Cosmo Cloud provides Studio, the schema registry and analytics.
-
-## Design goals
-
-- **Accessible.** The app meets WCAG 2.2 AA and works by keyboard.
-- **Safe by default.** Production accepts approved operations only, and development features stay off.
-- **Zero-downtime deploys.** Tasks drain before they stop, and failed releases roll back automatically.
-- **Tenant isolation.** The tenant comes from a verified token, never from client input.
-- **Observable.** Every request can be traced, and every alarm has a runbook.
-- **Everything in code.** All infrastructure is defined in CDK, and deploys use short-lived credentials.
+An optional assistant on Amazon Bedrock explains results and suggests safe changes. Its suggestions run through real composition before you see them, and everything works without it.
 
 ## Planned stack
 
-| Area           | Technology                                   |
-| -------------- | -------------------------------------------- |
-| Web app        | Next.js, React, TypeScript                   |
-| Graph          | Cosmo Router, Cosmo Cloud                    |
-| Services       | TypeScript on Node 24, Postgres, Redis       |
-| Infrastructure | AWS CDK, ECS Fargate, RDS, ElastiCache       |
-| Edge           | Route 53, AWS WAF, Application Load Balancer |
-| Observability  | OpenTelemetry, CloudWatch, X-Ray             |
-| Delivery       | GitHub Actions with OIDC                     |
+| Area           | Technology                                                 |
+| -------------- | ---------------------------------------------------------- |
+| Web app        | Next.js, React, TypeScript, Tailwind, Radix, tRPC, Zustand |
+| Graph          | Cosmo Router, Cosmo Cloud, `@wundergraph/composition`      |
+| Services       | TypeScript on Node 24, Postgres, Redis                     |
+| AI             | Amazon Bedrock                                             |
+| Infrastructure | AWS CDK, ECS Fargate, RDS, ElastiCache                     |
+| Edge           | Route 53, AWS WAF, Application Load Balancer               |
+| Observability  | OpenTelemetry, CloudWatch, X-Ray                           |
+| Delivery       | GitHub Actions with OIDC                                   |
 
 ## Getting started
 
@@ -73,36 +101,27 @@ git clone https://github.com/ayenisholah/traverse.git
 cd traverse
 nvm use
 npm ci
+npm run check
 ```
 
-`npm ci` also installs the Git hooks.
-
-| Command                 | What it does                             |
-| ----------------------- | ---------------------------------------- |
-| `npm run format:check`  | Checks formatting with Prettier          |
-| `npm run lint`          | Runs ESLint                              |
-| `npm run typecheck`     | Type-checks the project                  |
-| `npm test`              | Runs the tests                           |
-| `npm run test:coverage` | Runs the tests with a 100% per-file gate |
-
-There's no application code or tests yet, so the test commands pass with nothing to run.
+`npm ci` also installs the Git hooks, and `npm run check` runs every quality gate.
 
 ## Roadmap
 
-| Phase            | Outcome                                                 | Status      |
-| ---------------- | ------------------------------------------------------- | ----------- |
-| Foundation       | Tooling, specification, quality gates                   | In progress |
-| Local graph      | Three subgraphs running behind the router locally       | Planned     |
-| Web app          | Sign in, find a slot, book and cancel, locally          | Planned     |
-| Network and data | VPC, databases and edge in CDK                          | Planned     |
-| Services         | Web app, router and subgraphs on staging                | Planned     |
-| Observability    | End-to-end traces, dashboards and alarms                | Planned     |
-| Delivery         | Schema checks and automated, reversible deploys         | Planned     |
-| Resilience       | Load, failover and recovery tests with recorded results | Planned     |
-| Production       | Launch with runbooks and a cost baseline                | Planned     |
+| Milestone | Outcome                                            | Status      |
+| --------- | -------------------------------------------------- | ----------- |
+| M0        | Tooling, specification, quality gates              | In progress |
+| M1        | Public demo and CLI, on real schemas               | Planned     |
+| M2        | Real graph behind the Cosmo Router                 | Planned     |
+| M3        | Live query routes and the Package explorer         | Planned     |
+| M4        | Accounts and saved workspaces                      | Planned     |
+| M5        | AI assistant on Amazon Bedrock                     | Planned     |
+| M6 to M8  | AWS network, services and observability            | Planned     |
+| M9 to M11 | Delivery pipeline, resilience proof and production | Planned     |
 
 ## Documentation
 
+- [Progress](docs/PROGRESS.md)
 - [Specification](SPEC.md)
 - [Requirements](docs/REQUIREMENTS.md)
 - [Roadmap](docs/ROADMAP.md)
@@ -114,7 +133,7 @@ There's no application code or tests yet, so the test commands pass with nothing
 ## Contributing
 
 - Use one branch and one pull request per feature.
-- `main` is protected, so all changes arrive through a pull request and land by rebase merge.
+- `main` is protected, so all changes arrive through a pull request with passing checks, and land by rebase merge.
 - Commits follow [Conventional Commits](https://www.conventionalcommits.org/) and each one is a single, complete change. A hook checks the format.
 - New behaviour comes with tests in the same commit.
 
