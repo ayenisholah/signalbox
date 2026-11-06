@@ -46,7 +46,7 @@ Each branch is one pull request and lists the requirements it delivers. Plans fo
 | M1 | `ci/npm-publish` | FR-WB-16 | Merged |
 | M1 | `ci/demo-deploy` | FR-WB-15 | Merged |
 | M2 | `docs/spike-results` | FR-GW-3, FR-GW-7 | Merged |
-| M2 | `feat/subgraph-kit` | FR-SG-7, FR-OB-6 | Planned |
+| M2 | `feat/subgraph-kit` | FR-SG-7, FR-OB-6 | Merged |
 | M2 | `feat/packages-subgraph` | FR-SG-2, GR-16 | Planned |
 | M2 | `feat/repositories-subgraph` | FR-SG-3 | Planned |
 | M2 | `feat/advisories-subgraph` | FR-SG-4 | Planned |

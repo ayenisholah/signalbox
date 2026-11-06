@@ -44,7 +44,7 @@ npm run check:progress       # the branch updates docs/PROGRESS.md
 | `packages/design-tokens` | Frox scale, semantic tokens and the CSS generator      |
 | `packages/graph-core`    | Composition, field ownership and impact analysis       |
 | `packages/repo-checks`   | Hygiene and traceability checks                        |
-| `packages/`              | Planned: subgraph kit                                  |
+| `packages/subgraph-kit`  | Server, health, auth, logging and shutdown             |
 | `subgraphs/`             | Planned: packages, repositories, advisories, workspace |
 | `graph/cosmo-demo`       | Cosmo demo schemas behind the public demo              |
 | `router/`                | Planned: router config and local composition           |

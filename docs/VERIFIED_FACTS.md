@@ -28,6 +28,8 @@ The versions below are the only ones whose docs count. Upgrades change this tabl
 | React | `19.3.1` | `package-lock.json` |
 | Tailwind CSS | `4.3.4` | `package-lock.json` |
 | `radix-ui` | `1.8.1` | `package-lock.json` |
+| `graphql-yoga` | `6.0.1` | `package-lock.json` |
+| `@apollo/subgraph` | `2.15.1` | `package-lock.json` |
 
 ## Cosmo
 
@@ -96,7 +98,7 @@ The versions below are the only ones whose docs count. Upgrades change this tabl
 | W-1 | With `output: "export"`, `next build` writes static files to `out`. | `tested` | `next build` in `node:24` on 2026-11-06, and `node_modules/next/dist/docs/01-app/02-guides/static-exports.md` |
 | W-2 | `next build` refuses a route using `dynamic = "force-dynamic"` under `output: "export"`. | `tested` | Planted route on 2026-11-06 |
 | W-3 | `eslint-config-next` 16.4.5 depends on `eslint-plugin-react` and `eslint-plugin-jsx-a11y`, whose peer ranges stop at ESLint 9. | `tested` | npm registry on 2026-11-06 |
-| W-5 | `graphql` 16 ships CJS and ESM builds. Under Vite, composition's schema objects fail in our `graphql` calls with "from another module or realm". AST nodes are plain objects and cross safely. | `tested` | Vitest run on 2026-11-06 |
+| W-5 | `graphql` 16 ships CJS and ESM builds. Under Vite, composition's schema objects fail in our `graphql` calls with "from another module or realm". AST nodes are plain objects and cross safely. The same split makes Yoga mask a deliberate `GraphQLError`, so Vitest's node project aliases `graphql` to the CommonJS build that Node loads. | `tested` | Vitest run on 2026-11-06 |
 | W-6 | `@wundergraph/composition` 0.66.2 asks for `@graphql-tools/utils` ^11, which has two high severity advisories (GHSA-7mx3-vvmw-hjmv, GHSA-c4qx-w738-7hr3). An npm override scoped to composition, to ^12.1.0, clears `npm audit`, and composition passes every test and the Chrome run on it. It has to be scoped, because `graphql-tag-pluck` needs ^13. Overrides don't reach packages installed by others. | `tested` | `npm audit` and `npm ls @graphql-tools/utils`, on 2026-11-06 |
 | W-7 | The values in `packages/design-tokens` are the Frox scale. They haven't been compared with the file's variables from this repository, because the Figma MCP call limit on the Starter plan was reached. | `reported` | [Frox Figma file](https://www.figma.com/design/jWHhIpI52m6ABnQpcTzZkG/Frox_dashboard_v5?node-id=1169-12005) |
 | W-8 | Setting `--color-*: initial` in `@theme` removes Tailwind's default palette: `bg-red-500` emits no CSS. | `tested` | Planted class on 2026-11-06 |
@@ -116,6 +118,7 @@ The versions below are the only ones whose docs count. Upgrades change this tabl
 | W-21 | `npm publish` in CI warns `No bin file found at dist/bin.js`, because `dist` doesn't exist until `prepack` runs. The published manifest still has `bin`, and the command works. | `tested` | The same run, and the registry manifest of `0.7.1` |
 | W-22 | A Pages deployment ID is the commit SHA. Once cancelled, it stays `deployment_cancelled`, and rerunning that run fails within seconds. | `tested` | [Run 42246560098](https://github.com/ayenisholah/traverse/actions/runs/42246560098), attempt 2 |
 | W-23 | GitHub Pages serves `/traverse/impact` from `impact.html`, and redirects `/traverse` to `/traverse/` with a 301. The Web Worker, fonts and links work under that path. | `tested` | [Run 42249140309](https://github.com/ayenisholah/traverse/actions/runs/42249140309) |
+| W-24 | `buildSubgraphSchema` in `@apollo/subgraph` 2.15.1 takes an array of modules. A single `{ typeDefs, resolvers }` object fails with `doc.definitions is not iterable`. | `tested` | `packages/subgraph-kit`, 2026-11-06 |
 
 ## AWS
 
@@ -146,6 +149,7 @@ Each is answered by test before the feature that depends on it ships.
 | U-17 | Can a third-party app read the Platform API? The docs describe it as used by the CLI and Studio. | FR-WB-1 | M3 |
 | U-19 | Which current Claude model does Bedrock offer from the chosen Region, and at what cost? | FR-AI-1 | Before M5 |
 | U-21 | Do the values in `packages/design-tokens` match the Figma file's variables exactly? See W-7. | FR-WB-13 | When the Figma call limit resets |
+| U-22 | Do Cognito access tokens carry `aud`? `packages/subgraph-kit` requires `aud`, `iss`, `exp` and `sub`, and a token shaped with `client_id` instead verifies as no user. Using ID tokens instead may put emails in reach of the router. | GR-3, FR-WB-10 | Before M4 |
 
 ## Answered questions
 

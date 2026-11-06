@@ -7,7 +7,7 @@
 ## Work
 
 1. `feat/web-auth`: Cognito code flow with PKCE, a server-side session, `HttpOnly` cookies, and a local issuer for development and tests.
-2. `feat/workspace-subgraph`: saved workspaces in Postgres, scoped by the verified user ID.
+2. `feat/workspace-subgraph`: saved workspaces in Postgres, scoped by the verified user ID. It adds a shared `requireUser` helper to `packages/subgraph-kit`, and refuses to start without auth settings. U-22 is answered first.
 
 ## Exit
 
