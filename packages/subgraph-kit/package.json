@@ -1,0 +1,17 @@
+{
+  "name": "@traverse/subgraph-kit",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Server, health, auth context, logging and shutdown for every subgraph.",
+  "license": "MIT",
+  "type": "module",
+  "exports": "./src/index.ts",
+  "dependencies": {
+    "@apollo/subgraph": "2.15.1",
+    "graphql": "^16.15.0",
+    "graphql-yoga": "6.0.1",
+    "jose": "6.2.15",
+    "pino": "10.4.0",
+    "zod": "^4.0.0"
+  }
+}

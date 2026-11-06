@@ -7,6 +7,9 @@ export default defineConfig({
   test: {
     projects: [
       {
+        // Node loads graphql's CommonJS build, and Vite would pick the ESM one. Two copies break
+        // the `instanceof` checks in Yoga, which then masks deliberate errors (W-5).
+        resolve: { alias: [{ find: /^graphql$/, replacement: "graphql/index.js" }] },
         test: {
           ...shared,
           name: "node",
