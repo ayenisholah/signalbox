@@ -7,6 +7,7 @@ A tool for frontend developers to explore a federated graph, built on WunderGrap
 ```sh
 npm run check                # every gate; run before opening a PR
 npm run test:coverage        # tests with the 100% per-file gate
+npm run build:web            # static export of the web app
 npm run check:deps           # module boundaries
 npm run check:dupes          # duplicated code
 npm run check:unused         # unused files, exports, dependencies
@@ -33,7 +34,7 @@ npm run check:progress       # the branch updates docs/PROGRESS.md
 | `docs/`                | Requirements, standards, ADRs, plans, facts            |
 | `scripts/`             | Git hook helpers                                       |
 | `SPEC.md`              | Goals, architecture, interfaces and data model         |
-| `apps/web`             | Planned: Next.js workbench                             |
+| `apps/web`             | Next.js workbench, a static export until M3            |
 | `packages/repo-checks` | Hygiene and traceability checks                        |
 | `packages/`            | Planned: graph core and subgraph kit                   |
 | `subgraphs/`           | Planned: packages, repositories, advisories, workspace |

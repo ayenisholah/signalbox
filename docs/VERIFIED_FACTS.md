@@ -23,6 +23,10 @@ The versions below are the only ones whose docs count. Upgrades change this tabl
 | `wgc` | `0.133.6` | npm registry |
 | `@wundergraph/composition` | `0.66.2` | npm registry |
 | AWS CDK library | `2.275.0` | npm registry |
+| Next.js | `16.4.5` | `package-lock.json` |
+| React | `19.3.1` | `package-lock.json` |
+| Tailwind CSS | `4.3.4` | `package-lock.json` |
+| `radix-ui` | `1.8.1` | `package-lock.json` |
 
 ## Cosmo
 
@@ -63,6 +67,15 @@ The versions below are the only ones whose docs count. Upgrades change this tabl
 | D-2 | OSV answers version queries with no key. It returned 4 advisories for `lodash` 4.17.20. | `tested` | Live request on 2026-11-05 |
 | D-3 | GitHub GraphQL allows 5,000 points an hour for an authenticated user. | `tested` | `rate_limit` API on 2026-11-05 |
 | D-4 | The deps.dev `:dependencies` endpoint returned 404, so npm metadata is used instead. | `tested` | Live request on 2026-11-05 |
+
+## Web
+
+| ID | Fact | Status | Source |
+|---|---|---|---|
+| W-1 | With `output: "export"`, `next build` writes static files to `out`. | `tested` | `next build` in `node:24` on 2026-11-06, and `node_modules/next/dist/docs/01-app/02-guides/static-exports.md` |
+| W-2 | `next build` refuses a route using `dynamic = "force-dynamic"` under `output: "export"`. | `tested` | Planted route on 2026-11-06 |
+| W-3 | `eslint-config-next` 16.4.5 depends on `eslint-plugin-react` and `eslint-plugin-jsx-a11y`, whose peer ranges stop at ESLint 9. | `tested` | npm registry on 2026-11-06 |
+| W-4 | Under jsdom, axe reports colour contrast as `incomplete`, not as a violation, even for `#eee` on `#fff`. | `tested` | Local run on 2026-11-06 |
 
 ## AWS
 

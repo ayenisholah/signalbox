@@ -7,7 +7,7 @@ Each branch is one pull request and lists the requirements it delivers. Plans fo
 | Milestone | Outcome | Plan | Status |
 |---|---|---|---|
 | M0 | Foundation: tooling, specification, quality gates | [Plan](plans/m0-foundation.md) | Done |
-| M1 | Public demo and CLI: graph map, impact check and a PR check, on real schemas | [Plan](plans/m1-workbench.md) | Planned |
+| M1 | Public demo and CLI: graph map, impact check and a PR check, on real schemas | [Plan](plans/m1-workbench.md) | In progress |
 | M2 | Real graph: npm, GitHub and OSV subgraphs behind the pinned Cosmo Router | [Plan](plans/m2-real-graph.md) | Planned |
 | M3 | Live routes: web server, sandbox router, query plans, Package explorer | [Plan](plans/m3-live-routes.md) | Planned |
 | M4 | Accounts and saved workspaces | [Plan](plans/m4-accounts.md) | Planned |
@@ -35,7 +35,7 @@ Each branch is one pull request and lists the requirements it delivers. Plans fo
 | M0 | `ci/release-fixes` | FR-DP-7 | Merged |
 | M0 | `docs/workbench-direction` | FR-DP-7, FR-DP-8 | Merged |
 | M0 | `chore/agent-skills` | FR-DP-9 | Merged |
-| M1 | `chore/web-tooling` | FR-WB-13 | Planned |
+| M1 | `chore/web-tooling` | FR-WB-13 | Merged |
 | M1 | `feat/graph-core` | FR-WB-3, FR-WB-4, FR-WB-6 | Planned |
 | M1 | `feat/design-tokens` | FR-WB-13, NFR-9, NFR-10, GR-10 | Planned |
 | M1 | `feat/graph-map` | FR-WB-1 | Planned |

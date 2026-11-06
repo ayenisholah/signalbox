@@ -1,6 +1,6 @@
 # Verification
 
-**Updated:** 2026-11-05
+**Updated:** 2026-11-06
 
 This file records proof that isn't a named test. Each gate below was run on a clean tree, where it passed, and then on a planted violation, where it failed. Exit codes were checked one at a time.
 
@@ -32,6 +32,26 @@ This file records proof that isn't a named test. Each gate below was run on a cl
 | Dependencies | `npm audit --omit=dev --audit-level=high` | Project depending on `lodash` 4.17.20 | Exit 1 |
 
 The traceability run first passed on the `done` plant, because a test fixture named a real ID and counted as evidence. Fixtures now use a prefix no real requirement has.
+
+## Web gates (FR-WB-13)
+
+Run on 2026-11-06 in a clean clone in `node:24`, with each violation planted in `apps/web`.
+
+| Gate | Command | Planted violation | Result |
+|---|---|---|---|
+| Lint | `npm run lint` | Conditional hook in `.tsx` | Exit 1, hook rule reported |
+| Lint | `npm run lint` | `<img>` element | Exit 1, through `--max-warnings 0` |
+| Hygiene | `npm run check:hygiene` | `any` in `apps/web/src` | Exit 1, file and line named |
+| Boundaries | `npm run check:deps` | `.tsx` importing a package's internals | Exit 1, `no-deep-package-imports` |
+| Unused code | `npm run check:unused` | Orphan `.tsx` file | Exit 1, file named |
+| Duplication | `npm run check:dupes` | Copied `.tsx` files | Exit 1, two clones |
+| Coverage | `npx vitest run --coverage` | Uncovered branch in `page.tsx` | Exit 1, 50% branches, file named |
+| Accessibility | `npx vitest run --project web` | Image with no alt text | Exit 1, `image-alt` |
+| Types | `npm run typecheck` | Type error in `apps/web/src` | Exit 2, TS2322 |
+| Web build | `npm run build:web` | Import of a missing file | Exit 1, module not found |
+| Web build | `npm run build:web` | Server-only route | Exit 1, refused under `output: "export"` |
+
+The `<img>` plant first passed, because the Next rules only warn. `npm run lint` now fails on warnings.
 
 ## Agent rules (FR-DP-9)
 
