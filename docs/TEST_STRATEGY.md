@@ -29,6 +29,7 @@ axe can't judge colour contrast under jsdom (W-4), so component tests prove noth
 | Component | UI: its states, plus an axe check | `apps/*/test/*.test.tsx` |
 | Feature | Integration | `apps/*/test/integration/`, `packages/*/test/integration/` |
 | Feature | Playwright end to end, including an axe check | `apps/*/test/e2e/` |
+| Public demo | Playwright with relative URLs, on a `/traverse` build and after each deploy | `apps/web/test/demo/` |
 
 A pure function has no screen to drive, so it needs no Playwright test of its own. The feature that uses it does. The CLI has no browser at all: its integration tests run the real command, install the packed tarball, and a real pull request proves the Action end to end.
 

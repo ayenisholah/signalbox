@@ -23,6 +23,7 @@
     "test:coverage": "vitest run --coverage",
     "test:integration": "vitest run --config vitest.integration.config.ts",
     "test:e2e": "playwright test --config apps/web/playwright.config.ts",
+    "test:demo": "BASE_PATH=/traverse npm run build:web && BASE_PATH=/traverse npm run test:e2e",
     "generate:tokens": "node scripts/generate-tokens.ts",
     "generate:demo": "node scripts/generate-demo-graph.ts",
     "check:deps": "depcruise \"{packages,subgraphs,apps,infra,scripts}/**/*.{ts,tsx}\" --config .dependency-cruiser.cjs",
@@ -31,7 +32,7 @@
     "check:hygiene": "node scripts/repo-check.ts hygiene",
     "check:traceability": "node scripts/repo-check.ts traceability",
     "check:progress": "node scripts/check-progress.ts",
-    "check": "npm run format:check && npm run lint && npm run typecheck && npm run check:deps && npm run check:dupes && npm run check:unused && npm run check:hygiene && npm run check:traceability && npm run check:progress && npm run test:coverage && npm run build:web && npm run test:integration && npm run test:e2e",
+    "check": "npm run format:check && npm run lint && npm run typecheck && npm run check:deps && npm run check:dupes && npm run check:unused && npm run check:hygiene && npm run check:traceability && npm run check:progress && npm run test:coverage && npm run build:web && npm run test:integration && npm run test:e2e && npm run test:demo",
     "prepare": "lefthook install"
   },
   "devDependencies": {

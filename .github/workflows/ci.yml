@@ -55,6 +55,8 @@ jobs:
         run: npx playwright install --with-deps chromium
       - name: End-to-end tests
         run: npm run test:e2e
+      - name: Demo tests, from the path GitHub Pages uses
+        run: npm run test:demo
       - run: npm audit --omit=dev --audit-level=high
       - name: Scan full history for committed secrets
         run: docker run --rm -v "$PWD:/repo" zricethezav/gitleaks:v8.24.3 git /repo --no-banner --redact

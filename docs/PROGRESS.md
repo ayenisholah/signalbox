@@ -44,13 +44,14 @@ Traverse is built on WunderGraph Cosmo and helps frontend developers explore a f
 
 ## In progress
 
-Nothing. Start the next item below.
+`ci/demo-deploy` (FR-WB-15): the owner approved enabling GitHub Pages on 2026-11-06, as part of finishing M1. The build, `demo.yml` and a demo suite that runs under `/traverse` are ready. FR-WB-15 stays planned until the suite passes on the public URL.
 
 ## Next
 
 In order:
 
-1. `ci/demo-deploy`. Confirm with the owner before enabling Pages.
+1. Confirm the public site, and record the URL.
+2. The owner: find three frontend developers to try it on their own repositories, for `docs/USER_FEEDBACK.md`. That's the last M1 exit item, and nobody else can do it.
 
 ## Blocked
 
@@ -68,6 +69,7 @@ In order:
 - The design source is the [Frox Figma file](https://www.figma.com/design/jWHhIpI52m6ABnQpcTzZkG/Frox_dashboard_v5?node-id=1169-12005). Compare `packages/design-tokens` with its variables when the MCP call limit resets (U-21).
 - After changing `packages/design-tokens`, run `npm run generate:tokens`. A test fails if the CSS is stale.
 - Add a contrast pair for each new token that carries text. The theme follows the OS setting, and there's no toggle yet.
+- `npm run test:demo` rebuilds `apps/web/out` for `/traverse`, so run `build:web` again before `test:e2e` on its own.
 - `vite preview` serves the export for Playwright. `serve` was rejected: its `compression` dependency has a high severity advisory.
 - dependency-cruiser refuses local Node 25, so run the gates in `node:24`.
 - `npm audit` reports 10 moderate `minimatch` findings through ESLint. They're dev-only, and CI audits production dependencies at high.
