@@ -93,6 +93,7 @@ The versions below are the only ones whose docs count. Upgrades change this tabl
 | D-9 | npm's abbreviated version document is 8.8 MB for `typescript`, and took 1.7 to 12.8 seconds here. Scoped names work encoded or plain, and an unknown package returns 404. | `tested` | Live requests on 2026-11-06 |
 | D-10 | `repository.url` comes in many forms: `git+https://`, `git+ssh://git@`, `git://`, `github:owner/repo`, and paths such as `/tree/master/packages/x`. | `tested` | 15 real packages on 2026-11-06 |
 | D-11 | GitHub GraphQL answers 200 with `errors: [{"type":"NOT_FOUND"}]` and `repository: null` for a missing repository. A bad token returns 401, and no token returns 403 with the caller's IP in the message. A repository query costs 1 point. | `tested` | Live requests on 2026-11-06 |
+| D-12 | OSV answers `{}` for a package with no advisories, ignores a malformed version and returns every record, and returns 404 for an unknown ID. Across 309 npm records, every one had a `summary`, of at most 157 characters. 117 had more than one fix, and `affected` often names other packages. A record can carry `withdrawn` and `credits[].contact`, and a query can return `next_page_token`. | `tested` | Live requests on 2026-11-06, and the [OSV schema](https://ossf.github.io/osv-schema/) |
 
 ## Web
 
