@@ -69,6 +69,26 @@ Run on 2026-11-06 in a clean clone in `node:24`, against a rebuilt static export
 
 The contrast plant passed the jsdom axe test with exit 0, then failed in Playwright. That matches W-4.
 
+## Design token gates (FR-WB-13, NFR-9, NFR-10)
+
+Run on 2026-11-06 in a clean clone in `node:24`.
+
+| Gate | Command | Planted violation | Result |
+|---|---|---|---|
+| Hygiene | `npm run check:hygiene` | `2px` in `globals.css` | Exit 1, file and line named |
+| Hygiene | `npm run check:hygiene` | `mt-[3px]` in `.tsx` | Exit 1, file and line named |
+| Hygiene | `npm run check:hygiene` | `text-[#ff0000]` in `.tsx` | Exit 1, file and line named |
+| Contrast | `npx vitest run --project node` | `fg-muted` set to `#a0a0a0` | Exit 1, three pairs failed |
+| Generated CSS | `npx vitest run --project web` | Token source changed with no regeneration | Exit 1, test named |
+| Tailwind theme | `npm run build:web` | `bg-red-500` on the page | No CSS emitted for the class |
+| End to end | `npm run test:e2e` | Description set to `text-fg-subtle` | Exit 1, `color-contrast` |
+| End to end | `npm run test:e2e` | Poppins 600 not imported | Exit 1, one test failed |
+| End to end | `npm run test:e2e` | Heading size fixed in `px` | Exit 1, one test failed |
+
+GR-10: the written licence record is in [ADR 0010](adr/0010-tailwind-radix-frox-scale.md) and U-18, and it merged with the first Frox-derived file.
+
+The missing font plant first passed, because `document.fonts.check` returns true for a font that hasn't loaded (W-9). The test now reads each face's status.
+
 ## Agent rules (FR-DP-9)
 
 `AGENTS.md` sets the order of truth and accuracy rules, the `verify-fact` skill defines how a claim is checked and recorded, and `docs/VERIFIED_FACTS.md` records each Cosmo, AWS and upstream claim with a source and status. Reviewed on 2026-11-06.

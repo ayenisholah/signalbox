@@ -39,7 +39,7 @@ Each branch is one pull request and lists the requirements it delivers. Plans fo
 | M1 | `test/web-e2e` | NFR-9 | Merged |
 | M1 | `docs/readme-status` | FR-DP-7 | Merged |
 | M1 | `feat/graph-core` | FR-WB-3, FR-WB-4, FR-WB-6 | Merged |
-| M1 | `feat/design-tokens` | FR-WB-13, NFR-9, NFR-10, GR-10 | Planned |
+| M1 | `feat/design-tokens` | FR-WB-13, NFR-9, NFR-10, GR-10 | Merged |
 | M1 | `feat/graph-map` | FR-WB-1 | Planned |
 | M1 | `feat/impact-check` | FR-WB-2, NFR-12 | Planned |
 | M1 | `feat/impact-cli` | FR-WB-5 | Planned |

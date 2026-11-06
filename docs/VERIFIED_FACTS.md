@@ -81,6 +81,9 @@ The versions below are the only ones whose docs count. Upgrades change this tabl
 | W-3 | `eslint-config-next` 16.4.5 depends on `eslint-plugin-react` and `eslint-plugin-jsx-a11y`, whose peer ranges stop at ESLint 9. | `tested` | npm registry on 2026-11-06 |
 | W-5 | `graphql` 16 ships CJS and ESM builds. Under Vite, composition's schema objects fail in our `graphql` calls with "from another module or realm". AST nodes are plain objects and cross safely. | `tested` | Vitest run on 2026-11-06 |
 | W-6 | `@wundergraph/composition` 0.66.2 asks for `@graphql-tools/utils` ^11, which has two high severity advisories (GHSA-7mx3-vvmw-hjmv, GHSA-c4qx-w738-7hr3). A root npm override to ^12.1.0 clears `npm audit`, and composition passes every test and the Chrome run on it. | `tested` | `npm audit`, and a fresh `npm ci`, on 2026-11-06 |
+| W-7 | The values in `packages/design-tokens` are the Frox scale. They haven't been compared with the file's variables from this repository, because the Figma MCP call limit on the Starter plan was reached. | `reported` | [Frox Figma file](https://www.figma.com/design/jWHhIpI52m6ABnQpcTzZkG/Frox_dashboard_v5?node-id=1169-12005) |
+| W-8 | Setting `--color-*: initial` in `@theme` removes Tailwind's default palette: `bg-red-500` emits no CSS. | `tested` | Planted class on 2026-11-06 |
+| W-9 | `document.fonts.check` returns true when the font hasn't loaded, so a test must read each face's `status`. | `tested` | Planted missing font on 2026-11-06 |
 | W-4 | Under jsdom, axe reports colour contrast as `incomplete`, not as a violation, even for `#eee` on `#fff`. In Chromium through Playwright, the same text fails `color-contrast`. | `tested` | Local run and planted violation on 2026-11-06 |
 
 ## AWS
@@ -117,6 +120,7 @@ Each is answered by test before the feature that depends on it ships.
 | U-16 | What shape is the query plan in `extensions`, and does it need dev mode or a token? The docs don't say. | FR-WB-7 | M2 |
 | U-17 | Can a third-party app read the Platform API? The docs describe it as used by the CLI and Studio. | FR-WB-1 | M3 |
 | U-19 | Which current Claude model does Bedrock offer from the chosen Region, and at what cost? | FR-AI-1 | Before M5 |
+| U-21 | Do the values in `packages/design-tokens` match the Figma file's variables exactly? See W-7. | FR-WB-13 | When the Figma call limit resets |
 | U-20 | Does `packages/graph-core` run in a Web Worker built by Next.js and Turbopack? C-27 used esbuild. | FR-WB-2 | `feat/impact-check` |
 
 ## Answered questions

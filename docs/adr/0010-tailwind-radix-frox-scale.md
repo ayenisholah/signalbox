@@ -8,7 +8,7 @@ ADR 0008 chose a Frox token pipeline. Tailwind and Radix are a better fit for a 
 
 ## Decision
 
-Use Radix primitives and Tailwind, with the Frox colour, type, radius and spacing scale as the Tailwind theme. Project rules win where they conflict: AA contrast, rem sizing and touch target sizes. Kit icons and images aren't copied.
+Use Radix primitives and Tailwind, with the colour, type, radius and spacing scale from the [Frox Figma file](https://www.figma.com/design/jWHhIpI52m6ABnQpcTzZkG/Frox_dashboard_v5?node-id=1169-12005) as the Tailwind theme. Project rules win where they conflict: AA contrast, rem sizing and touch target sizes. Kit icons and images aren't copied.
 
 ## Consequences
 

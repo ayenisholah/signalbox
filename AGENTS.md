@@ -8,6 +8,7 @@ A tool for frontend developers to explore a federated graph, built on WunderGrap
 npm run check                # every gate; run before opening a PR
 npm run test:coverage        # tests with the 100% per-file gate
 npm run build:web            # static export of the web app
+npm run generate:tokens      # regenerate the CSS from packages/design-tokens
 npm run test:integration     # integration tests, after a build
 npm run test:e2e             # Playwright on the static export, after a build
 npm run check:deps           # module boundaries
@@ -31,18 +32,19 @@ npm run check:progress       # the branch updates docs/PROGRESS.md
 
 ## Repo map
 
-| Path                   | What it is                                             |
-| ---------------------- | ------------------------------------------------------ |
-| `docs/`                | Requirements, standards, ADRs, plans, facts            |
-| `scripts/`             | Git hook helpers                                       |
-| `SPEC.md`              | Goals, architecture, interfaces and data model         |
-| `apps/web`             | Next.js workbench, a static export until M3            |
-| `packages/graph-core`  | Composition, field ownership and impact analysis       |
-| `packages/repo-checks` | Hygiene and traceability checks                        |
-| `packages/`            | Planned: subgraph kit                                  |
-| `subgraphs/`           | Planned: packages, repositories, advisories, workspace |
-| `router/`, `graph/`    | Planned: router config and local composition           |
-| `infra/`               | Planned: CDK app and reusable constructs               |
+| Path                     | What it is                                             |
+| ------------------------ | ------------------------------------------------------ |
+| `docs/`                  | Requirements, standards, ADRs, plans, facts            |
+| `scripts/`               | Git hook helpers                                       |
+| `SPEC.md`                | Goals, architecture, interfaces and data model         |
+| `apps/web`               | Next.js workbench, a static export until M3            |
+| `packages/design-tokens` | Frox scale, semantic tokens and the CSS generator      |
+| `packages/graph-core`    | Composition, field ownership and impact analysis       |
+| `packages/repo-checks`   | Hygiene and traceability checks                        |
+| `packages/`              | Planned: subgraph kit                                  |
+| `subgraphs/`             | Planned: packages, repositories, advisories, workspace |
+| `router/`, `graph/`      | Planned: router config and local composition           |
+| `infra/`                 | Planned: CDK app and reusable constructs               |
 
 ## Order of truth
 

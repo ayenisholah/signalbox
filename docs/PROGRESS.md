@@ -30,6 +30,7 @@ Traverse is built on WunderGraph Cosmo and helps frontend developers explore a f
 | 2026-11-06 | Closed release #6: `verify` failed on generated `CHANGELOG.md` and `.release-please-manifest.json` formatting | none |
 | 2026-11-06 | Moved the local folder to `/home/titan/projects/traverse` | none |
 | 2026-11-06 | Owner confirmed Frox can be used in an MIT project, which answers U-18 | `chore/web-tooling` |
+| 2026-11-06 | `packages/design-tokens`: the Frox scale as semantic tokens and a Tailwind theme, with Poppins, contrast checks in both themes, and gates against `px` and raw colours. | `feat/design-tokens` |
 | 2026-11-06 | README badges and a quality gates table, at the owner's request. The coverage badge shows the enforced gate, because a live one needs a service account. | `docs/readme-status` |
 | 2026-11-06 | `packages/graph-core`: composition, field ownership and impact analysis, proven on the Cosmo demo schemas and in a Chrome Web Worker. Answers U-11. | `feat/graph-core` |
 | 2026-11-06 | Integration and Playwright layers, and the testing rule in `AGENTS.md`, at the owner's request. Pulled forward from M3. NFR-9 stays planned until every route is covered. | `test/web-e2e` |
@@ -43,7 +44,7 @@ Nothing. Start the next item below.
 
 In order:
 
-1. M1, the public demo and CLI, in this order: `feat/design-tokens`, `feat/graph-map`, `feat/impact-check`, `feat/impact-cli`, `ci/demo-deploy`.
+1. M1, the public demo and CLI, in this order: `feat/graph-map`, `feat/impact-check`, `feat/impact-cli`, `ci/demo-deploy`.
 
 ## Blocked
 
@@ -57,7 +58,10 @@ In order:
 - Before pushing, run `npm ci` and `npm run check` on a clean clone in `node:24`, and stop if either fails.
 - Release pull requests get no CI until closed and reopened, and again after each update.
 - `apps/web` uses `eslint-plugin-react-hooks` and `@next/eslint-plugin-next` directly, not `eslint-config-next` (W-3).
-- axe can't check contrast under jsdom, but the Playwright run can (W-4). `feat/design-tokens` still needs its token contrast check.
+- axe can't check contrast under jsdom, but the Playwright run can (W-4).
+- The design source is the [Frox Figma file](https://www.figma.com/design/jWHhIpI52m6ABnQpcTzZkG/Frox_dashboard_v5?node-id=1169-12005). Compare `packages/design-tokens` with its variables when the MCP call limit resets (U-21).
+- After changing `packages/design-tokens`, run `npm run generate:tokens`. A test fails if the CSS is stale.
+- Add a contrast pair for each new token that carries text. The theme follows the OS setting, and there's no toggle yet.
 - `vite preview` serves the export for Playwright. `serve` was rejected: its `compression` dependency has a high severity advisory.
 - dependency-cruiser refuses local Node 25, so run the gates in `node:24`.
 - `npm audit` reports 10 moderate `minimatch` findings through ESLint. They're dev-only, and CI audits production dependencies at high.
