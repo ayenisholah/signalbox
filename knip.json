@@ -9,7 +9,8 @@
       "project": ["src/**", "test/**"]
     },
     "packages/*": {
-      "project": ["src/**", "test/**"]
+      "project": ["src/**", "test/**"],
+      "entry": ["test/integration/fixtures/*.ts"]
     }
   }
 }
