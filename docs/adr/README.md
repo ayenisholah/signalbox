@@ -8,5 +8,10 @@
 | [0004](0004-github-actions-oidc.md) | Deploy from GitHub Actions through OIDC | Accepted |
 | [0005](0005-regional-waf-without-cloudfront.md) | Use a regional WAF without CloudFront | Accepted |
 | [0006](0006-cloudwatch-dashboards.md) | Use CloudWatch for dashboards | Accepted |
-| [0007](0007-nextjs-web-app.md) | Build the web app with Next.js | Accepted |
-| [0008](0008-frox-design-system.md) | Adopt Frox after a licence check | Accepted |
+| [0007](0007-nextjs-web-app.md) | Build the web app with Next.js | Accepted, product scope replaced by 0009 |
+| [0008](0008-frox-design-system.md) | Adopt Frox after a licence check | Superseded by 0010 |
+| [0009](0009-graph-workbench.md) | Build a graph workbench for frontend developers | Accepted |
+| [0010](0010-tailwind-radix-frox-scale.md) | Use Tailwind and Radix with the Frox scale | Accepted |
+| [0011](0011-sandbox-router.md) | Run a separate sandbox router | Accepted |
+| [0012](0012-bedrock-assistant.md) | Use Amazon Bedrock for an optional assistant | Accepted |
+| [0013](0013-real-data.md) | Serve real data | Accepted |

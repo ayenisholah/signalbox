@@ -1,6 +1,6 @@
 # 0007: Build the web app with Next.js
 
-**Status:** Accepted
+**Status:** Accepted, with its product scope replaced by [0009](0009-graph-workbench.md). Next.js and the server layer still stand.
 
 ## Context
 
