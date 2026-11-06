@@ -39,6 +39,7 @@ jobs:
         with:
           node-version-file: .nvmrc
           registry-url: https://registry.npmjs.org
+          package-manager-cache: false
       - run: npm ci --ignore-scripts
       # Trusted publishing: npm exchanges this job's OIDC token, so there's no npm secret to steal.
       - run: npm publish --workspace @ayenis/traverse
