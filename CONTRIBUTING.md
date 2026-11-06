@@ -24,6 +24,7 @@ Use [Conventional Commits](https://www.conventionalcommits.org/): `type(scope): 
 ## Checks
 
 ```sh
+npx playwright install chromium
 npm run check
 ```
 

@@ -30,6 +30,7 @@ Traverse is built on WunderGraph Cosmo and helps frontend developers explore a f
 | 2026-11-06 | Closed release #6: `verify` failed on generated `CHANGELOG.md` and `.release-please-manifest.json` formatting | none |
 | 2026-11-06 | Moved the local folder to `/home/titan/projects/traverse` | none |
 | 2026-11-06 | Owner confirmed Frox can be used in an MIT project, which answers U-18 | `chore/web-tooling` |
+| 2026-11-06 | README badges and a quality gates table, at the owner's request. The coverage badge shows the enforced gate, because a live one needs a service account. | `docs/readme-status` |
 | 2026-11-06 | `packages/graph-core`: composition, field ownership and impact analysis, proven on the Cosmo demo schemas and in a Chrome Web Worker. Answers U-11. | `feat/graph-core` |
 | 2026-11-06 | Integration and Playwright layers, and the testing rule in `AGENTS.md`, at the owner's request. Pulled forward from M3. NFR-9 stays planned until every route is covered. | `test/web-e2e` |
 | 2026-11-06 | `apps/web` on Next.js, Tailwind and Radix, with every gate extended to `apps/` and `.tsx`. FR-WB-13 stays planned until `feat/design-tokens`. | `chore/web-tooling` |
