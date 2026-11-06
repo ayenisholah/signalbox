@@ -606,7 +606,7 @@ describe("configuration", () => {
     expect(create(env)).toThrow(/go together/);
   });
 
-  it.each(["http://keys.example.com/jwks.json", "file:///etc/passwd"])(
+  it.each(["http://keys.example.com/jwks.json", "file:///etc/passwd", "not a url"])(
     "[GR-3] refuses keys from %s",
     (JWKS_URL) => {
       expect(create({ ...auth, JWKS_URL })).toThrow(/JWKS_URL/);

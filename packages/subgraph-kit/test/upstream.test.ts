@@ -75,6 +75,12 @@ describe("fetchJson", () => {
     expect(await fetchJson(request(answer("Not Found", 404)))).toBeNull();
   });
 
+  it("[FR-SG-7] can treat a 404 as a failure, for an endpoint that always exists", async () => {
+    await expect(
+      fetchJson({ ...request(answer({ value: "x" }, 404)), notFoundIsFailure: true }),
+    ).rejects.toMatchObject({ message: "npm is unavailable." });
+  });
+
   it.each<[string, typeof globalThis.fetch]>([
     ["a server error", answer({ value: "valid" }, 500)],
     ["rate limiting", answer({ value: "valid" }, 429)],
