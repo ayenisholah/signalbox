@@ -35,22 +35,23 @@ npm run check:progress       # the branch updates docs/PROGRESS.md
 
 ## Repo map
 
-| Path                     | What it is                                           |
-| ------------------------ | ---------------------------------------------------- |
-| `docs/`                  | Requirements, standards, ADRs, plans, facts          |
-| `scripts/`               | Git hook helpers                                     |
-| `SPEC.md`                | Goals, architecture, interfaces and data model       |
-| `apps/web`               | Next.js workbench, a static export until M3          |
-| `packages/cli`           | The `traverse` CLI, run by `action.yml`, sent to npm |
-| `packages/design-tokens` | Frox scale, semantic tokens and the CSS generator    |
-| `packages/graph-core`    | Composition, field ownership and impact analysis     |
-| `packages/repo-checks`   | Hygiene and traceability checks                      |
-| `packages/subgraph-kit`  | Server, health, auth, logging and shutdown           |
-| `subgraphs/packages`     | npm data, on the shared subgraph kit                 |
-| `subgraphs/`             | Planned: repositories, advisories, workspace         |
-| `graph/cosmo-demo`       | Cosmo demo schemas behind the public demo            |
-| `router/`                | Planned: router config and local composition         |
-| `infra/`                 | Planned: CDK app and reusable constructs             |
+| Path                     | What it is                                             |
+| ------------------------ | ------------------------------------------------------ |
+| `docs/`                  | Requirements, standards, ADRs, plans, facts            |
+| `scripts/`               | Git hook helpers                                       |
+| `SPEC.md`                | Goals, architecture, interfaces and data model         |
+| `apps/web`               | Next.js workbench, a static export until M3            |
+| `packages/cli`           | The `traverse` CLI, run by `action.yml`, sent to npm   |
+| `packages/design-tokens` | Frox scale, semantic tokens and the CSS generator      |
+| `packages/graph-core`    | Composition, field ownership and impact analysis       |
+| `packages/repo-checks`   | Hygiene and traceability checks                        |
+| `packages/subgraph-kit`  | Server, health, auth, logging and shutdown             |
+| `subgraphs/packages`     | npm data, on the shared subgraph kit                   |
+| `subgraphs/repositories` | GitHub data, joined to a package by its repository URL |
+| `subgraphs/`             | Planned: advisories, workspace                         |
+| `graph/cosmo-demo`       | Cosmo demo schemas behind the public demo              |
+| `router/`                | Planned: router config and local composition           |
+| `infra/`                 | Planned: CDK app and reusable constructs               |
 
 ## Order of truth
 
