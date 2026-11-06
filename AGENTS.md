@@ -9,6 +9,7 @@ npm run check                # every gate; run before opening a PR
 npm run test:coverage        # tests with the 100% per-file gate
 npm run build:web            # static export of the web app
 npm run generate:tokens      # regenerate the CSS from packages/design-tokens
+npm run generate:demo        # regenerate the demo graph from graph/cosmo-demo
 npm run test:integration     # integration tests, after a build
 npm run test:e2e             # Playwright on the static export, after a build
 npm run check:deps           # module boundaries
@@ -43,7 +44,8 @@ npm run check:progress       # the branch updates docs/PROGRESS.md
 | `packages/repo-checks`   | Hygiene and traceability checks                        |
 | `packages/`              | Planned: subgraph kit                                  |
 | `subgraphs/`             | Planned: packages, repositories, advisories, workspace |
-| `router/`, `graph/`      | Planned: router config and local composition           |
+| `graph/cosmo-demo`       | Cosmo demo schemas behind the public demo              |
+| `router/`                | Planned: router config and local composition           |
 | `infra/`                 | Planned: CDK app and reusable constructs               |
 
 ## Order of truth

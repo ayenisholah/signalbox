@@ -11,7 +11,7 @@ Every requirement has an ID, a testable acceptance check, how it's verified, the
 
 | ID | Requirement | Acceptance check | Verified by | Milestone | Status |
 |---|---|---|---|---|---|
-| FR-WB-1 | Show the graph as a map. | Subgraphs, entities and owners render from real SDL, and a type can be found and opened by keyboard. | e2e | M1 | planned |
+| FR-WB-1 | Show the graph as a map. | Subgraphs, entities and owners render from real SDL, and a type can be found and opened by keyboard. | e2e | M1 | done |
 | FR-WB-2 | Compose schema drafts in the browser. | Editing a draft runs Cosmo composition in a Web Worker and shows its errors, with the page still responding. | e2e | M1 | planned |
 | FR-WB-3 | Show what a schema change breaks. | A change to a field lists every operation and screen that uses it, and no others. | unit | M1 | done |
 | FR-WB-4 | Find who owns a field. | Any field resolves to its subgraphs and their owners, using composition output. | unit | M1 | done |

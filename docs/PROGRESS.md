@@ -30,6 +30,7 @@ Traverse is built on WunderGraph Cosmo and helps frontend developers explore a f
 | 2026-11-06 | Closed release #6: `verify` failed on generated `CHANGELOG.md` and `.release-please-manifest.json` formatting | none |
 | 2026-11-06 | Moved the local folder to `/home/titan/projects/traverse` | none |
 | 2026-11-06 | Owner confirmed Frox can be used in an MIT project, which answers U-18 | `chore/web-tooling` |
+| 2026-11-06 | Searchable graph map at `/`, on the Cosmo demo schemas, by keyboard. Composition runs ahead of time into `apps/web/src/generated/demo-graph.json`. | `feat/graph-map` |
 | 2026-11-06 | `packages/design-tokens`: the Frox scale as semantic tokens and a Tailwind theme, with Poppins, contrast checks in both themes, and gates against `px` and raw colours. | `feat/design-tokens` |
 | 2026-11-06 | README badges and a quality gates table, at the owner's request. The coverage badge shows the enforced gate, because a live one needs a service account. | `docs/readme-status` |
 | 2026-11-06 | `packages/graph-core`: composition, field ownership and impact analysis, proven on the Cosmo demo schemas and in a Chrome Web Worker. Answers U-11. | `feat/graph-core` |
@@ -44,7 +45,7 @@ Nothing. Start the next item below.
 
 In order:
 
-1. M1, the public demo and CLI, in this order: `feat/graph-map`, `feat/impact-check`, `feat/impact-cli`, `ci/demo-deploy`.
+1. M1, the public demo and CLI, in this order: `feat/impact-check`, `feat/impact-cli`, `ci/demo-deploy`.
 
 ## Blocked
 
@@ -69,6 +70,10 @@ In order:
 - `graph-core` must not pass composition's class instances to `graphql` (W-5). Print or read AST nodes instead.
 - `graph-core` looks at field changes. Removed enum values and union members only show up if validation fails, which `feat/impact-check` should revisit.
 - Remove the `@graphql-tools/utils` override in `package.json` once composition depends on a fixed version (W-6). After editing overrides, confirm the package is present before trusting `npm audit`: a missing package audits clean.
+- The Cosmo demo schemas define no owners, so the map shows "No owner set". Owners need a real source, such as a config file in `feat/impact-cli`. Never invent them.
+- The map is a keyboard-first list, not a React Flow canvas. `SPEC.md` still lists React Flow, so the owner should decide whether a visual canvas is wanted.
+- After changing `graph/cosmo-demo` or `packages/graph-core`, run `npm run generate:demo`. A test fails if the data is stale.
+- CI on `main` took 9 minutes once, on `b04b7d8`, against 1 to 2 minutes usually. Watch for a repeat.
 - Test U-20 first in `feat/impact-check`: the worker under Turbopack.
 - Merge pull requests with `gh pr merge --rebase --delete-branch` once checks pass on the current commit.
 - Force-pushes need the owner's approval or the owner's own terminal.

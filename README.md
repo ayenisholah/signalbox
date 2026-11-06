@@ -12,7 +12,7 @@ Explore a federated GraphQL graph from the frontend, built on [WunderGraph Cosmo
 Traverse answers two questions for frontend developers: **which subgraphs does my query touch, and what breaks if this schema changes?**
 
 > [!NOTE]
-> **Status: early development.** Today the repository holds the specification, the quality gates, a web app shell, the design tokens, and the core that composes a graph, finds who owns a field and works out what a schema change breaks. The rest of this page is planned and not built yet. The first public release will be a demo and a CLI you can run on your own repository.
+> **Status: early development.** Today the repository holds the specification, the quality gates, a searchable graph map of the Cosmo demo, the design tokens, and the core that composes a graph, finds who owns a field and works out what a schema change breaks. The rest of this page is planned and not built yet. The first public release will be a demo and a CLI you can run on your own repository.
 
 ## What you'll be able to do
 
