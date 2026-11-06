@@ -33,6 +33,12 @@ This file records proof that isn't a named test. Each gate below was run on a cl
 
 The traceability run first passed on the `done` plant, because a test fixture named a real ID and counted as evidence. Fixtures now use a prefix no real requirement has.
 
+## Agent rules (FR-DP-9)
+
+`AGENTS.md` sets the order of truth and accuracy rules, the `verify-fact` skill defines how a claim is checked and recorded, and `docs/VERIFIED_FACTS.md` records each Cosmo, AWS and upstream claim with a source and status. Reviewed on 2026-11-06.
+
+`.claude/hooks/block-main.sh` was run against 12 commands. It blocked commits and pushes from a `main` checkout, and pushes to `main` from a branch, including `git -C`. It allowed feature branch work, including a command that mentions `main` outside the push. The first version failed two of these cases: a false positive on any such mention, and a bypass through `git -C`.
+
 ## Required checks (FR-DP-7)
 
 `verify` is a required status check in the `protect-main` ruleset. `gh api repos/ayenisholah/traverse/rules/branches/main` lists it, alongside the pull request, linear history, deletion and force-push rules. On 2026-11-06, release #15 showed as mergeable with the rule active, after a passing `verify`.
