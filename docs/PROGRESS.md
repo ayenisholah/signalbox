@@ -30,6 +30,7 @@ Traverse is built on WunderGraph Cosmo and helps frontend developers explore a f
 | 2026-11-06 | Closed release #6: `verify` failed on generated `CHANGELOG.md` and `.release-please-manifest.json` formatting | none |
 | 2026-11-06 | Moved the local folder to `/home/titan/projects/traverse` | none |
 | 2026-11-06 | Owner confirmed Frox can be used in an MIT project, which answers U-18 | `chore/web-tooling` |
+| 2026-11-06 | `0.7.1` published from `release.yml` by trusted publishing, with provenance, and run from the registry on a planted break. FR-WB-16 is done. | #36, #37 |
 | 2026-11-06 | npm package: `@ayenis/traverse`, a dependency-free bundle with a publish job. The owner published `0.7.0` by hand and added the trusted publisher. The scope matches the owner's npm username. | `ci/npm-publish`, `build/npm-scope` |
 | 2026-11-06 | Released `v0.6.0` and `v0.7.0`. The Action can now be pinned to a tag. | #30, #33 |
 | 2026-11-06 | `traverse` CLI and GitHub Action: reads `traverse.json`, `.graphql` files and inline `gql` tags, and comments on the pull request. Proven on [#32](https://github.com/ayenisholah/traverse/pull/32#issuecomment-6683679869), closed unmerged: it failed and commented on a planted break, then passed and updated that comment. | `feat/impact-cli` |
@@ -43,14 +44,13 @@ Traverse is built on WunderGraph Cosmo and helps frontend developers explore a f
 
 ## In progress
 
-Validating the npm trusted publisher, which expires on 2026-11-08 at 13:57 UTC unless `release.yml` publishes first. The owner published `0.7.0` by hand, so the workflow needs a new version: `Release-As: 0.7.1` opens that release. FR-WB-16 stays planned until `0.7.1` is on npm with provenance.
+Nothing. Start the next item below.
 
 ## Next
 
 In order:
 
-1. Close and reopen the `0.7.1` release pull request for CI, merge it, and confirm the publish job, the version and the provenance.
-2. `ci/demo-deploy`. Confirm with the owner before enabling Pages.
+1. `ci/demo-deploy`. Confirm with the owner before enabling Pages.
 
 ## Blocked
 
